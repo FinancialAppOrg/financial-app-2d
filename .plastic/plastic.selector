@@ -1,0 +1,4 @@
+repository "FinancialApp2d@angienaye@cloud"
+  path "/"
+    br "/main"
+    co "/main"
