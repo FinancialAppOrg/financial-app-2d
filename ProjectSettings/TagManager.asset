@@ -41,3 +41,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Escenario
+    uniqueID: 2372697055
+    locked: 0
+  - name: SuperiorCajas
+    uniqueID: 1576011585
+    locked: 0
+  - name: SuperiorIconos
+    uniqueID: 209284963
+    locked: 0
+  - name: Asistente
+    uniqueID: 442054237
+    locked: 0
+  - name: TextBox
+    uniqueID: 144331071
+    locked: 0
+  - name: TextBoxElements
+    uniqueID: 3964416013
+    locked: 0
