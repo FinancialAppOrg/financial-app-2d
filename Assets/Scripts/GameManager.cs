@@ -93,7 +93,6 @@ public class GameManager : MonoBehaviour
         selectedTopic = topic;
         if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
         if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(true);
-        
     }
 
     public void StartQuizWithLevel(string level)
@@ -102,7 +101,6 @@ public class GameManager : MonoBehaviour
         if (quiz != null)
         {
             quiz.SetTopicAndLevel(selectedTopic, level);
-            //quiz.SetTopic(topic);
             quiz.gameObject.SetActive(true);
             scoreScreen.gameObject.SetActive(false);
             quiz.OnQuizCompleted += HandleQuizCompleted;
@@ -119,15 +117,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*
-    void OnDestroy()
-    {
-        if (quiz != null) quiz.OnQuizCompleted -= HandleQuizCompleted;
-    }
-    */
-
     public void OnReplayLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
+
+
