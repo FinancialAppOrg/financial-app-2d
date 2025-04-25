@@ -16,6 +16,12 @@ public class SignInScreen : MonoBehaviour
     [Header("Message Text")]
     [SerializeField] TMP_Text messageText;
 
+    [Header("Button Forgot Password")]
+    [SerializeField] Button buttonForgotPassword;
+
+    [Header("Forgot Password Panel")]
+    [SerializeField] GameObject forgotPasswordPanel;
+
     private string signInUrl = "http://127.0.0.1:8000/api/v1/auth/sign-in"; 
 
     private GameManagerAuth gameManager;
@@ -25,6 +31,21 @@ public class SignInScreen : MonoBehaviour
         gameManager = FindObjectOfType<GameManagerAuth>();
 
         submitButton.onClick.AddListener(OnSubmitSignIn);
+   
+        buttonForgotPassword.onClick.AddListener(OnForgotPasswordClick);
+
+        if (forgotPasswordPanel != null)
+        {
+            forgotPasswordPanel.SetActive(false);
+        }
+    }
+
+    private void OnForgotPasswordClick()
+    {
+        if (forgotPasswordPanel != null)
+        {
+            forgotPasswordPanel.SetActive(true);
+        }
     }
 
     private void OnSubmitSignIn()
