@@ -22,6 +22,16 @@ public class SignInScreen : MonoBehaviour
     [Header("Forgot Password Panel")]
     [SerializeField] GameObject forgotPasswordPanel;
 
+    [Header("Button Sign Up")] 
+    [SerializeField] Button buttonSignUp;
+
+    [Header("Sign Up Screen Canvas")] 
+    [SerializeField] GameObject signUpScreenCanvas; 
+
+    [Header("Sign In Screen Canvas")] 
+    [SerializeField] GameObject signInScreenCanvas; 
+
+
     private string signInUrl = "http://127.0.0.1:8000/api/v1/auth/sign-in"; 
 
     private GameManagerAuth gameManager;
@@ -34,6 +44,11 @@ public class SignInScreen : MonoBehaviour
    
         buttonForgotPassword.onClick.AddListener(OnForgotPasswordClick);
 
+        if (buttonSignUp != null) 
+        {
+            buttonSignUp.onClick.AddListener(OnSignUpClick);
+        }
+
         if (forgotPasswordPanel != null)
         {
             forgotPasswordPanel.SetActive(false);
@@ -45,6 +60,15 @@ public class SignInScreen : MonoBehaviour
         if (forgotPasswordPanel != null)
         {
             forgotPasswordPanel.SetActive(true);
+        }
+    }
+
+    private void OnSignUpClick()
+    {
+        if (signUpScreenCanvas != null && signInScreenCanvas != null)
+        {
+            signUpScreenCanvas.SetActive(true);
+            signInScreenCanvas.SetActive(false);
         }
     }
 

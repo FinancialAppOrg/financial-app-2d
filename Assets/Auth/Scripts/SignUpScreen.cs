@@ -21,6 +21,15 @@ public class SignUpScreen : MonoBehaviour
     [Header("Message Text")]
     [SerializeField] TMP_Text messageText;
 
+    [Header("Button Sign In")]
+    [SerializeField] Button buttonSignIn; 
+
+    [Header("Sign In Screen Canvas")]
+    [SerializeField] GameObject signInScreenCanvas;
+
+    [Header("Sign Up Screen Canvas")]
+    [SerializeField] GameObject signUpScreenCanvas; 
+
     private string signUpUrl = "http://127.0.0.1:8000/api/v1/auth/sign-up";
     
     private GameManagerAuth gameManager;
@@ -37,11 +46,25 @@ public class SignUpScreen : MonoBehaviour
         submitButton.interactable = false;
         termsToggle.onValueChanged.AddListener(OnTermsToggleChanged);
         submitButton.onClick.AddListener(OnSubmit);
+
+        if (buttonSignIn != null) 
+        {
+            buttonSignIn.onClick.AddListener(OnSignInClick);
+        }
     }
 
     private void OnTermsToggleChanged(bool isOn)
     {
         submitButton.interactable = isOn;
+    }
+
+    private void OnSignInClick()
+    {
+        if (signInScreenCanvas != null && signUpScreenCanvas != null)
+        {
+            signInScreenCanvas.SetActive(true);
+            signUpScreenCanvas.SetActive(false);
+        }
     }
 
     private void OnSubmit()
