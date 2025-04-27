@@ -16,12 +16,22 @@ public class ForgotPasswordScreen : MonoBehaviour
     [Header("Message Text")]
     [SerializeField] TMP_Text messageText;
 
+    [Header("Back Button")] 
+    [SerializeField] Button backButton; 
+
+    [Header("Enter Code Screen")]
+    [SerializeField] GameObject enterCodeScreen;
 
     private string forgotPasswordUrl = "http://127.0.0.1:8000/api/v1/auth/forgot-password";
 
     private void Start()
     {
         submitButton.onClick.AddListener(OnSubmitForgotPassword);
+
+        if (backButton != null)
+        {
+            backButton.onClick.AddListener(OnBackToLoginClick);
+        }
     }
 
     public void ShowForgotPasswordScreen(bool show)
@@ -30,7 +40,6 @@ public class ForgotPasswordScreen : MonoBehaviour
 
         if (show)
         {
-            // Limpia el campo de correo y el mensaje
             emailField.text = string.Empty;
             ShowMessage(string.Empty, Color.black);
         }
@@ -39,7 +48,6 @@ public class ForgotPasswordScreen : MonoBehaviour
     public void OnBackToLoginClick()
     {
         gameObject.SetActive(false);
-        // Aquí puedes activar el panel de inicio de sesión si es necesario
     }
 
     private void OnSubmitForgotPassword()
@@ -72,7 +80,17 @@ public class ForgotPasswordScreen : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+            ForgotPasswordResponse response = JsonUtility.FromJson<ForgotPasswordResponse>(request.downloadHandler.text);
+
+            PlayerPrefs.SetString("user_id", response.id);
+
             ShowMessage("Verification code sent to your email.", Color.green);
+
+            if (enterCodeScreen != null)
+            {
+                gameObject.SetActive(false);
+                enterCodeScreen.SetActive(true);
+            }
         }
         else
         {
@@ -91,4 +109,12 @@ public class ForgotPasswordScreen : MonoBehaviour
 public class ForgotPasswordData
 {
     public string email;
+}
+
+[System.Serializable]
+public class ForgotPasswordResponse
+{
+    public string id;  
+    public string email;
+    public string name;
 }
