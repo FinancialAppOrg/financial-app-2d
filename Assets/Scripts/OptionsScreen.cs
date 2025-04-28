@@ -7,10 +7,10 @@ public class OptionsScreen : MonoBehaviour
 {
     [SerializeField] Button playButton;
     [SerializeField] Button evaluationButton;
-
+    [SerializeField] GameControllerBridge gameControllerBridge;//Transicion de escenas
     void Start()
     {
-        playButton.onClick.AddListener(OnPlayClicked);
+        playButton.onClick.AddListener(CargarJuegoInversion);
         evaluationButton.onClick.AddListener(OnEvaluationClicked);
     }
 
@@ -22,5 +22,16 @@ public class OptionsScreen : MonoBehaviour
     void OnEvaluationClicked()
     {
         FindObjectOfType<GameManager>().ShowEvaluationScreen();
+    }
+    public void CargarJuegoInversion()
+    {
+        if (gameControllerBridge != null)
+        {
+            gameControllerBridge.CargarJuegoInversion();
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el GameControllerBridge.");
+        }
     }
 }

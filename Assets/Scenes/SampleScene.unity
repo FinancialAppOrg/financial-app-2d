@@ -4864,6 +4864,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playButton: {fileID: 1560796678}
   evaluationButton: {fileID: 1400216466}
+  gameControllerBridge: {fileID: 773519086}
 --- !u!114 &720729262
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5389,6 +5390,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 773489183}
   m_CullTransparentMesh: 1
+--- !u!1 &773519085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 773519087}
+  - component: {fileID: 773519086}
+  m_Layer: 0
+  m_Name: GameControllerBridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &773519086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773519085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1288afe697dbb6441a6275812f82c764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameController: {fileID: 1845448760}
+--- !u!4 &773519087
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773519085}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 21.0018, y: -109.02889, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &773724895
 GameObject:
   m_ObjectHideFlags: 0
@@ -6381,6 +6427,7 @@ MonoBehaviour:
   - {fileID: 1875268823}
   - {fileID: 1413107717}
   - {fileID: 1147228393}
+  gameControllerBridge: {fileID: 773519086}
 --- !u!1 &883143843
 GameObject:
   m_ObjectHideFlags: 0
@@ -7129,7 +7176,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: De una escala del 1 al 5, donde 1 es Nada y 5 es Todo
+  m_text: "De una escala del 1 al 5 (B\xE1sico: 1 y 2 Intermedio: 3 y 4 Avanzado:
+    5)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8898,7 +8946,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Empezar desde cero
+  m_text: "Empezar desde nivel b\xE1sico"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -10726,7 +10774,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xBFQu\xE9 temas te gustar\xEDa aprender o reforzar?"
+  m_text: "\xBFQu\xE9 tema te gustar\xEDa aprender o reforzar?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12375,7 +12423,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Empezar desde 0
+  m_text: Escoger nivel
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13117,6 +13165,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1781177600}
   m_CullTransparentMesh: 1
+--- !u!1 &1845448759
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1845448761}
+  - component: {fileID: 1845448760}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1845448760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845448759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f950b1d38e5fed448b36f0dfbf6e4f1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evaluacionSceneIndex: 1
+  inversionSceneIndex: 2
+--- !u!4 &1845448761
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845448759}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 178.89241, y: -90.31715, z: -0.9497645}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1850402107
 GameObject:
   m_ObjectHideFlags: 0
@@ -14328,7 +14422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hola (Copito), elige el concepto que quieres aprender, mucha suerte :)
+  m_text: Hola (Copito), elige el nivel que quieres jugar, mucha suerte :)
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -15431,6 +15525,7 @@ MonoBehaviour:
   resultsScoreText: {fileID: 1761160660}
   resultsButton1: {fileID: 672559691}
   resultsButton2: {fileID: 1907779830}
+  gameControllerBridge: {fileID: 773519086}
 --- !u!1 &2097810855
 GameObject:
   m_ObjectHideFlags: 0
@@ -15947,3 +16042,5 @@ SceneRoots:
   - {fileID: 2006031978}
   - {fileID: 2091315619}
   - {fileID: 1175040684}
+  - {fileID: 773519087}
+  - {fileID: 1845448761}

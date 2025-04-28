@@ -50,8 +50,8 @@ public class GameManager : MonoBehaviour
         if (scoreScreen != null) scoreScreen.gameObject.SetActive(false);
         if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
         if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(false);
-        if (interestSelectionScreen != null) interestSelectionScreen.gameObject.SetActive(true);
-        if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(false);
+        if (interestSelectionScreen != null) interestSelectionScreen.gameObject.SetActive(false);
+        if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(true);
         if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
         if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
@@ -63,9 +63,15 @@ public class GameManager : MonoBehaviour
         if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(true);
     }
 
+    public void ShowInterestSelectionScreen()
+    {
+        if (interestSelectionScreen != null) interestSelectionScreen.gameObject.SetActive(true);
+        if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(false);
+    }
+
     public void ShowOptionsScreen()
     {
-        if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(false);
+        if (interestSelectionScreen != null) interestSelectionScreen.gameObject.SetActive(false);
         if (optionsScreen != null) optionsScreen.gameObject.SetActive(true);
     }
 
@@ -87,12 +93,17 @@ public class GameManager : MonoBehaviour
         if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(true);
     }
+    public void ShowSelectLevelScreen()
+    {
+        if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
+        if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(true);
 
+    }
     public void StartQuiz(string topic)
     {
         selectedTopic = topic;
-        if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
-        if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(true);
+        if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(true);
+        if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(false);
         
     }
 
