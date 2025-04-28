@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class SelectLevelScreen : MonoBehaviour
 {
     [SerializeField] Button[] levelButtons;
+    [SerializeField] GameControllerBridge gameControllerBridge;//Transicion de escenas
 
     void Start()
     {
@@ -19,8 +20,18 @@ public class SelectLevelScreen : MonoBehaviour
     void OnLevelSelected(string level)
     {
         Debug.Log("Level selected: " + level);
-        FindObjectOfType<GameManager>().StartQuizWithLevel(level);
+        CargarJuegoInversion();//FindObjectOfType<GameManager>().CargarJuegoInversion(level);
+    }
+    public void CargarJuegoInversion()
+    {
+        if (gameControllerBridge != null)
+        {
+            gameControllerBridge.CargarJuegoInversion();
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró el GameControllerBridge.");
+        }
     }
 
-    
 }

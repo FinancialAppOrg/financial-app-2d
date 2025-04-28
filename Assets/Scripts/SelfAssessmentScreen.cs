@@ -19,6 +19,6 @@ public class SelfAssessmentScreen : MonoBehaviour
         {
             PlayerData.SetKnowledge(slider.name, slider.value);
         }
-        FindObjectOfType<GameManager>().ShowOptionsScreen();
+        FindObjectOfType<GameManager>().ShowInterestSelectionScreen();
     }
 }

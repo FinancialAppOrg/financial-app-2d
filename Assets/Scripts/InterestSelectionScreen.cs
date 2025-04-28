@@ -26,7 +26,7 @@ public class InterestSelectionScreen : MonoBehaviour
 
         if (gameManager != null)
         {
-            gameManager.ShowSelfAssessmentScreen();
+            gameManager.ShowOptionsScreen();
         }
         else
         {
