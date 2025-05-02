@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // Asegúrate de que estos objetos existan en la escena y estén correctamente asignados
+        // Asegï¿½rate de que estos objetos existan en la escena y estï¿½n correctamente asignados
         quiz = FindObjectOfType<Quiz>();
         scoreScreen = FindObjectOfType<ScoreScreen>();
         selectTopicScreen = FindObjectOfType<SelectTopicScreen>();
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Asegúrate de que los objetos no sean null antes de usarlos
+        // Asegï¿½rate de que los objetos no sean null antes de usarlos
         if (quiz != null) quiz.gameObject.SetActive(false);
         if (scoreScreen != null) scoreScreen.gameObject.SetActive(false);
         if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
@@ -104,7 +104,6 @@ public class GameManager : MonoBehaviour
         selectedTopic = topic;
         if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(true);
         if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(false);
-        
     }
 
     public void StartQuizWithLevel(string level)
@@ -113,7 +112,6 @@ public class GameManager : MonoBehaviour
         if (quiz != null)
         {
             quiz.SetTopicAndLevel(selectedTopic, level);
-            //quiz.SetTopic(topic);
             quiz.gameObject.SetActive(true);
             scoreScreen.gameObject.SetActive(false);
             quiz.OnQuizCompleted += HandleQuizCompleted;
@@ -130,15 +128,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /*
-    void OnDestroy()
-    {
-        if (quiz != null) quiz.OnQuizCompleted -= HandleQuizCompleted;
-    }
-    */
-
     public void OnReplayLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
+
+
