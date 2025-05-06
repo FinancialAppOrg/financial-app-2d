@@ -10,6 +10,7 @@ public class gameController : MonoBehaviour
     //escenas
     [SerializeField] private int evaluacionSceneIndex;
     [SerializeField] private int inversionSceneIndex;
+    [SerializeField] private int authSceneIndex;
 
     void Awake()
     {
@@ -26,7 +27,7 @@ public class gameController : MonoBehaviour
     }
     void Start()
     {
-        CargarEvaluacion(); 
+        CargarAuthScene();
     }
     public void CargarJuegoInversion()
     {
@@ -36,5 +37,10 @@ public class gameController : MonoBehaviour
     public void CargarEvaluacion()
     {
         SceneManager.LoadScene(evaluacionSceneIndex);
+    }
+
+    public void CargarAuthScene()
+    {
+        SceneManager.LoadScene(authSceneIndex);
     }
 }

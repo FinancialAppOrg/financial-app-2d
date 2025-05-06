@@ -78,7 +78,7 @@ public class ForgotPasswordScreen : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
+        if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
         {
             ForgotPasswordResponse response = JsonUtility.FromJson<ForgotPasswordResponse>(request.downloadHandler.text);
 

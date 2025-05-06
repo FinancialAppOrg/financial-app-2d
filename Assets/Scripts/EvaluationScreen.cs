@@ -98,7 +98,7 @@ public class EvaluationScreen : MonoBehaviour
         {
             correctAnswerIndex = currentQuestion.GetCorrectAnswerIndex();
             string correctAnswer = currentQuestion.GetAnswer(correctAnswerIndex);
-            questionText.text = "La respuesta correcta es:\n" + correctAnswer;
+            questionText.text = "Respuesta correcta:\n" + correctAnswer;
             buttonImage = answerButtons[correctAnswerIndex].GetComponent<Image>();
             if (buttonImage != null)
             {

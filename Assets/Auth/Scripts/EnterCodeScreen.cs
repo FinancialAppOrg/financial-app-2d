@@ -17,7 +17,10 @@ public class EnterCodeScreen : MonoBehaviour
     [SerializeField] TMP_Text messageText; 
 
     [Header("Back Button")]
-    [SerializeField] Button backButton; 
+    [SerializeField] Button backButton;
+
+    [Header("Enter Code Screen")]
+    [SerializeField] GameObject resetPasswordScreen;
 
     private string verifyCodeUrl = "http://127.0.0.1:8000/api/v1/auth/verify_code"; 
 
@@ -83,10 +86,16 @@ public class EnterCodeScreen : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
+        if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
         {
             ShowMessage("Code verified successfully!", Color.green);
             Debug.Log("Código verificado: " + request.downloadHandler.text);
+
+            if (resetPasswordScreen != null)
+            {
+                gameObject.SetActive(false);
+                resetPasswordScreen.SetActive(true);
+            }
         }
         else
         {

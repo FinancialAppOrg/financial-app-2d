@@ -9,7 +9,10 @@ public class GameManagerAuth : MonoBehaviour
     [SerializeField] GameObject signInScreen;
     [SerializeField] GameObject forgotPasswordScreen;
     [SerializeField] GameObject enterCodeScreen;
-    [SerializeField] GameObject resetPasswordScreen; 
+    [SerializeField] GameObject resetPasswordScreen;
+
+    [Header("Game Controller")]
+    [SerializeField] gameController gameController;
 
     void Start()
     {
@@ -20,15 +23,28 @@ public class GameManagerAuth : MonoBehaviour
         if (resetPasswordScreen != null) resetPasswordScreen.gameObject.SetActive(false);
     }
 
+    void Awake()
+    {
+        gameController = FindObjectOfType<gameController>();
+    }
+
     public void OnSignUpComplete()
     {
-        if (signUpScreen != null) signUpScreen.gameObject.SetActive(false);
         if (signInScreen != null) signInScreen.gameObject.SetActive(true);
+        if (signUpScreen != null) signUpScreen.gameObject.SetActive(false);
     }
 
     public void OnSignInComplete()
     {
         Debug.Log("SignIn completo. Transición a la siguiente pantalla.");
+        if (gameController.Instancia != null)
+        {
+            gameController.Instancia.CargarEvaluacion();
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró la instancia de GameController.");
+        }
     }
 
     public void ShowSignUpScreen()

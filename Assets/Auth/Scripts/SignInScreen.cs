@@ -79,6 +79,18 @@ public class SignInScreen : MonoBehaviour
             ShowMessage("Email and password are required.", Color.red);
             return;
         }
+        
+        if(!IsValidEmail(emailField.text))
+        {
+            ShowMessage("Invalid email format.", Color.red);
+            return;
+        }
+
+        if (passwordField.text.Length < 6)
+        {
+            ShowMessage("Password must be at least 6 characters long.", Color.red);
+            return;
+        }
 
         SignInData signInData = new SignInData
         {
@@ -103,20 +115,32 @@ public class SignInScreen : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            SignInResponse response = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
-
-            ShowMessage("Sign-in successful!", Color.green);
-
-            PlayerPrefs.SetString("access_token", response.access_token);
-
-            if (gameManager != null)
+            if (request.responseCode == 200)
             {
-                gameManager.OnSignInComplete();
+                SignInResponse response = JsonUtility.FromJson<SignInResponse>(request.downloadHandler.text);
+
+                ShowMessage("Sign-in successful!", Color.green);
+
+                PlayerPrefs.SetString("access_token", response.access_token);
+
+                if (gameManager != null)
+                {
+                    gameManager.OnSignInComplete();
+                }
+            }
+            else if (request.responseCode == 401)
+            {
+                string errorResponse = request.downloadHandler.text;
+                ShowMessage("Error de autenticación: " + errorResponse, Color.red);
+            }
+            else
+            {
+                ShowMessage("Error: " + request.downloadHandler.text, Color.red);
             }
         }
         else
         {
-            ShowMessage("Error: " + request.error, Color.red);
+            ShowMessage("Error de conexión: " + request.error, Color.red);
         }
     }
 
@@ -124,6 +148,19 @@ public class SignInScreen : MonoBehaviour
     {
         messageText.text = message;
         messageText.color = color;
+    }
+
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
 

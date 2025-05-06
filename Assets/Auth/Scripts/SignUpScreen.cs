@@ -55,7 +55,32 @@ public class SignUpScreen : MonoBehaviour
 
     private void OnTermsToggleChanged(bool isOn)
     {
-        submitButton.interactable = isOn;
+        if (isOn)
+        {
+            if (AreFieldsComplete())
+            {
+                submitButton.interactable = true;
+                ShowMessage("", Color.clear); 
+            }
+            else
+            {
+                submitButton.interactable = false;
+                ShowMessage("Por favor, completa todos los campos antes de registrarte.", Color.red);
+            }
+        }
+        else
+        {
+            submitButton.interactable = false;
+            ShowMessage("Debes aceptar los términos y condiciones para registrarte.", Color.red);
+        }
+    }
+
+    private bool AreFieldsComplete()
+    {
+        return !string.IsNullOrEmpty(usernameField.text) &&
+               !string.IsNullOrEmpty(birthdateField.text) &&
+               !string.IsNullOrEmpty(emailField.text) &&
+               !string.IsNullOrEmpty(passwordField.text);
     }
 
     private void OnSignInClick()
@@ -69,14 +94,11 @@ public class SignUpScreen : MonoBehaviour
 
     private void OnSubmit()
     {
-        if (string.IsNullOrEmpty(usernameField.text) ||
-            string.IsNullOrEmpty(birthdateField.text) ||
-            string.IsNullOrEmpty(emailField.text) ||
-            string.IsNullOrEmpty(passwordField.text))
+        if (!AreFieldsComplete())
         {
-            Debug.LogError("Todos los campos son obligatorios.");
+            ShowMessage("Todos los campos son obligatorios.", Color.red);
             return;
-        } 
+        }
 
         SignUpData signUpData = new SignUpData
         {
@@ -102,11 +124,17 @@ public class SignUpScreen : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
+        if (request.result == UnityWebRequest.Result.Success && (request.responseCode == 200 || request.responseCode == 201))
         {
             ShowMessage("Sign-up successful!", Color.green);
 
             Debug.Log("Registro exitoso: " + request.downloadHandler.text);
+
+            if (signInScreenCanvas != null && signUpScreenCanvas != null)
+            {
+                signInScreenCanvas.SetActive(true);
+                signUpScreenCanvas.SetActive(false);
+            }
 
             if (gameManager != null)
             {
@@ -115,8 +143,12 @@ public class SignUpScreen : MonoBehaviour
         }
         else
         {
+            string errorMessage = request.responseCode == 400
+            ? "Error: Datos inválidos. Por favor, verifica la información ingresada."
+            : "Error: " + request.error;
+
             ShowMessage("Error: " + request.error, Color.red);
-            Debug.LogError("Error en el registro: " + request.error);
+            Debug.LogError("Error en el registro: " + request.error + " (Código: " + request.responseCode + ")");
         }
     }
 

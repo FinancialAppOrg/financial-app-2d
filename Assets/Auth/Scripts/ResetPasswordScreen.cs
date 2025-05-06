@@ -95,7 +95,7 @@ public class ResetPasswordScreen : MonoBehaviour
 
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
+        if (request.result == UnityWebRequest.Result.Success && request.responseCode == 200)
         {
             ShowMessage("Password reset successfully!", Color.green);
             Debug.Log("Contraseña restablecida: " + request.downloadHandler.text);

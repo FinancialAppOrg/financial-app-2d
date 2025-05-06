@@ -245,6 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   evaluacionSceneIndex: 1
   inversionSceneIndex: 2
+  authSceneIndex: 3
 --- !u!4 &1840906013
 Transform:
   m_ObjectHideFlags: 0
