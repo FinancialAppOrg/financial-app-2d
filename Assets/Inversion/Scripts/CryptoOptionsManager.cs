@@ -7,63 +7,55 @@ using TMPro;
 public class CryptoOptionsManager : MonoBehaviour
 {
     public gameManager gameManager;  // Referencia al GameManager
-    public Slider investmentSlider;  // Slider para seleccionar la cantidad a invertir
     public TextMeshProUGUI investmentAmountText;  // Muestra la cantidad de inversión
-    public Button investButton;  // Botón de "Invertir"
+    public Button optionButton1;  // Botón para la primera opción
+    public Button optionButton2;  // Botón para la segunda opción
+    public Button optionButton3;
     public TextMeshProUGUI resultText;  // Texto para mostrar el resultado de la inversión
 
     void Start()
     {
-        investButton.onClick.AddListener(Invest);  // Asocia el evento del botón "Invertir"
-        investmentSlider.maxValue = gameManager.GetBalance();  // Establece el máximo valor del slider al saldo disponible
-        UpdateInvestmentAmountText();  // Muestra el valor inicial del slider
+        optionButton1.onClick.AddListener(() => Invest(1));
+        optionButton2.onClick.AddListener(() => Invest(2));
+        optionButton3.onClick.AddListener(() => Invest(3));
     }
 
-    void Update()
+    public void Invest(int optionId)
     {
-        UpdateInvestmentAmountText();  // Actualiza el monto de inversión mientras el slider se mueve
-    }
+        Debug.Log("gameManager: " + gameManager);  // Verificar si es null
 
-    void UpdateInvestmentAmountText()
-    {
-        int investmentAmount = Mathf.FloorToInt(investmentSlider.value);
-        investmentAmountText.text = "Inversión: $" + investmentAmount.ToString();
-    }
-
-    public void Invest()
-    {
-        int investmentAmount = Mathf.FloorToInt(investmentSlider.value);
+        if (gameManager == null)
+        {
+            Debug.LogError("gameManager es nulo en el método Invest().");
+            return;
+        }
         int currentBalance = gameManager.GetBalance();
+        int impactAmount = GetImpactAmount(optionId);
 
-        if (investmentAmount <= 0)
+        if (impactAmount == 0)
         {
-            resultText.text = "Debes invertir una cantidad mayor que 0.";
-            Debug.Log("Inversión no válida, monto menor o igual a 0.");
+            resultText.text = "Opción no válida.";
+            Debug.Log("Opción no válida seleccionada.");
             return;
         }
 
-        if (investmentAmount > currentBalance)
-        {
-            resultText.text = "Saldo insuficiente para esta inversión.";
-            Debug.Log("Saldo insuficiente.");
-            return;
-        }
+        int newBalance = currentBalance + impactAmount;
+        gameManager.UpdateBalance(newBalance);
 
-        // Calcular el rendimiento de la inversión (por ejemplo, un rendimiento aleatorio para criptomonedas)
-        float performance = Random.Range(0.02f, 0.05f);  // Ganancia entre 2% y 5%
-        int profit = Mathf.FloorToInt(investmentAmount * performance);
+        string resultMessage = impactAmount >= 0 ? "Ganaste $" + impactAmount : "Perdiste $" + Mathf.Abs(impactAmount);
+        resultText.text = "Resultado: " + resultMessage + ". Saldo actual: $" + newBalance;
 
-        // Actualizamos el saldo del jugador
-        gameManager.UpdateBalance(currentBalance + profit);
-
-        // Mostrar el resultado de la inversión
-        resultText.text = "Tu inversión de $" + investmentAmount + " en criptomonedas ha resultado en un aumento de $" + profit + ". Ahora tienes $" + (currentBalance + profit) + ".";
-        Debug.Log("Inversión realizada. Saldo actualizado: " + (currentBalance + profit));
+        Debug.Log("Inversión realizada. Saldo actualizado: " + newBalance);
     }
-
-    public int CalculateReturn(int investmentAmount)
+    private int GetImpactAmount(int optionId)
     {
-        // Porcentaje de retorno de Crypto (5%)
-        return Mathf.FloorToInt(investmentAmount * 0.05f);
+        switch (optionId)
+        {
+            case 1: return -50;
+            case 2: return -50;
+            case 3: return 100;
+            default: return 0;
+        }
     }
+ 
 }

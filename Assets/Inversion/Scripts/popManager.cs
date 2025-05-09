@@ -19,6 +19,7 @@ public class popManager : MonoBehaviour
     {
         // Desactiva los colliders inicialmente
         ActivateInvestmentAreas(false);
+        playScreen.SetActive(false);
     }
     
 
