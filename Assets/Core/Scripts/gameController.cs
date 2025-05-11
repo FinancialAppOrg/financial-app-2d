@@ -11,6 +11,7 @@ public class gameController : MonoBehaviour
     [SerializeField] private int evaluacionSceneIndex;
     [SerializeField] private int inversionSceneIndex;
 
+
     void Awake()
     {
         // Configuración del singleton
@@ -30,7 +31,18 @@ public class gameController : MonoBehaviour
     }
     public void CargarJuegoInversion()
     {
-        SceneManager.LoadScene(inversionSceneIndex);
+        string tema = PlayerData.GetInterest();
+        float nivel = PlayerData.GetKnowledge(tema);
+
+        if (!string.IsNullOrEmpty(tema) && nivel > 0)
+        {
+            SceneManager.LoadScene(inversionSceneIndex);
+        }
+        else
+        {
+            Debug.LogWarning("Debe seleccionarse un tema y nivel antes de iniciar el juego.");
+        }
+        //SceneManager.LoadScene(inversionSceneIndex);
     }
 
     public void CargarEvaluacion()

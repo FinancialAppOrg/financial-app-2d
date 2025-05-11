@@ -7,7 +7,6 @@ public class CryptoAreaInteraction : MonoBehaviour
     public gameManager gameManager;  // Referencia al GameManager
     public playerController playerController;  // Referencia al PlayerController
     public string areaName = "Crypto";
-
     void Start()
     {
         playerController = FindObjectOfType<playerController>();  // Obtener referencia al playerController
@@ -32,7 +31,5 @@ public class CryptoAreaInteraction : MonoBehaviour
  
 
     }
-
-  
 
 }
