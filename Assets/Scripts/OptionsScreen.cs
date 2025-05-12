@@ -2,12 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
 
 public class OptionsScreen : MonoBehaviour
 {
     [SerializeField] Button playButton;
     [SerializeField] Button evaluationButton;
-    [SerializeField] GameControllerBridge gameControllerBridge;//Transicion de escenas
+    [SerializeField] GameControllerBridge gameControllerBridge;
+    [SerializeField] GameManager gameManager;
+    [SerializeField] EvaluationScreen evaluationScreen;
+
     void Start()
     {
         playButton.onClick.AddListener(CargarJuegoInversion);
@@ -21,8 +26,10 @@ public class OptionsScreen : MonoBehaviour
 
     void OnEvaluationClicked()
     {
-        FindObjectOfType<GameManager>().ShowEvaluationScreen();
+        StartCoroutine(IniciarEvaluacionInicial());
+        //FindObjectOfType<GameManager>().ShowEvaluationScreen();
     }
+
     public void CargarJuegoInversion()
     {
         if (gameControllerBridge != null)
@@ -33,5 +40,79 @@ public class OptionsScreen : MonoBehaviour
         {
             Debug.LogWarning("No se encontró el GameControllerBridge.");
         }
+    }
+
+    IEnumerator IniciarEvaluacionInicial()
+    {
+        string temaSeleccionado = PlayerData.GetSelectedTopic();
+        int evaluationId = PlayerData.GetEvaluationId(); 
+        if (evaluationId <= 0)
+        {
+            Debug.LogError("ID de evaluación no válido.");
+            yield break;
+        }
+
+        string url = "http://127.0.0.1:8000/api/v1/initial-evaluation/with-questions/" + evaluationId;
+
+        using (UnityWebRequest request = UnityWebRequest.Get(url))
+        {
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Datos de evaluación inicial obtenidos: " + request.downloadHandler.text);
+
+                InitialEvaluationData evaluationData = JsonConvert.DeserializeObject<InitialEvaluationData>(request.downloadHandler.text);
+
+                if (evaluationData?.preguntas == null || evaluationData.preguntas.Count == 0)
+                {
+                    Debug.LogError("No se recibieron preguntas válidas para la evaluación.");
+                    yield break;
+                }
+
+                foreach (var pregunta in evaluationData.preguntas)
+                {
+                    Debug.Log($"Pregunta: {pregunta.texto_pregunta}");
+                    Debug.Log($"Opciones: {string.Join(", ", pregunta.opciones)}");
+                }
+
+                if (evaluationScreen == null)
+                    evaluationScreen = FindObjectOfType<EvaluationScreen>();
+
+                if (gameManager == null)
+                    gameManager = FindObjectOfType<GameManager>();
+
+                if (evaluationScreen == null || gameManager == null)
+                {
+                    Debug.LogError("Componentes esenciales no encontrados.");
+                    yield break;
+                }
+
+                evaluationScreen.ConfigureEvaluation(evaluationData);
+                gameManager.ShowEvaluationScreen(evaluationData);      
+            }
+            else
+            {
+                Debug.LogError($"Error al obtener evaluación: {request.error}\nRespuesta: {request.downloadHandler.text}");
+                Debug.LogError("Respuesta del servidor: " + request.downloadHandler.text);
+            }
+        }
+    }
+
+    [System.Serializable]
+    public class InitialEvaluationData
+    {
+        public int id_evaluacion;
+        public int id_usuario;
+        public string tema;
+        public int nivel_autoevaluado;
+        public int total_preguntas_correctas;
+        public int total_preguntas_incorrectas;
+        public float calificacion_final;
+        public string nivel_determinado;
+        public string fecha_evaluacion;
+        public List<QuestionData> preguntas;
     }
 }

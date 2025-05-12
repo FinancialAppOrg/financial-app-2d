@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 
 public class SelfAssessmentScreen : MonoBehaviour
 {
-    [SerializeField] Slider[] knowledgeSliders;
+    [SerializeField] Slider ahorroSlider;
+    [SerializeField] Slider inversionSlider;
+    [SerializeField] Slider creditoDeudasSlider;
     [SerializeField] Button continueButton;
 
     void Start()
@@ -15,31 +18,30 @@ public class SelfAssessmentScreen : MonoBehaviour
 
     void OnContinueClicked()
     {
-        if (knowledgeSliders == null || knowledgeSliders.Length == 0)
+        if (ahorroSlider == null || inversionSlider == null || creditoDeudasSlider == null)
         {
-            Debug.LogError("knowledgeSliders no está configurado.");
+            Debug.LogError("Uno o más sliders no están configurados.");
             return;
         }
 
-        foreach (Slider slider in knowledgeSliders)
-        {
-            if (slider == null)
-            {
-                Debug.LogError("Un slider en knowledgeSliders es null.");
-                continue;
-            }
+        int nivelAhorro = Mathf.RoundToInt(ahorroSlider.value);
+        int nivelInversion = Mathf.RoundToInt(inversionSlider.value);
+        int nivelCreditoDeudas = Mathf.RoundToInt(creditoDeudasSlider.value);
 
-            PlayerData.SetKnowledge(slider.name, slider.value);
-        }
+        PlayerData.SetKnowledge("ahorro", nivelAhorro);
+        PlayerData.SetKnowledge("inversion", nivelInversion);
+        PlayerData.SetKnowledge("credito-deudas", nivelCreditoDeudas);
 
         GameManager gameManager = FindObjectOfType<GameManager>();
-        if (gameManager == null)
+        if (gameManager != null)
+        {
+            gameManager.ShowInterestSelectionScreen();
+        }
+        else
         {
             Debug.LogError("GameManager no encontrado.");
-            return;
         }
 
-        gameManager.ShowInterestSelectionScreen();
+        //StartCoroutine(SendSelfAssessmentData(nivelAhorro, nivelInversion, nivelCreditoDeudas));
     }
-
 }

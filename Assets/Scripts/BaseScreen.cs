@@ -21,7 +21,6 @@ public class BaseScreen : MonoBehaviour
 
     protected virtual void OnContinueClicked()
     {
-        // Implementar en clases derivadas
     }
 
     public void SetTitle(string title)

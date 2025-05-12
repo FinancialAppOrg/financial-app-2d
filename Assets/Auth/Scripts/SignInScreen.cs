@@ -123,6 +123,8 @@ public class SignInScreen : MonoBehaviour
 
                 PlayerPrefs.SetString("access_token", response.access_token);
 
+                PlayerData.SetUserId(response.user_id);
+
                 if (gameManager != null)
                 {
                     gameManager.OnSignInComplete();
@@ -176,4 +178,5 @@ public class SignInResponse
 {
     public string access_token;
     public string token_type;
+    public int user_id;
 }

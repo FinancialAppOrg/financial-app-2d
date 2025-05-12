@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        // Aseg�rate de que estos objetos existan en la escena y est�n correctamente asignados
         quiz = FindObjectOfType<Quiz>();
         scoreScreen = FindObjectOfType<ScoreScreen>();
         selectTopicScreen = FindObjectOfType<SelectTopicScreen>();
@@ -31,7 +30,6 @@ public class GameManager : MonoBehaviour
         evaluationScreen = FindObjectOfType<EvaluationScreen>();
         resultsScreen = FindObjectOfType<ResultsScreen>();
 
-        // Verifica que los objetos no sean null
         if (quiz == null) Debug.LogError("Quiz no encontrado en la escena.");
         if (scoreScreen == null) Debug.LogError("ScoreScreen no encontrado en la escena.");
         if (selectTopicScreen == null) Debug.LogError("SelectTopicScreen no encontrado en la escena.");
@@ -45,7 +43,6 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        // Aseg�rate de que los objetos no sean null antes de usarlos
         if (quiz != null) quiz.gameObject.SetActive(false);
         if (scoreScreen != null) scoreScreen.gameObject.SetActive(false);
         if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
@@ -82,10 +79,25 @@ public class GameManager : MonoBehaviour
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
     }
 
-    public void ShowEvaluationScreen()
+    public void ShowEvaluationScreen(OptionsScreen.InitialEvaluationData evaluationData)
     {
+        if (evaluationScreen == null)
+        {
+            Debug.LogError("EvaluationScreen no encontrado. Asegúrate de que esté en la escena y activo.");
+            return;
+        }
+
         if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
-        if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(true);
+        //if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(true);
+        if (evaluationData != null)
+        {
+            evaluationScreen.ConfigureEvaluation(evaluationData);
+            evaluationScreen.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("No se recibieron preguntas para la evaluación.");
+        }
     }
 
     public void ShowResultsScreen()
