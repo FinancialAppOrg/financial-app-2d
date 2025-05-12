@@ -10,6 +10,8 @@ public class gameManager : MonoBehaviour
     public GameObject cryptoOptionsScreen;  // Pantalla de opciones para Crypto
     public GameObject realEstateOptionsScreen;  // Pantalla de opciones para Bienes raíces
     public GameObject businessOptionsScreen;//business
+    public GameObject riskOptionsScreen;
+    public GameObject interestOptionsScreen;
     public GameObject resultsScreen;
     public TextMeshProUGUI balanceText; //text
     public GameObject playScreen;
@@ -17,11 +19,8 @@ public class gameManager : MonoBehaviour
     public GameObject player;// Referencia al objeto del jugador    
     public playerController playerController;
     public int balance = 1025;
-
-    public List<AreaInteraction> investmentAreas;
     private Animator animator;
     public popManager popManager;
-
 
     void Start()
     {
@@ -41,6 +40,8 @@ public class gameManager : MonoBehaviour
         cryptoOptionsScreen.SetActive(false);
         realEstateOptionsScreen.SetActive(false);
         businessOptionsScreen.SetActive(false);
+        riskOptionsScreen.SetActive(false);
+        interestOptionsScreen.SetActive(false);
         welcomeScreen.SetActive(true);
         summaryScreen.SetActive(false);
         UpdateBalance(balance);
@@ -55,43 +56,45 @@ public class gameManager : MonoBehaviour
                 cryptoOptionsScreen.SetActive(true);
                 realEstateOptionsScreen.SetActive(false);
                 businessOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(false);
                 break;
             case "State":
                 realEstateOptionsScreen.SetActive(true);
                 cryptoOptionsScreen.SetActive(false);
                 businessOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(false);
                 break;
             case "Business":
                 businessOptionsScreen.SetActive(true);
                 cryptoOptionsScreen.SetActive(false);
                 realEstateOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(false);
+                break;
+            case "Risk":
+                businessOptionsScreen.SetActive(false);
+                cryptoOptionsScreen.SetActive(false);
+                realEstateOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(true);
+                interestOptionsScreen.SetActive(false);
+                break;
+            case "Interest":
+                businessOptionsScreen.SetActive(false);
+                cryptoOptionsScreen.SetActive(false);
+                realEstateOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(true);
                 break;
         }
-        /*
-        if (areaName == "Crypto")
-        {
-            cryptoOptionsScreen.SetActive(true);
-            realEstateOptionsScreen.SetActive(false);
-            businessOptionsScreen.SetActive(false);
-        }
-        if (areaName == "Business")
-        {
-            cryptoOptionsScreen.SetActive(false);
-            realEstateOptionsScreen.SetActive(false);
-            businessOptionsScreen.SetActive(true);
-        }
-        if (areaName == "State")
-        {
-            cryptoOptionsScreen.SetActive(false);
-            realEstateOptionsScreen.SetActive(true);
-            businessOptionsScreen.SetActive(false);
-        }*/
-   
     }
+
     public int GetBalance()
     {
         return balance;
     }
+
 
     public void UpdateBalance(int newBalance)
     {
@@ -112,5 +115,4 @@ public class gameManager : MonoBehaviour
         }
     }
  
-
 }

@@ -8,6 +8,8 @@ public class popManager : MonoBehaviour
     public GameObject cryptoOptionsScreen;
     public GameObject realEstateOptionsScreen;  // Pantalla de opciones para Bienes raíces
     public GameObject businessOptionsScreen;//business
+    public GameObject riskOptionsScreen;
+    public GameObject interestOptionsScreen;
     public GameObject initialScreen;
     public GameObject instructionsScreen;
     public GameObject playScreen;
@@ -19,6 +21,7 @@ public class popManager : MonoBehaviour
     {
         // Desactiva los colliders inicialmente
         ActivateInvestmentAreas(false);
+        playScreen.SetActive(false);
     }
     
 
@@ -53,6 +56,16 @@ public class popManager : MonoBehaviour
     public void CloseStatePanelToResult()
     {
         realEstateOptionsScreen.SetActive(false);
+        resultsScreen.SetActive(true);
+    }
+    public void CloseRiskPanelToResult()
+    {
+        riskOptionsScreen.SetActive(false);
+        resultsScreen.SetActive(true);
+    }
+    public void CloseInterestPanelToResult()
+    {
+        interestOptionsScreen.SetActive(false);
         resultsScreen.SetActive(true);
     }
     public void OpenResult()
@@ -91,16 +104,36 @@ public class popManager : MonoBehaviour
                 cryptoOptionsScreen.SetActive(true);
                 realEstateOptionsScreen.SetActive(false);
                 businessOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(false);
                 break;
             case "State":
                 realEstateOptionsScreen.SetActive(true);
                 cryptoOptionsScreen.SetActive(false);
                 businessOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(false);
                 break;
             case "Business":
                 businessOptionsScreen.SetActive(true);
                 cryptoOptionsScreen.SetActive(false);
                 realEstateOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(false);
+                break;
+            case "Risk":
+                businessOptionsScreen.SetActive(false);
+                cryptoOptionsScreen.SetActive(false);
+                realEstateOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(true);
+                interestOptionsScreen.SetActive(false);
+                break;
+            case "Interest":
+                businessOptionsScreen.SetActive(false);
+                cryptoOptionsScreen.SetActive(false);
+                realEstateOptionsScreen.SetActive(false);
+                riskOptionsScreen.SetActive(false);
+                interestOptionsScreen.SetActive(true);
                 break;
             default:
                 Debug.LogWarning("Área no reconocida: " + areaName);
