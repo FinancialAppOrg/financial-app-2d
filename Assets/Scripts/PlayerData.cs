@@ -17,16 +17,6 @@ public static class PlayerData
     {
         return interest;
     }
-    public static string GetTema()
-    {
-        string tema;
-        return tema="inversion";
-    }
-    public static string GetNivel()
-    {
-        string level;
-        return level="basico";
-    }
 
     public static void SetKnowledge(string topic, float level)
     {

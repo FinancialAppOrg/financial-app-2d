@@ -9,11 +9,13 @@ using TMPro;
 public class OptionsManager : MonoBehaviour
 {
     public gameManager gameManager;  // Referencia al GameManager
+    public GeminiAPIClient geminiClient;//gemini api
     public TextMeshProUGUI investmentAmountText;  // Muestra la cantidad de inversión
     public Button optionButton1;  // Botón para la primera opción
     public Button optionButton2;  // Botón para la segunda opción
     public Button optionButton3;
     public TextMeshProUGUI resultText;  // Texto para mostrar el resultado de la inversión
+    public TextMeshProUGUI responseText;
     public TextMeshProUGUI descripcionText;  // Texto para mostrar la descripcion de la situacion
     public int areaIndicador;
     private Situacion currentSituacion;
@@ -36,8 +38,8 @@ public class OptionsManager : MonoBehaviour
             yield break;
         }
 
-        string temaActual = PlayerData.GetTema();
-        string nivelActual = PlayerData.GetNivel();
+        string temaActual = "inversion";//PlayerData.GetTema();
+        string nivelActual = "basico";//PlayerData.GetNivel();
         //int areaIndicador = gameManager.GetAreaIndicador();
         Debug.Log("Tema actual: " + temaActual + ", Nivel actual: " + nivelActual);
 
@@ -58,7 +60,7 @@ public class OptionsManager : MonoBehaviour
 
             // Buscar la situación basada en tema, nivel y situacion_id
             currentSituacion = situacionesData.situaciones.Find(
-                s => s.tema == temaActual && s.nivel == nivelActual && s.situacion_id == areaIndicador // Enfoque en la situación 1
+                s => s.tema == temaActual && s.nivel == nivelActual && s.situacion_id == areaIndicador // situacionid
             );
 
             if (currentSituacion != null)
@@ -105,10 +107,34 @@ public class OptionsManager : MonoBehaviour
         int newBalance = currentBalance + selectedOption.impacto_saldo;
         gameManager.UpdateBalance(newBalance);
 
-        string resultMessage = selectedOption.impacto_saldo >= 0 ? "Ganaste $" + selectedOption.impacto_saldo : "Perdiste $" + Mathf.Abs(selectedOption.impacto_saldo);
-        resultText.text = "Resultado: " + resultMessage + ". Saldo actual: $" + newBalance;
+        string resultMessage = selectedOption.impacto_saldo >= 0 ? "¡Ganaste! \n$" + selectedOption.impacto_saldo : "¡Perdiste! \n$" + Mathf.Abs(selectedOption.impacto_saldo);
+        resultText.text = resultMessage;//"Resultado: " + resultMessage + ". Saldo actual: $" + newBalance;
 
-        Debug.Log("Inversión realizada. Nueva situación procesada.");
+        Debug.Log("Decision seleccionada. Nuevo saldo procesado.");
+
+        // Solicitar explicación del asistente
+        if (geminiClient != null)
+        {
+            Debug.Log("Solicitando explicación al asistente...");
+            geminiClient.AskFinancialQuestion(currentSituacion.descripcion,selectedOption, selectedOption.descripcion, (response) =>
+            {
+                Debug.Log("Respuesta del asistente recibida: " + response);
+
+                if (string.IsNullOrEmpty(response))
+                {
+                    Debug.LogWarning("La respuesta del asistente está vacía o es nula.");
+                }
+                else
+                {
+                    responseText.text = "\n" + response;
+                }
+                //responseText.text += "\nAsistente: " + response;
+            });
+        }
+        else
+        {
+            Debug.LogError("No se pudo acceder al asistente");
+        }
 
     }
 
@@ -140,64 +166,3 @@ public class Opcion
     public int impacto_saldo;
 }
 
-
-//public TextMeshProUGUI correctasText;
-//public TextMeshProUGUI incorrectasText;
-
-/*
-// Verificar si la opción es correcta
-if (selectedOption.correcta == 1)
-{
-    PlayerData.IncrementarCorrectas();
-}
-else
-{
-    PlayerData.IncrementarIncorrectas();
-}
-
-// Actualizar los contadores en pantalla
-correctasText.text = "Correctas: " + PlayerData.GetCorrectas();
-incorrectasText.text = "Incorrectas: " + PlayerData.GetIncorrectas();
-
-Debug.Log("Inversión realizada. Nueva situación procesada.");*/
-
-
-/*
-public void Invest(int optionId)
-{
-    Debug.Log("gameManager: " + gameManager);  // Verificar si es null
-
-    if (gameManager == null)
-    {
-        Debug.LogError("gameManager es nulo en el método Invest().");
-        return;
-    }
-    int currentBalance = gameManager.GetBalance();
-    int impactAmount = GetImpactAmount(optionId);
-
-    if (impactAmount == 0)
-    {
-        resultText.text = "Opción no válida.";
-        Debug.Log("Opción no válida seleccionada.");
-        return;
-    }
-
-    int newBalance = currentBalance + impactAmount;
-    gameManager.UpdateBalance(newBalance);
-
-    string resultMessage = impactAmount >= 0 ? "Ganaste $" + impactAmount : "Perdiste $" + Mathf.Abs(impactAmount);
-    resultText.text = "Resultado: " + resultMessage + ". Saldo actual: $" + newBalance;
-
-    Debug.Log("Inversión realizada. Saldo actualizado: " + newBalance);
-}
-private int GetImpactAmount(int optionId)
-{
-    switch (optionId)
-    {
-        case 1: return -50;
-        case 2: return -50;
-        case 3: return 100;
-        default: return 0;
-    }
-}
-*/
