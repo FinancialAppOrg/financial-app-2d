@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Moneda
   layers:
   - Default
   - TransparentFX
@@ -58,4 +59,19 @@ TagManager:
     locked: 0
   - name: TextBoxElements
     uniqueID: 3964416013
+    locked: 0
+  - name: ' Background'
+    uniqueID: 1272091937
+    locked: 0
+  - name: back
+    uniqueID: 992594813
+    locked: 0
+  - name: upper
+    uniqueID: 912002303
+    locked: 0
+  - name: interactive
+    uniqueID: 2553585941
+    locked: 0
+  - name: player
+    uniqueID: 3709976431
     locked: 0
