@@ -51,7 +51,7 @@ public class GeminiAPIClient : MonoBehaviour
         "Responde en español y usa ejemplos prácticos. " +
         "Temas principales: ahorro, inversión, créditos, deudas, presupuesto. " +
         "Mantén respuestas breves (máximo 1 párrafo). " +
-        "Si la pregunta no es financiera, indica amablemente tu especializa ción. " +
+        "Si la pregunta no es financiera, indica amablemente tu especialización. " +
         "Usuario: ";
 
     public void AskFinancialQuestion(string situacionDescripcion,Opcion opcion, string opcionDescripcion, System.Action<string> callback)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class popManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class popManager : MonoBehaviour
     public GameObject resultsScreen;
     public GameObject summaryScreen;
     public GameObject chatScreen;
+    public Button assistantIcon;
     public GameObject[] investmentAreas;
 
     void Start()
@@ -35,22 +37,27 @@ public class popManager : MonoBehaviour
     public void CloseCrytoPanel()
     {
         cryptoOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseBusinessPanel()
     {
         businessOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseStatePanel()
     {
         realEstateOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseInterestPanel()
     {
         interestOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseRiskPanel()
     {
         riskOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseCrytoPanelToResult()
     {
@@ -82,6 +89,11 @@ public class popManager : MonoBehaviour
         resultsScreen.SetActive(false);
         summaryScreen.SetActive(true);
     }
+    public void CloseResultPanel()
+    {
+        resultsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
+    }
     public void CloseInitialPanel()
     {
         initialScreen.SetActive(false);
@@ -89,6 +101,7 @@ public class popManager : MonoBehaviour
     }
     public void CloseChatPanel()
     {
+        assistantIcon.gameObject.SetActive(true);
         chatScreen.SetActive(false);
     }
     public void CloseInstructionsPanel()
@@ -102,6 +115,7 @@ public class popManager : MonoBehaviour
 
     public void OpenChatPanel()
     {
+        assistantIcon.gameObject.SetActive(false);
         chatScreen.SetActive(true);
         resultsScreen.SetActive(false);
         cryptoOptionsScreen.SetActive(false);
@@ -133,6 +147,7 @@ public class popManager : MonoBehaviour
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
                 resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "State":
                 realEstateOptionsScreen.SetActive(true);
@@ -141,6 +156,7 @@ public class popManager : MonoBehaviour
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
                 resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "Business":
                 businessOptionsScreen.SetActive(true);
@@ -149,6 +165,7 @@ public class popManager : MonoBehaviour
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
                 resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "Risk":
                 businessOptionsScreen.SetActive(false);
@@ -157,6 +174,7 @@ public class popManager : MonoBehaviour
                 riskOptionsScreen.SetActive(true);
                 interestOptionsScreen.SetActive(false);
                 resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "Interest":
                 businessOptionsScreen.SetActive(false);
@@ -165,6 +183,7 @@ public class popManager : MonoBehaviour
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(true);
                 resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             default:
                 Debug.LogWarning("Área no reconocida: " + areaName);
