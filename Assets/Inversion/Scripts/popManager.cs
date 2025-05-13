@@ -15,6 +15,7 @@ public class popManager : MonoBehaviour
     public GameObject playScreen;
     public GameObject resultsScreen;
     public GameObject summaryScreen;
+    public GameObject chatScreen;
     public GameObject[] investmentAreas;
 
     void Start()
@@ -86,12 +87,29 @@ public class popManager : MonoBehaviour
         initialScreen.SetActive(false);
         instructionsScreen.SetActive(true);
     }
+    public void CloseChatPanel()
+    {
+        chatScreen.SetActive(false);
+    }
     public void CloseInstructionsPanel()
     {
         Debug.Log("Cerrando panel de instrucciones...");
         instructionsScreen.SetActive(false);
         playScreen.SetActive(true);
         ActivateInvestmentAreas(false);
+    }
+    //open
+
+    public void OpenChatPanel()
+    {
+        chatScreen.SetActive(true);
+        resultsScreen.SetActive(false);
+        cryptoOptionsScreen.SetActive(false);
+        realEstateOptionsScreen.SetActive(false);
+        businessOptionsScreen.SetActive(false);
+        riskOptionsScreen.SetActive(false);
+        interestOptionsScreen.SetActive(false);
+        welcomeScreen.SetActive(false);
     }
 
     // Método para activar o desactivar los colliders de las áreas de inversión

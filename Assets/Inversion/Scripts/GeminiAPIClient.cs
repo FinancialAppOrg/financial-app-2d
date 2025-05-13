@@ -63,6 +63,11 @@ public class GeminiAPIClient : MonoBehaviour
         StartCoroutine(PostRequest(question, callback));
     }
 
+    public void AskFinancialQuestionChat(string question, System.Action<string> callback)//chat
+    {
+        StartCoroutine(PostRequest(question, callback));
+    }
+
     private IEnumerator PostRequest(string question, System.Action<string> callback)
     {
         string fullPrompt = financialContext + question;

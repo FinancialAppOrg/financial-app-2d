@@ -13,6 +13,7 @@ public class gameManager : MonoBehaviour
     public GameObject riskOptionsScreen;
     public GameObject interestOptionsScreen;
     public GameObject resultsScreen;
+    public GameObject chatScreen;//chat
     public TextMeshProUGUI balanceText; //text
     public GameObject playScreen;
     public GameObject summaryScreen;
@@ -44,6 +45,7 @@ public class gameManager : MonoBehaviour
         interestOptionsScreen.SetActive(false);
         welcomeScreen.SetActive(true);
         summaryScreen.SetActive(false);
+        chatScreen.SetActive(false);
         UpdateBalance(balance);
     }
     public void ShowInvestmentOptions(string areaName)
