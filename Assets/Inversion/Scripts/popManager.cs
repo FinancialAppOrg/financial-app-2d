@@ -37,11 +37,19 @@ public class popManager : MonoBehaviour
     }
     public void CloseBusinessPanel()
     {
-        resultsScreen.SetActive(false);
+        businessOptionsScreen.SetActive(false);
     }
     public void CloseStatePanel()
     {
-        resultsScreen.SetActive(false);
+        realEstateOptionsScreen.SetActive(false);
+    }
+    public void CloseInterestPanel()
+    {
+        interestOptionsScreen.SetActive(false);
+    }
+    public void CloseRiskPanel()
+    {
+        riskOptionsScreen.SetActive(false);
     }
     public void CloseCrytoPanelToResult()
     {
@@ -106,6 +114,7 @@ public class popManager : MonoBehaviour
                 businessOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
                 break;
             case "State":
                 realEstateOptionsScreen.SetActive(true);
@@ -113,6 +122,7 @@ public class popManager : MonoBehaviour
                 businessOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
                 break;
             case "Business":
                 businessOptionsScreen.SetActive(true);
@@ -120,6 +130,7 @@ public class popManager : MonoBehaviour
                 realEstateOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
                 break;
             case "Risk":
                 businessOptionsScreen.SetActive(false);
@@ -127,6 +138,7 @@ public class popManager : MonoBehaviour
                 realEstateOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(true);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
                 break;
             case "Interest":
                 businessOptionsScreen.SetActive(false);
@@ -134,6 +146,7 @@ public class popManager : MonoBehaviour
                 realEstateOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(true);
+                resultsScreen.SetActive(false);
                 break;
             default:
                 Debug.LogWarning("Área no reconocida: " + areaName);
