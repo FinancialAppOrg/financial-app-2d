@@ -22,6 +22,11 @@ public class gameManager : MonoBehaviour
     public int balance = 1025;
     private Animator animator;
     public popManager popManager;
+    public Button testButton;
+    public TextMeshProUGUI saldoFinalText;
+
+    private int clickCount = 0;
+    private int maxClicks = 5;
 
     void Start()
     {
@@ -29,6 +34,11 @@ public class gameManager : MonoBehaviour
         if (popManager == null)
             popManager = FindObjectOfType<popManager>();
         UpdateBalance(balance);  // Inicializa el balance en la UI
+        //finalizar
+        if (testButton != null)
+        {
+            testButton.onClick.AddListener(ContarClicks);
+        }
     }
 
     public void ShowWelcomeScreen()
@@ -102,6 +112,7 @@ public class gameManager : MonoBehaviour
     {
         balance = newBalance;
         balanceText.text = "$" + balance.ToString();  // Actualiza el texto del balance
+        saldoFinalText.text = "S/" + balance.ToString() + "\nsaldo final";
     }
     public void CheckPlayerProgress()
     {
@@ -116,5 +127,22 @@ public class gameManager : MonoBehaviour
             //summaryScreen.SetActive(false);
         }
     }
- 
+
+    public void ContarClicks()
+    {
+        clickCount++;
+
+        Debug.Log("Click número: " + clickCount);
+
+        if (clickCount >= maxClicks)
+        {
+            FinalizarJuego();
+        }
+    }
+    public void FinalizarJuego()
+    {
+        Debug.Log("Juego finalizado.");
+        popManager.OpenResult();
+    }
+
 }

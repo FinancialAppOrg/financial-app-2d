@@ -19,6 +19,7 @@ public class popManager : MonoBehaviour
     public GameObject chatScreen;
     public Button assistantIcon;
     public GameObject[] investmentAreas;
+    public GameObject player;
 
     void Start()
     {
@@ -62,32 +63,42 @@ public class popManager : MonoBehaviour
     public void CloseCrytoPanelToResult()
     {
         cryptoOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseBusinessPanelToResult()
     {
         businessOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseStatePanelToResult()
     {
         realEstateOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseRiskPanelToResult()
     {
         riskOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseInterestPanelToResult()
     {
         interestOptionsScreen.SetActive(false);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
+    }
+    public void ActivateResultsScreen()
+    {
         resultsScreen.SetActive(true);
     }
     public void OpenResult()
     {
         resultsScreen.SetActive(false);
         summaryScreen.SetActive(true);
+        player.SetActive(false);
     }
     public void CloseResultPanel()
     {
