@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class popManager : MonoBehaviour
 {
@@ -15,7 +16,10 @@ public class popManager : MonoBehaviour
     public GameObject playScreen;
     public GameObject resultsScreen;
     public GameObject summaryScreen;
+    public GameObject chatScreen;
+    public Button assistantIcon;
     public GameObject[] investmentAreas;
+    public GameObject player;
 
     void Start()
     {
@@ -34,49 +38,82 @@ public class popManager : MonoBehaviour
     public void CloseCrytoPanel()
     {
         cryptoOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseBusinessPanel()
     {
-        resultsScreen.SetActive(false);
+        businessOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseStatePanel()
     {
-        resultsScreen.SetActive(false);
+        realEstateOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
+    }
+    public void CloseInterestPanel()
+    {
+        interestOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
+    }
+    public void CloseRiskPanel()
+    {
+        riskOptionsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseCrytoPanelToResult()
     {
         cryptoOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseBusinessPanelToResult()
     {
         businessOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseStatePanelToResult()
     {
         realEstateOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseRiskPanelToResult()
     {
         riskOptionsScreen.SetActive(false);
-        resultsScreen.SetActive(true);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void CloseInterestPanelToResult()
     {
         interestOptionsScreen.SetActive(false);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
+    }
+    public void ActivateResultsScreen()
+    {
         resultsScreen.SetActive(true);
     }
     public void OpenResult()
     {
         resultsScreen.SetActive(false);
         summaryScreen.SetActive(true);
+        player.SetActive(false);
+    }
+    public void CloseResultPanel()
+    {
+        resultsScreen.SetActive(false);
+        ActivateInvestmentAreas(true);
     }
     public void CloseInitialPanel()
     {
         initialScreen.SetActive(false);
         instructionsScreen.SetActive(true);
+    }
+    public void CloseChatPanel()
+    {
+        assistantIcon.gameObject.SetActive(true);
+        chatScreen.SetActive(false);
     }
     public void CloseInstructionsPanel()
     {
@@ -84,6 +121,20 @@ public class popManager : MonoBehaviour
         instructionsScreen.SetActive(false);
         playScreen.SetActive(true);
         ActivateInvestmentAreas(false);
+    }
+    //open
+
+    public void OpenChatPanel()
+    {
+        assistantIcon.gameObject.SetActive(false);
+        chatScreen.SetActive(true);
+        resultsScreen.SetActive(false);
+        cryptoOptionsScreen.SetActive(false);
+        realEstateOptionsScreen.SetActive(false);
+        businessOptionsScreen.SetActive(false);
+        riskOptionsScreen.SetActive(false);
+        interestOptionsScreen.SetActive(false);
+        welcomeScreen.SetActive(false);
     }
 
     // Método para activar o desactivar los colliders de las áreas de inversión
@@ -106,6 +157,8 @@ public class popManager : MonoBehaviour
                 businessOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "State":
                 realEstateOptionsScreen.SetActive(true);
@@ -113,6 +166,8 @@ public class popManager : MonoBehaviour
                 businessOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "Business":
                 businessOptionsScreen.SetActive(true);
@@ -120,6 +175,8 @@ public class popManager : MonoBehaviour
                 realEstateOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "Risk":
                 businessOptionsScreen.SetActive(false);
@@ -127,6 +184,8 @@ public class popManager : MonoBehaviour
                 realEstateOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(true);
                 interestOptionsScreen.SetActive(false);
+                resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             case "Interest":
                 businessOptionsScreen.SetActive(false);
@@ -134,6 +193,8 @@ public class popManager : MonoBehaviour
                 realEstateOptionsScreen.SetActive(false);
                 riskOptionsScreen.SetActive(false);
                 interestOptionsScreen.SetActive(true);
+                resultsScreen.SetActive(false);
+                ActivateInvestmentAreas(false);
                 break;
             default:
                 Debug.LogWarning("Área no reconocida: " + areaName);

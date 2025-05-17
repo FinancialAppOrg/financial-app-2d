@@ -13,7 +13,6 @@ public class OptionsManager : MonoBehaviour
     public TextMeshProUGUI investmentAmountText;  // Muestra la cantidad de inversión
     public Button optionButton1;  // Botón para la primera opción
     public Button optionButton2;  // Botón para la segunda opción
-    public Button optionButton3;
     public TextMeshProUGUI resultText;  // Texto para mostrar el resultado de la inversión
     public TextMeshProUGUI responseText;
     public TextMeshProUGUI descripcionText;  // Texto para mostrar la descripcion de la situacion
@@ -25,7 +24,6 @@ public class OptionsManager : MonoBehaviour
     {
         optionButton1.onClick.AddListener(() => Invest(1));
         optionButton2.onClick.AddListener(() => Invest(2));
-        optionButton3.onClick.AddListener(() => Invest(3));
         // Cargar datos desde la API
         StartCoroutine(LoadSituacionData());
     }
@@ -67,11 +65,10 @@ public class OptionsManager : MonoBehaviour
             {
                 descripcionText.text = currentSituacion.descripcion;
 
-                if (currentSituacion.opciones.Count >= 3)
+                if (currentSituacion.opciones.Count >= 2)
                 {
                     optionButton1.GetComponentInChildren<TextMeshProUGUI>().text = currentSituacion.opciones[0].descripcion;
                     optionButton2.GetComponentInChildren<TextMeshProUGUI>().text = currentSituacion.opciones[1].descripcion;
-                    optionButton3.GetComponentInChildren<TextMeshProUGUI>().text = currentSituacion.opciones[2].descripcion;
                 }
                 else
                 {

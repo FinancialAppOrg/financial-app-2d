@@ -51,7 +51,7 @@ public class GeminiAPIClient : MonoBehaviour
         "Responde en español y usa ejemplos prácticos. " +
         "Temas principales: ahorro, inversión, créditos, deudas, presupuesto. " +
         "Mantén respuestas breves (máximo 1 párrafo). " +
-        "Si la pregunta no es financiera, indica amablemente tu especializa ción. " +
+        "Si la pregunta no es financiera, indica amablemente tu especialización. " +
         "Usuario: ";
 
     public void AskFinancialQuestion(string situacionDescripcion,Opcion opcion, string opcionDescripcion, System.Action<string> callback)
@@ -60,6 +60,11 @@ public class GeminiAPIClient : MonoBehaviour
                           $"El usuario ha seleccionado la opción: '{opcionDescripcion}'. " +
                           $"Esta opción es {(opcion.correcta == 1 ? "correcta" : "incorrecta")}. " +
                           "Explícale brevemente por qué es una buena o mala decisión.";
+        StartCoroutine(PostRequest(question, callback));
+    }
+
+    public void AskFinancialQuestionChat(string question, System.Action<string> callback)//chat
+    {
         StartCoroutine(PostRequest(question, callback));
     }
 
