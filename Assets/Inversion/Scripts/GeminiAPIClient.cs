@@ -58,7 +58,7 @@ public class GeminiAPIClient : MonoBehaviour
     {
         string question = $"Contexto: {situacionDescripcion}\n" +
                           $"El usuario ha seleccionado la opción: '{opcionDescripcion}'. " +
-                          $"Esta opción es {(opcion.correcta == 1 ? "correcta" : "incorrecta")}. " +
+                          $"Esta opción es {(opcion.es_correcta == 1 ? "correcta" : "incorrecta")}. " +
                           "Explícale brevemente por qué es una buena o mala decisión.";
         StartCoroutine(PostRequest(question, callback));
     }
