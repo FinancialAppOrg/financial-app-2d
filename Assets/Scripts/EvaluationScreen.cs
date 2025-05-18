@@ -281,7 +281,7 @@ public class EvaluationScreen : MonoBehaviour
         Debug.Log($"Enviando respuesta para evaluationId: {evaluationId}, id_pregunta: {currentQuestion.id_pregunta}, respuesta: {userAnswer}");
 
 
-        string url = $"http://127.0.0.1:8000/api/v1/initial-evaluation/{evaluationId}/answer";
+        string url = $"https://financeapp-backend-production.up.railway.app/api/v1/initial-evaluation/{evaluationId}/answer";
 
         Dictionary<string, object> payload = new Dictionary<string, object>
         {

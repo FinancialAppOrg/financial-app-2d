@@ -52,7 +52,7 @@ public class OptionsScreen : MonoBehaviour
             yield break;
         }
 
-        string url = "http://127.0.0.1:8000/api/v1/initial-evaluation/with-questions/" + evaluationId;
+        string url = "https://financeapp-backend-production.up.railway.app/api/v1/initial-evaluation/with-questions/" + evaluationId;
 
         using (UnityWebRequest request = UnityWebRequest.Get(url))
         {
