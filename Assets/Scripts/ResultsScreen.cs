@@ -10,7 +10,7 @@ public class ResultsScreen : MonoBehaviour
     [SerializeField] TextMeshProUGUI correctAnswersText;
     [SerializeField] Button resultsButton1;
     [SerializeField] Button resultsButton2;
-    [SerializeField] GameControllerBridge gameControllerBridge;//Transicion de escenas
+    [SerializeField] GameControllerBridge gameControllerBridge;
 
     GameManager gameManager;
 

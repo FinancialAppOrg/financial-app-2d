@@ -45,5 +45,12 @@ public class ScoreKeeper : MonoBehaviour
         //int incorrectAnswers = questionsSeen - correctAnswers;
         //return (correctAnswers * 10) - (incorrectAnswers * 5);
     }
+    public void Reset()
+    {
+        correctAnswers = 0;
+        questionsSeen = 0;
+        backendScore = 0f;
+        correctAnswersB = 0;
+    }
 
 }

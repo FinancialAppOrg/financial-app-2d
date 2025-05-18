@@ -44,7 +44,7 @@ public class EvaluationScreen : MonoBehaviour
             return;
         }
 
-        LoadNextEvaluationQuestion();
+        //LoadNextEvaluationQuestion();
     }
 
     void Update() {}
@@ -88,14 +88,14 @@ public class EvaluationScreen : MonoBehaviour
 
     public void OnEvaluationAnswerSelected(int index)
     {
-        Debug.Log($"Respuesta seleccionada - Índice (Unity): {index}");
+        //Debug.Log($"Respuesta seleccionada - Índice (Unity): {index}");
         Debug.Log($"Opción seleccionada: {(currentQuestion.opciones != null && index < currentQuestion.opciones.Count ? currentQuestion.opciones[index] : "INVÁLIDA")}");
 
         int backendIndex = index + 1;
-        Debug.Log($"Respuesta convertida - Índice (Backend): {backendIndex}");
+        //Debug.Log($"Respuesta convertida - Índice (Backend): {backendIndex}");
 
         Debug.Log($"Opción correcta index: {currentQuestion.opcion_correcta}");
-        Debug.Log($"Opción correcta texto: {(currentQuestion.opciones != null && currentQuestion.opcion_correcta < currentQuestion.opciones.Count ? currentQuestion.opciones[currentQuestion.opcion_correcta] : "INVÁLIDA")}");
+       //Debug.Log($"Opción correcta texto: {(currentQuestion.opciones != null && currentQuestion.opcion_correcta < currentQuestion.opciones.Count ? currentQuestion.opciones[currentQuestion.opcion_correcta] : "INVÁLIDA")}");
 
         if (currentQuestion == null)
         {
