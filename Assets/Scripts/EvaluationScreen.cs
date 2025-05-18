@@ -88,8 +88,12 @@ public class EvaluationScreen : MonoBehaviour
 
     public void OnEvaluationAnswerSelected(int index)
     {
-        Debug.Log($"Respuesta seleccionada - Índice: {index}");
+        Debug.Log($"Respuesta seleccionada - Índice (Unity): {index}");
         Debug.Log($"Opción seleccionada: {(currentQuestion.opciones != null && index < currentQuestion.opciones.Count ? currentQuestion.opciones[index] : "INVÁLIDA")}");
+
+        int backendIndex = index + 1;
+        Debug.Log($"Respuesta convertida - Índice (Backend): {backendIndex}");
+
         Debug.Log($"Opción correcta index: {currentQuestion.opcion_correcta}");
         Debug.Log($"Opción correcta texto: {(currentQuestion.opciones != null && currentQuestion.opcion_correcta < currentQuestion.opciones.Count ? currentQuestion.opciones[currentQuestion.opcion_correcta] : "INVÁLIDA")}");
 
@@ -99,7 +103,7 @@ public class EvaluationScreen : MonoBehaviour
             return;
         }
 
-        StartCoroutine(SendAnswerToBackend(index));
+        StartCoroutine(SendAnswerToBackend(backendIndex));
 
         ShowEvaluationAnswer(index);
         SetEvaluationButtonState(false);
@@ -113,8 +117,8 @@ public class EvaluationScreen : MonoBehaviour
             return;
         }
 
-        int indiceCorrectoBackend = currentQuestion.opcion_correcta; 
-        int indiceCorrectoUnity = indiceCorrectoBackend - 1;
+        //int indiceCorrectoBackend = currentQuestion.opcion_correcta; 
+        int indiceCorrectoUnity = currentQuestion.opcion_correcta - 1;
         bool isCorrect = (index == indiceCorrectoUnity);
 
         if (isCorrect)
@@ -184,14 +188,14 @@ public class EvaluationScreen : MonoBehaviour
 
         if (currentQuestion.opciones == null || currentQuestion.opciones.Count < 4)
         {
-            Debug.LogError($"Pregunta con opciones inválidas: {currentQuestion.texto_pregunta}");
+            //Debug.LogError($"Pregunta con opciones inválidas: {currentQuestion.texto_pregunta}");
             Debug.Log($"Opciones: {string.Join(", ", currentQuestion.opciones)}");
   
             LoadNextEvaluationQuestion();
             return;
         }
 
-        Debug.Log("Opciones de la pregunta actual:");
+        //Debug.Log("Opciones de la pregunta actual:");
         for (int i = 0; i < currentQuestion.opciones.Count; i++)
         {
             Debug.Log($"{i + 1}. {currentQuestion.opciones[i]}");
@@ -278,8 +282,8 @@ public class EvaluationScreen : MonoBehaviour
             yield break;
         }
 
-        Debug.Log($"Enviando respuesta para evaluationId: {evaluationId}, id_pregunta: {currentQuestion.id_pregunta}, respuesta: {userAnswer}");
-
+        //Debug.Log($"Enviando respuesta para evaluationId: {evaluationId}, id_pregunta: {currentQuestion.id_pregunta}, respuesta: {userAnswer}");
+        Debug.Log($"Enviando respuesta para evaluationId: {evaluationId}, id_pregunta: {currentQuestion.id_pregunta}, respuesta (backend index): {userAnswer}");
 
         string url = $"https://financeapp-backend-production.up.railway.app/api/v1/initial-evaluation/{evaluationId}/answer";
 
@@ -307,47 +311,23 @@ public class EvaluationScreen : MonoBehaviour
                 Debug.Log("Respuesta registrada correctamente: " + request.downloadHandler.text);
                 EvaluationResults results = JsonUtility.FromJson<EvaluationResults>(request.downloadHandler.text);
                 Debug.Log($"Resultados actualizados: Correctas: {results.total_preguntas_correctas}, Incorrectas: {results.total_preguntas_incorrectas}, Calificación: {results.calificacion_final}, Nivel: {results.nivel_determinado}");
+                
+                scoreKeeperr.UpdateScore(results.calificacion_final);
+                scoreKeeperr.UpdateCorrectAnswers(results.total_preguntas_correctas);
+
                 if (currentQuestion == null || currentQuestion.id_pregunta <= 0)
                 {
                     Debug.LogError("Pregunta actual no válida o ID de pregunta no definido.");
                     yield break;
                 }
                 Debug.Log($"Enviando respuesta - EvaluationID: {evaluationId}, PreguntaID: {currentQuestion.id_pregunta}, Respuesta: {userAnswer}");
-                Debug.Log($"URL completa: {url}");
+                // Debug.Log($"URL completa: {url}");
             }
             else
             {
-                Debug.LogError($"Error al registrar la respuesta: {request.error}");
-                Debug.LogError($"Código de estado: {request.responseCode}");
+                //Debug.LogError($"Error al registrar la respuesta: {request.error}");
+                //Debug.LogError($"Código de estado: {request.responseCode}");
                 Debug.LogError("Respuesta del servidor: " + request.downloadHandler.text);
-            }
-        }
-    }
-
-    IEnumerator FetchQuestionsFromBackend(string tema, string nivel)
-    {
-        string url = $"http://127.0.0.1:8000/questions/{tema}/{nivel}"; 
-        using (UnityWebRequest request = UnityWebRequest.Get(url))
-        {
-            yield return request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.ConnectionError || request.result == UnityWebRequest.Result.ProtocolError)
-            {
-                Debug.LogError($"Error al obtener preguntas: {request.error}");
-            }
-            else
-            {
-                string jsonResponse = request.downloadHandler.text;
-                questions = JsonUtility.FromJson<QuestionList>(jsonResponse).preguntas;
-
-                if (questions.Count > 0)
-                {
-                    LoadNextEvaluationQuestion();
-                }
-                else
-                {
-                    Debug.LogError("No se encontraron preguntas en el backend.");
-                }
             }
         }
     }
@@ -363,6 +343,8 @@ public class EvaluationScreen : MonoBehaviour
         resultsScreen.gameObject.SetActive(true);
 
         resultsScreen.DisplayResults(scoreKeeperr.CalculateScore());
+
+        resultsScreen.DisplayCorrectAnswers(scoreKeeperr.GetCorrectAnswers());
 
         FindObjectOfType<GameManager>().ShowResultsScreen();
     }

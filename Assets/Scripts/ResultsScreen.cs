@@ -7,6 +7,7 @@ using TMPro;
 public class ResultsScreen : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI resultsScoreText;
+    [SerializeField] TextMeshProUGUI correctAnswersText;
     [SerializeField] Button resultsButton1;
     [SerializeField] Button resultsButton2;
     [SerializeField] GameControllerBridge gameControllerBridge;//Transicion de escenas
@@ -26,6 +27,11 @@ public class ResultsScreen : MonoBehaviour
     public void DisplayResults(int score)
     {
         resultsScoreText.text = score + " Puntos de conocimiento";
+    }
+
+    public void DisplayCorrectAnswers(int correctAnswers)
+    {
+        correctAnswersText.text = correctAnswers + " Preguntas correctas";
     }
 
     public void CargarJuegoInversion()

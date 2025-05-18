@@ -6,15 +6,27 @@ public class ScoreKeeper : MonoBehaviour
 {
     int correctAnswers= 0;
     int questionsSeen = 0;
+    private float backendScore = 0f;
+    private int correctAnswersB = 0;
 
     public int GetCorrectAnswers()
     {
-        return correctAnswers;
+        return correctAnswersB;
+    }
+
+    public void UpdateCorrectAnswers(int correct)
+    {
+        correctAnswersB = correct;
     }
 
     public void IncrementCorrectAnswers()
     {
         correctAnswers++;
+    }
+
+    public void UpdateScore(float score)
+    {
+        backendScore = score;
     }
 
     public int GetQuestionsSeen()
@@ -29,8 +41,9 @@ public class ScoreKeeper : MonoBehaviour
 
     public int CalculateScore()
     {
-        int incorrectAnswers = questionsSeen - correctAnswers;
-        return (correctAnswers * 10) - (incorrectAnswers * 5);
+        return (int)backendScore;
+        //int incorrectAnswers = questionsSeen - correctAnswers;
+        //return (correctAnswers * 10) - (incorrectAnswers * 5);
     }
 
 }
