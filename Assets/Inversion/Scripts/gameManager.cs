@@ -6,17 +6,8 @@ using TMPro;
 
 public class gameManager : MonoBehaviour
 {
-    public GameObject welcomeScreen;
-    public GameObject cryptoOptionsScreen;  // Pantalla de opciones para Crypto
-    public GameObject realEstateOptionsScreen;  // Pantalla de opciones para Bienes raíces
-    public GameObject businessOptionsScreen;//business
-    public GameObject riskOptionsScreen;
-    public GameObject interestOptionsScreen;
-    public GameObject resultsScreen;
-    public GameObject chatScreen;//chat
     public TextMeshProUGUI balanceText; //text
     public GameObject playScreen;
-    public GameObject summaryScreen;
     public GameObject player;// Referencia al objeto del jugador    
     public playerController playerController;
     public int balance = 1025;
@@ -24,9 +15,10 @@ public class gameManager : MonoBehaviour
     public popManager popManager;
     public Button testButton;
     public TextMeshProUGUI saldoFinalText;
-
+    public Button assistantIcon;
     private int clickCount = 0;
     private int maxClicks = 5;
+    private string selectedArea;
 
     void Start()
     {
@@ -44,62 +36,29 @@ public class gameManager : MonoBehaviour
     public void ShowWelcomeScreen()
     {
         Debug.Log("Mostrando pantalla de bienvenida...");
-
-        // Desactivar la pantalla de juego (playScreen)
-        playScreen.SetActive(false);
-        resultsScreen.SetActive(false);
-        cryptoOptionsScreen.SetActive(false);
-        realEstateOptionsScreen.SetActive(false);
-        businessOptionsScreen.SetActive(false);
-        riskOptionsScreen.SetActive(false);
-        interestOptionsScreen.SetActive(false);
-        welcomeScreen.SetActive(true);
-        summaryScreen.SetActive(false);
-        chatScreen.SetActive(false);
-        UpdateBalance(balance);
+        popManager.ShowWelcomeScreen(); 
     }
     public void ShowInvestmentOptions(string areaName)
     {
         // Mostrar las opciones específicas según el área seleccionada
         popManager.ShowAreaPanel(areaName);
-        switch (areaName)
-        {
-            case "Crypto":
-                cryptoOptionsScreen.SetActive(true);
-                realEstateOptionsScreen.SetActive(false);
-                businessOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(false);
-                break;
-            case "State":
-                realEstateOptionsScreen.SetActive(true);
-                cryptoOptionsScreen.SetActive(false);
-                businessOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(false);
-                break;
-            case "Business":
-                businessOptionsScreen.SetActive(true);
-                cryptoOptionsScreen.SetActive(false);
-                realEstateOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(false);
-                break;
-            case "Risk":
-                businessOptionsScreen.SetActive(false);
-                cryptoOptionsScreen.SetActive(false);
-                realEstateOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(true);
-                interestOptionsScreen.SetActive(false);
-                break;
-            case "Interest":
-                businessOptionsScreen.SetActive(false);
-                cryptoOptionsScreen.SetActive(false);
-                realEstateOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(true);
-                break;
-        }
+    }
+    
+    public int GetAreaIndicador(string areaName)
+    {
+        // Mostrar las opciones específicas según el área seleccionada
+        return popManager.GetAreaIndicador(areaName);
+    }
+
+    public void SetSelectedArea(string areaName)
+    {
+        selectedArea = areaName;
+        Debug.Log("Área establecida en GameManager: " + selectedArea);
+    }
+
+    public string GetSelectedArea()
+    {
+        return selectedArea;
     }
 
     public int GetBalance()

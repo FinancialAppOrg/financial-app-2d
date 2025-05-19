@@ -23,8 +23,17 @@ public class AreaInteraction : MonoBehaviour
             // Mover al jugador al área seleccionada
             playerController.MoveToArea(targetPosition);
 
-            // Llamar a la función para mostrar las opciones de inversión para el área seleccionada
-            gameManager.ShowInvestmentOptions(areaName);  // Pasamos el nombre del área seleccionado
+            // Llamar a la función para mostrar las opciones para el área seleccionada
+            gameManager.SetSelectedArea(areaName);
+            gameManager.ShowInvestmentOptions(areaName);
+
+            Debug.Log("Área seleccionada: " + areaName);
+            /*
+            OptionsManager optionsManager = FindObjectOfType<OptionsManager>();
+            if (optionsManager != null)
+            {
+                optionsManager.LoadSituacionDataForSelectedArea();
+            }*/
         }
     }
 }

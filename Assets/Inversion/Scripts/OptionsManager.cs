@@ -9,6 +9,7 @@ using TMPro;
 public class OptionsManager : MonoBehaviour
 {
     public gameManager gameManager;  // Referencia al GameManager
+    public popManager popManager;
     public GeminiAPIClient geminiClient;//gemini api
     public TextMeshProUGUI investmentAmountText;  // Muestra la cantidad de inversión
     public Button optionButton1;  // Botón para la primera opción
@@ -16,7 +17,7 @@ public class OptionsManager : MonoBehaviour
     public TextMeshProUGUI resultText;  // Texto para mostrar el resultado de la inversión
     public TextMeshProUGUI responseText;//respuesta del asistente
     public TextMeshProUGUI descripcionText;  // Texto para mostrar la descripcion de la situacion
-    public int areaIndicador;
+    //public int areaIndicador;
     private Situacion currentSituacion;
     private string baseUrl = "https://financeapp-backend-production.up.railway.app/api/v1/situaciones";
     private string temaActual = "inversion";//PlayerData.GetTema();
@@ -25,8 +26,22 @@ public class OptionsManager : MonoBehaviour
 
     void Start()
     {
-        // Cargar datos desde la API
-        StartCoroutine(LoadSituacionData());
+    }
+
+    public void LoadSituacionDataForSelectedArea()
+    {
+        //StartCoroutine(LoadSituacionData());
+        string selectedArea = gameManager.GetSelectedArea();
+        Debug.Log("Cargando datos para el área seleccionada: " + selectedArea);
+
+        if (!string.IsNullOrEmpty(selectedArea))
+        {
+            StartCoroutine(LoadSituacionData(selectedArea));
+        }
+        else
+        {
+            Debug.LogWarning("selectedArea está vacío o nulo.");
+        }
     }
 
     public static class JsonHelper
@@ -45,10 +60,12 @@ public class OptionsManager : MonoBehaviour
         }
     }
 
-    private IEnumerator LoadSituacionData()
+    private IEnumerator LoadSituacionData(string areaName)
     {
         string apiUrl = $"{baseUrl}?tema={temaActual}&nivel={nivelActual}";
         Debug.Log("Solicitando datos de: " + apiUrl);
+        int areaId = gameManager.GetAreaIndicador(areaName);
+        Debug.Log("Indicador recibido: " + areaId);
 
         if (gameManager == null)
         {
@@ -75,7 +92,7 @@ public class OptionsManager : MonoBehaviour
 
             // Buscar la situación basada en tema, nivel y situacion_id
             currentSituacion = Array.Find(situacionesData,
-                s => s.tema == temaActual && s.nivel == nivelActual && s.id_situacion == areaIndicador // situacionid
+                s => s.tema == temaActual && s.nivel == nivelActual && s.id_situacion == areaId // situacionid
             );
 
             if (currentSituacion != null)
@@ -86,15 +103,12 @@ public class OptionsManager : MonoBehaviour
                 {
                     optionButton1.GetComponentInChildren<TextMeshProUGUI>().text = currentSituacion.opciones[0].descripcion_opcion;
                     optionButton2.GetComponentInChildren<TextMeshProUGUI>().text = currentSituacion.opciones[1].descripcion_opcion;
-
                     // Remover listeners previos para evitar duplicados
                     optionButton1.onClick.RemoveAllListeners();
                     optionButton2.onClick.RemoveAllListeners();
-
-                    // Asignar los `id_opcion` dinámicamente al hacer clic
+                    // Asignar los id_opcion dinámicamente al hacer clic
                     int opcion1Id = currentSituacion.opciones[0].id_opcion;
                     int opcion2Id = currentSituacion.opciones[1].id_opcion;
-
                     optionButton1.onClick.AddListener(() => Invest(opcion1Id));
                     optionButton2.onClick.AddListener(() => Invest(opcion2Id));
                 }
@@ -106,6 +120,7 @@ public class OptionsManager : MonoBehaviour
             else
             {
                 Debug.LogError("No se encontró una situación para el tema: " + temaActual + " y nivel: " + nivelActual);
+                Debug.Log("Error selectedArea: " + areaName);
             }
         }
     }
