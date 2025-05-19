@@ -124,6 +124,7 @@ public class SignInScreen : MonoBehaviour
                 ShowMessage("Sign-in successful!", Color.green);
 
                 PlayerPrefs.SetString("access_token", response.access_token);
+                PlayerPrefs.Save();
 
                 PlayerData.SetUserId(response.user_id);
 

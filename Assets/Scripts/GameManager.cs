@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 public class GameManager : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class GameManager : MonoBehaviour
     private GameObject previousScreen;
 
     [SerializeField] private GameObject closeSettingsButton;
+
+    private const string LogoutUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/logout";
 
     void Awake()
     {
@@ -67,7 +70,7 @@ public class GameManager : MonoBehaviour
         if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
         if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
-        if (updateProfileScreen != null) updateProfileScreen.gameObject.SetActive(false); // Asegúrate de que esté oculto al inicio
+        if (updateProfileScreen != null) updateProfileScreen.gameObject.SetActive(false); 
     }
 
     public void ShowSettingsPanel()
@@ -84,7 +87,7 @@ public class GameManager : MonoBehaviour
         if (currentPopup != null)
         {
             Debug.Log("Primero cierra el panel secundario antes de cerrar el panel de configuración.");
-            return; // No permite cerrar el settingsPanel si hay un popup activo
+            return; 
         }
 
         if (settingsPanel != null)
@@ -285,6 +288,8 @@ public class GameManager : MonoBehaviour
         return null; 
     }
 
+    // Notificaciones
+
     public void ToggleDailyNotifications(bool isEnabled)
     {
         if (NotificationManager.Instance != null)
@@ -299,6 +304,68 @@ public class GameManager : MonoBehaviour
         {
             NotificationManager.Instance.EnableInactivityNotifications(isEnabled);
         }
+    }
+
+    // Cerrar sesión
+
+    public void Logout()
+    {
+        StartCoroutine(LogoutCoroutine());
+    }
+
+    
+
+    private IEnumerator LogoutCoroutine()
+    {
+        //string accessToken = PlayerPrefs.GetString("access_token", "");
+        //if (string.IsNullOrEmpty(accessToken))
+        //{
+        //    Debug.LogError("No se encontró el token de acceso.");
+        //    yield break;
+        //}
+        //Debug.Log("Token de acceso: " + accessToken);
+        //
+        //using (UnityWebRequest request = UnityWebRequest.Post(LogoutUrl, ""))
+        //{
+        //    request.SetRequestHeader("Authorization", "Bearer " + accessToken);
+        //    request.SetRequestHeader("Content-Type", "application/json");
+        //
+        //    yield return request.SendWebRequest();
+        //
+        //    if (request.result == UnityWebRequest.Result.Success)
+        //    {
+        //        Debug.Log("Cierre de sesión exitoso.");
+        //        PlayerPrefs.DeleteKey("access_token");
+        //        PlayerPrefs.Save();
+        //PlayerData.ClearUserData();
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("AuthScene");
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        GameObject signInScreen = GameObject.Find("SignInScreen");
+        if (signInScreen != null)
+        {
+            signInScreen.SetActive(true);
+        }
+        else
+        {
+            Debug.LogError("No se encontró el Canvas de SignInScreen en la escena AuthScene.");
+        }
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Error al cerrar sesión: " + request.error);
+        //        Debug.LogError("Respuesta del servidor: " + request.downloadHandler.text);
+        //    }
+        //}
+    }
+
+    public void ConfirmLogout()
+    {
+        Logout(); 
     }
 
 
