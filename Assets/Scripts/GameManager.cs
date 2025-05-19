@@ -285,6 +285,22 @@ public class GameManager : MonoBehaviour
         return null; 
     }
 
+    public void ToggleDailyNotifications(bool isEnabled)
+    {
+        if (NotificationManager.Instance != null)
+        {
+            NotificationManager.Instance.EnableDailyNotifications(isEnabled);
+        }
+    }
+
+    public void ToggleInactivityNotifications(bool isEnabled)
+    {
+        if (NotificationManager.Instance != null)
+        {
+            NotificationManager.Instance.EnableInactivityNotifications(isEnabled);
+        }
+    }
+
 
 }
 
