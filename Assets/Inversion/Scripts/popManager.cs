@@ -54,6 +54,12 @@ public class popManager : MonoBehaviour
         //resultsScreen.SetActive(true);
         Invoke(nameof(ActivateResultsScreen), 2f);
     }
+    public void OpenAssistantPanel()
+    {
+        optionsScreen.SetActive(false);
+        //resultsScreen.SetActive(true);
+        Invoke(nameof(ActivateResultsScreen), 2f);
+    }
     public void ActivateResultsScreen()
     {
         resultsScreen.SetActive(true);

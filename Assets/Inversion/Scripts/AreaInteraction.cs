@@ -7,6 +7,7 @@ public class AreaInteraction : MonoBehaviour
     public gameManager gameManager;  // Referencia al GameManager
     public playerController playerController;  // Referencia al PlayerController
     public string areaName;  // Nombre del área (Crypto, Real Estate, Business)
+    private bool areaUsada = true;
 
     void Start()
     {
@@ -16,7 +17,7 @@ public class AreaInteraction : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (GetComponent<Collider2D>().enabled)
+        if (GetComponent<Collider2D>().enabled && areaUsada==true )
         {
             Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);  // Posición del objetivo
 
@@ -28,12 +29,11 @@ public class AreaInteraction : MonoBehaviour
             gameManager.ShowInvestmentOptions(areaName);
 
             Debug.Log("Área seleccionada: " + areaName);
-            /*
-            OptionsManager optionsManager = FindObjectOfType<OptionsManager>();
-            if (optionsManager != null)
-            {
-                optionsManager.LoadSituacionDataForSelectedArea();
-            }*/
         }
+    }
+
+    public void DesactivarArea()
+    {
+        areaUsada = false;
     }
 }

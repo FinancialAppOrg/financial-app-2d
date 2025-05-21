@@ -17,20 +17,32 @@ public class OptionsManager : MonoBehaviour
     public TextMeshProUGUI resultText;  // Texto para mostrar el resultado de la inversión
     public TextMeshProUGUI responseText;//respuesta del asistente
     public TextMeshProUGUI descripcionText;  // Texto para mostrar la descripcion de la situacion
+    public List<AreaButtonBinding> areaButtonBindings;
+    private Dictionary<int, GameObject> areaVisuals = new Dictionary<int, GameObject>();
     //public int areaIndicador;
     private Situacion currentSituacion;
     private string baseUrl = "https://financeapp-backend-production.up.railway.app/api/v1/situaciones";
     private string temaActual = "inversion";//PlayerData.GetTema();
     private string nivelActual = "basico";//PlayerData.GetNivel();
-
+    private int areaId;
 
     void Start()
     {
+        foreach (var binding in areaButtonBindings)
+        {
+            if (binding != null && binding.areaObject != null)
+            {
+                areaVisuals[binding.situacionId] = binding.areaObject;
+            }
+            else
+            {
+                Debug.LogWarning("Binding nulo o sin botón asignado");
+            }
+        }
     }
 
     public void LoadSituacionDataForSelectedArea()
     {
-        //StartCoroutine(LoadSituacionData());
         string selectedArea = gameManager.GetSelectedArea();
         Debug.Log("Cargando datos para el área seleccionada: " + selectedArea);
 
@@ -44,6 +56,7 @@ public class OptionsManager : MonoBehaviour
         }
     }
 
+    //Get situations
     public static class JsonHelper
     {
         public static T[] FromJson<T>(string json)
@@ -64,7 +77,7 @@ public class OptionsManager : MonoBehaviour
     {
         string apiUrl = $"{baseUrl}?tema={temaActual}&nivel={nivelActual}";
         Debug.Log("Solicitando datos de: " + apiUrl);
-        int areaId = gameManager.GetAreaIndicador(areaName);
+        areaId = gameManager.GetAreaIndicador(areaName);
         Debug.Log("Indicador recibido: " + areaId);
 
         if (gameManager == null)
@@ -136,8 +149,56 @@ public class OptionsManager : MonoBehaviour
 
         if (selectedOption != null)
         {
+            //Enviar decisión
+            int gameId = PlayerPrefs.GetInt("gameId", 0); 
+            int situacionId = currentSituacion.id_situacion;
+            int opcionElegida = selectedOption.id_opcion;
+            bool correcto = selectedOption.es_correcta;
+
+            Debug.Log($"Enviando decisión: juego={gameId}, situacion={situacionId}, opcion={opcionElegida}, correcto={correcto}");
+            gameManager.SubmitDecision(gameId, situacionId, opcionElegida);
+            
+            if (areaVisuals.TryGetValue(areaId, out GameObject areaObj))
+            {
+                var sprite = areaObj.GetComponent<SpriteRenderer>();
+                if (sprite != null)
+                {
+                    sprite.color = Color.gray;
+                }
+                var btn = areaObj.GetComponent<Button>();
+                if (btn != null)
+                {
+                    btn.interactable = false; 
+                }
+
+                AreaInteraction handler = areaObj.GetComponent<AreaInteraction>();
+                if (handler != null)
+                {
+                    handler.DesactivarArea(); 
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No se encontró el área visual para el ID: " + areaId);
+            }
+            
+
             ProcessOptionImpact(selectedOption);
-            RequestAssistant(selectedOption);
+
+            if (!correcto)
+            {
+                popManager.OpenAssistantPanel(); 
+                RequestAssistant(selectedOption);
+                StartCoroutine(gameManager.EsperarAsistenteYVerificarEndGame());
+                Debug.Log("es incorrecta");
+            }
+            else
+            {
+                //gameManager.VerificarEndGame();
+                popManager.CloseOptionsPanel();
+                gameManager.VerificarEndGame();
+                Debug.Log("es correcta");
+            }
         }
         else
         {
@@ -153,16 +214,16 @@ public class OptionsManager : MonoBehaviour
 
     private void ProcessOptionImpact(Opcion selectedOption)
     {
-        int currentBalance = gameManager.GetBalance();
-        int newBalance = currentBalance + selectedOption.impacto_saldo;
-        gameManager.UpdateBalance(newBalance);
+        //int currentBalance = gameManager.GetBalance();
+        //int newBalance = currentBalance + selectedOption.impacto_saldo;
+        //gameManager.UpdateBalance();
 
         string resultMessage = selectedOption.impacto_saldo >= 0
             ? $"¡Ganaste! \nS/{selectedOption.impacto_saldo}"
             : $"¡Perdiste! \nS/{Mathf.Abs(selectedOption.impacto_saldo)}";
 
         resultText.text = resultMessage;
-        Debug.Log($"Opción {selectedOption.id_opcion} seleccionada. Nuevo saldo: S/{newBalance}");
+        Debug.Log($"Opción {selectedOption.id_opcion} seleccionada.");
     }
 
     private void RequestAssistant(Opcion selectedOption)
@@ -218,7 +279,13 @@ public class Opcion
 {
     public int id_opcion;
     public string descripcion_opcion;
-    public int es_correcta;  // 1 = correcta, 0 = incorrecta
+    public bool es_correcta;  
     public int impacto_saldo;
 }
 
+[Serializable]
+public class AreaButtonBinding
+{
+    public int situacionId;
+    public GameObject areaObject;
+}
