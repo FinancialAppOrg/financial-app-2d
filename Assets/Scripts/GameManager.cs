@@ -29,8 +29,8 @@ public class GameManager : MonoBehaviour
 
     private GameObject currentPopup;
     private GameObject previousScreen;
-
-    [SerializeField] private GameObject closeSettingsButton;
+    
+    //[SerializeField] private GameObject closeSettingsButton;
 
     private const string LogoutUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/logout";
 
@@ -108,10 +108,10 @@ public class GameManager : MonoBehaviour
         {
             currentPopup.SetActive(false);
             currentPopup = null;
-            if (closeSettingsButton != null) 
-            {
-                closeSettingsButton.SetActive(true); 
-            }
+            //if (closeSettingsButton != null) 
+            //{
+            //    closeSettingsButton.SetActive(true); 
+            //}
         }
     }
 
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
         {
             notificationsPanel.SetActive(true);
             currentPopup = notificationsPanel;
-            if (closeSettingsButton != null) closeSettingsButton.SetActive(false); 
+            //if (closeSettingsButton != null) closeSettingsButton.SetActive(false); 
         }
     }
 
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
         {
             logoutConfirmationPanel.SetActive(true);
             currentPopup = logoutConfirmationPanel;
-            if (closeSettingsButton != null) closeSettingsButton.SetActive(false);
+            //if (closeSettingsButton != null) closeSettingsButton.SetActive(false);
         }
     }
 
