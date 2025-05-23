@@ -151,12 +151,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.9999852, y: 0.9999852, z: 0.9999852}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 68474995}
   m_Father: {fileID: 143532558}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.9999123, y: 285.88}
+  m_AnchoredPosition: {x: 23, y: 335.89}
   m_SizeDelta: {x: 825.17, y: 673.28}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2941129
@@ -233,8 +234,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: -172}
-  m_SizeDelta: {x: 354.386, y: 109.082}
+  m_AnchoredPosition: {x: 7, y: -106}
+  m_SizeDelta: {x: 415.5308, y: 135.2869}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &36484179
 MonoBehaviour:
@@ -357,14 +358,14 @@ RectTransform:
   m_GameObject: {fileID: 68474994}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.9999852, y: 0.9999852, z: 0.9999852}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 143532558}
+  m_Father: {fileID: 2941128}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6.859, y: 285.88}
+  m_AnchoredPosition: {x: -0.14092016, y: -0.000061035156}
   m_SizeDelta: {x: 665.67, y: 461.076}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &68474996
@@ -387,9 +388,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tu objetivo es aprender a invertir en diferentes \xE1reas y obtener un
-    retorno positivo por tus buenas decisiones. \xA1Empieza con un presupuesto inicial
-    y toma decisiones acertadas!"
+  m_text: "El objetivo es aprender sobre diversos temas financieros al interactuar
+    con las diferentes \xE1reas y obtener recompensas por tus buenas decisiones.
+    \xA1Empieza con un presupuesto inicial y toma decisiones acertadas!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -594,6 +595,7 @@ MonoBehaviour:
   - {fileID: 1493322684}
   - {fileID: 1015320852}
   player: {fileID: 101423641}
+  uIManager: {fileID: 121831889}
 --- !u!4 &85275084
 Transform:
   m_ObjectHideFlags: 0
@@ -3454,7 +3456,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1101113499}
-  userId: 1
+  geminiClient: {fileID: 514627625}
+  bienvenidaText: {fileID: 1922663316}
+  retroalimentacionFinalText: {fileID: 1402315488}
 --- !u!4 &121831890
 Transform:
   m_ObjectHideFlags: 0
@@ -3503,9 +3507,6 @@ RectTransform:
   - {fileID: 721135721}
   - {fileID: 683514954}
   - {fileID: 2941128}
-  - {fileID: 68474995}
-  - {fileID: 1437265348}
-  - {fileID: 890484047}
   - {fileID: 1759353908}
   m_Father: {fileID: 1583646011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3843,7 +3844,7 @@ Transform:
   m_GameObject: {fileID: 167559580}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.95, y: -0.19, z: 0}
+  m_LocalPosition: {x: 2.18, y: 0.13, z: 0}
   m_LocalScale: {x: 0.17020252, y: 0.17020252, z: 0.17020252}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5979,8 +5980,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -986}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 7, y: -942.67}
+  m_SizeDelta: {x: 825.17, y: -1211.499}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &241930549
 MonoBehaviour:
@@ -6005,14 +6006,14 @@ MonoBehaviour:
   m_text: "\xBFC\xF3mo jugar?"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278321666
-  m_fontColor: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -6037,7 +6038,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 1
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -6113,7 +6114,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.85, y: -0.00000016391}
+  m_AnchoredPosition: {x: -0.94, y: -0.00000016391}
   m_SizeDelta: {x: 1.211, y: 1.211}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &250037329
@@ -6712,8 +6713,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.2722082, y: 1}
-  m_AnchoredPosition: {x: 4.822, y: 0}
-  m_SizeDelta: {x: -0.266, y: 0}
+  m_AnchoredPosition: {x: 4.79, y: -0.00010108948}
+  m_SizeDelta: {x: -0.11, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &343740171
 MonoBehaviour:
@@ -7447,12 +7448,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1504164860}
+  m_Father: {fileID: 1414155069}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.0000014, y: 286.75977}
-  m_SizeDelta: {x: 498.639, y: 362.249}
+  m_AnchoredPosition: {x: -6.4418, y: 8.1311}
+  m_SizeDelta: {x: 678.1934, y: 558.7765}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &628153690
 MonoBehaviour:
@@ -7474,8 +7475,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Comienza tu aventura aprendiendo a invertir y a hacer crecer tu dinero.
-    \xA1Toma decisiones financieras inteligentes y alcanza tus metas!"
+  m_text: "Comienza tu aventura aprendiendo sobre finanzas. \xA1Toma decisiones financieras
+    inteligentes y gana recompensas!. Recuerda, siempre podr\xE1s interactuar con
+    el asistente virtual si necesitas ayuda."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -7509,8 +7511,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 16
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 8
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -8009,17 +8011,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Tu Meta de Inversi\xF3n"
+  m_text: Tu meta
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278321666
-  m_fontColor: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -8120,8 +8122,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.224, y: -0.00000016763}
-  m_SizeDelta: {x: 3.147, y: 0.956}
+  m_AnchoredPosition: {x: 0.229, y: -0.00000016763}
+  m_SizeDelta: {x: 3.559, y: 0.956}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &688454987
 MonoBehaviour:
@@ -8465,8 +8467,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: -141}
-  m_SizeDelta: {x: 354.386, y: 109.082}
+  m_AnchoredPosition: {x: -0.000024796, y: -187.36}
+  m_SizeDelta: {x: 392.3306, y: 136.1853}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &727209832
 MonoBehaviour:
@@ -8742,7 +8744,6 @@ RectTransform:
   m_Children:
   - {fileID: 241930548}
   - {fileID: 1761754751}
-  - {fileID: 1922043234}
   - {fileID: 344278969}
   - {fileID: 36484178}
   m_Father: {fileID: 1583646011}
@@ -9374,142 +9375,6 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 889234649}
-  m_CullTransparentMesh: 1
---- !u!1 &890484046
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 890484047}
-  - component: {fileID: 890484049}
-  - component: {fileID: 890484048}
-  m_Layer: 5
-  m_Name: saldoText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &890484047
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890484046}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 143532558}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -265.54, y: -254.99998}
-  m_SizeDelta: {x: 200, y: 100.56}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &890484048
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890484046}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_text: 'Saldo
-
-    S/ 1050'
-  m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: e73a58f6e2794ae7b1b7e50b7fb811b0, type: 2}
-  m_fontSharedMaterials: []
-  m_fontMaterial: {fileID: 0}
-  m_fontMaterials: []
-  m_fontColor32:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
-  m_enableVertexGradient: 0
-  m_colorMode: 3
-  m_fontColorGradient:
-    topLeft: {r: 1, g: 1, b: 1, a: 1}
-    topRight: {r: 1, g: 1, b: 1, a: 1}
-    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
-    bottomRight: {r: 1, g: 1, b: 1, a: 1}
-  m_fontColorGradientPreset: {fileID: 0}
-  m_spriteAsset: {fileID: 0}
-  m_tintAllSprites: 0
-  m_StyleSheet: {fileID: 0}
-  m_TextStyleHashCode: -1183493901
-  m_overrideHtmlColors: 0
-  m_faceColor:
-    serializedVersion: 2
-    rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
-  m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
-  m_fontSizeMax: 72
-  m_fontStyle: 1
-  m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
-  m_textAlignment: 65535
-  m_characterSpacing: 0
-  m_wordSpacing: 0
-  m_lineSpacing: 0
-  m_lineSpacingMax: 0
-  m_paragraphSpacing: 0
-  m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
-  m_wordWrappingRatios: 0.4
-  m_overflowMode: 0
-  m_linkedTextComponent: {fileID: 0}
-  parentLinkedComponent: {fileID: 0}
-  m_enableKerning: 1
-  m_enableExtraPadding: 0
-  checkPaddingRequired: 0
-  m_isRichText: 1
-  m_parseCtrlCharacters: 1
-  m_isOrthographic: 1
-  m_isCullingEnabled: 0
-  m_horizontalMapping: 0
-  m_verticalMapping: 0
-  m_uvLineOffset: 0
-  m_geometrySortingOrder: 0
-  m_IsTextObjectScaleStatic: 0
-  m_VertexBufferAutoSizeReduction: 0
-  m_useMaxVisibleDescender: 1
-  m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
-  m_isUsingLegacyAnimationComponent: 0
-  m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
-  m_baseMaterial: {fileID: 0}
-  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!222 &890484049
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 890484046}
   m_CullTransparentMesh: 1
 --- !u!1 &915011947
 GameObject:
@@ -10587,7 +10452,7 @@ Transform:
   m_GameObject: {fileID: 1015320852}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.42, y: -1.21, z: 0}
+  m_LocalPosition: {x: -0.43, y: -1.04, z: 0}
   m_LocalScale: {x: 0.17020252, y: 0.17020252, z: 0.17020252}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10709,17 +10574,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xA1Bienvenido al Simulador de Inversiones!"
+  m_text: "\xA1Bienvenido a GamiFi el Simulador financiero!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278321666
-  m_fontColor: {r: 0.009433985, g: 0.009433985, b: 0.009433985, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11447,6 +11312,7 @@ MonoBehaviour:
   player: {fileID: 101423641}
   playerController: {fileID: 101423645}
   popManager: {fileID: 85275083}
+  uIManager: {fileID: 121831889}
   testButton: {fileID: 427894489}
   assistantIcon: {fileID: 664538887}
   situacionesCompletadas: 0
@@ -12694,7 +12560,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Asistente Financiero: \xA1Hola! Soy tu asistente de educaci\xF3n financiera.\nPreg\xFAntame
+  m_text: "Asistente Financiero: Soy tu asistente de educaci\xF3n financiera. Preg\xFAntame
     sobre ahorro, inversi\xF3n, cr\xE9ditos o manejo de deudas."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12848,8 +12714,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xA1Gran trabajo! Ahora puedes continuar aprendiendo sobre diferentes
-    tipos de inversiones o pasar al siguiente nivel."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -12955,13 +12820,14 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 628153689}
   m_Father: {fileID: 1504164860}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: 286.7597}
-  m_SizeDelta: {x: 825.17, y: 671.52}
+  m_AnchoredPosition: {x: -0.00002861, y: 260.56}
+  m_SizeDelta: {x: 798.0667, y: 671.52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1414155070
 MonoBehaviour:
@@ -12983,7 +12849,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b15c3efd0bc265d4286a274ddb40fc68, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cda5c98379cdac94ab5208e6ce5df65b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13107,81 +12973,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.02, y: 0.0279}
   m_SizeDelta: {x: 56.094, y: 99.7791}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1437265347
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1437265348}
-  - component: {fileID: 1437265350}
-  - component: {fileID: 1437265349}
-  m_Layer: 5
-  m_Name: saldo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &1437265348
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1437265347}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 143532558}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -265.53955, y: -255.00049}
-  m_SizeDelta: {x: -799.913, y: -1769.692}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1437265349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1437265347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.8470589, b: 0.23529413, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: c2555315db97e3048a8ec3b2a0609125, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &1437265350
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1437265347}
-  m_CullTransparentMesh: 1
 --- !u!1 &1460480688
 GameObject:
   m_ObjectHideFlags: 0
@@ -13565,7 +13356,6 @@ RectTransform:
   m_Children:
   - {fileID: 1036047797}
   - {fileID: 1414155069}
-  - {fileID: 628153689}
   - {fileID: 1553404558}
   - {fileID: 727209831}
   m_Father: {fileID: 1583646011}
@@ -13731,13 +13521,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 121831889}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+        m_MethodName: CreateQuizzButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -15135,7 +14925,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 219.2, y: -255}
+  m_AnchoredPosition: {x: -0.000039101, y: -163}
   m_SizeDelta: {x: 400.78, y: 145.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1759353909
@@ -15273,12 +15063,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1922043234}
   m_Father: {fileID: 820883394}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7, y: 226.082}
+  m_AnchoredPosition: {x: 7, y: 378}
   m_SizeDelta: {x: 825.17, y: 625.085}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1761754752
@@ -15952,8 +15743,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -16402,11 +16193,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 820883394}
+  m_Father: {fileID: 1761754751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00001502, y: 226.08}
+  m_AnchoredPosition: {x: -7.000015, y: -0.002029419}
   m_SizeDelta: {x: 729.393, y: 449.15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1922043235
@@ -16429,10 +16220,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Selecciona uno de los espacios de inversi\xF3n para aprender m\xE1s sobre
-    ese tipo de inversi\xF3n y tomar decisiones dentro de esa \xE1rea. Las decisiones
-    que tomes afectar\xE1n tu saldo y al obtener aciertos consecutivos podr\xE1s
-    ganar monedas coleccionables."
+  m_text: "El juego consta de 5 \xE1reas de interacci\xF3n. Selecciona uno de las
+    \xE1reas  para comenzar a tomar decisiones. Las decisiones que tomes afectar\xE1n
+    tu saldo y al obtener aciertos consecutivos podr\xE1s ganar monedas coleccionables."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}
@@ -16466,7 +16256,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 16
+  m_HorizontalAlignment: 8
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -16543,8 +16333,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000000067055, y: 1.07}
-  m_SizeDelta: {x: 30.757, y: 7.156}
+  m_AnchoredPosition: {x: -0.000000067055, y: -0.212}
+  m_SizeDelta: {x: 30.757, y: 9.719}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1922663316
 MonoBehaviour:
@@ -16566,9 +16356,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Hola. Tu objetivo es hacer crecer tu dinero a trav\xE9s de inversiones.
-    Para empezar, elige una de las \xE1reas de inversi\xF3n que te interesen. \nMeta:
-    Haz crecer tu dinero hasta S/1,200."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 9ad269c99dcf42b7aedefd83dd5a7b9d, type: 2}

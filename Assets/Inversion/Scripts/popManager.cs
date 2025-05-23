@@ -16,23 +16,19 @@ public class popManager : MonoBehaviour
     public Button assistantIcon;
     public GameObject[] investmentAreas;
     public GameObject player;
+    public UIManager uIManager;
     private int areaIndicador;
     void Start()
     {
         // Desactiva los colliders inicialmente
         ActivateInvestmentAreas(false);
         playScreen.SetActive(false);
+        welcomeScreen.SetActive(false);
     }
 
     public void ShowWelcomeScreen()
     {
-        playScreen.SetActive(false);
-        resultsScreen.SetActive(false);
-        optionsScreen.SetActive(false);
-        welcomeScreen.SetActive(true);
-        summaryScreen.SetActive(false);
-        chatScreen.SetActive(false);
-        assistantIcon.gameObject.SetActive(false);
+        OpenWelcomePanel();//welcomeScreen.SetActive(true);
     }
     // close
     public void CloseWelcomePanel()
@@ -64,6 +60,21 @@ public class popManager : MonoBehaviour
     {
         resultsScreen.SetActive(true);
         assistantIcon.gameObject.SetActive(false);
+    }
+    public void OpenWelcomePanel()
+    {
+        playScreen.SetActive(false);
+        resultsScreen.SetActive(false);
+        optionsScreen.SetActive(false);
+        summaryScreen.SetActive(false);
+        chatScreen.SetActive(false);
+        assistantIcon.gameObject.SetActive(false);
+        uIManager.ShowWelcomeAssistant();
+        Invoke(nameof(ActivateWelcomeScreen), 2.2f);
+    }
+    public void ActivateWelcomeScreen()
+    {
+        welcomeScreen.SetActive(true);
     }
     public void OpenResult()
     {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
@@ -22,6 +23,7 @@ public class gameManager : MonoBehaviour
     public playerController playerController;
     private Animator animator;
     public popManager popManager;
+    public UIManager uIManager;
     public Button testButton;
     public Button assistantIcon;
     private string selectedArea;
@@ -35,7 +37,7 @@ public class gameManager : MonoBehaviour
         if (popManager == null)
             popManager = FindObjectOfType<popManager>();
     }
-
+    //game
     public void StartGame(int userId, string temaSeleccionado, string nivelJugado, float saldoInicial)
     {
         StartCoroutine(PostStartGame(userId, temaSeleccionado, nivelJugado, saldoInicial));
@@ -106,6 +108,7 @@ public class gameManager : MonoBehaviour
         return gameId;
     }
 
+    //decision
     public void SubmitDecision(int gameId, int situacionId, int opcionElegida)
     {
         StartCoroutine(PostSubmitDecision(gameId, situacionId, opcionElegida));
@@ -171,10 +174,12 @@ public class gameManager : MonoBehaviour
     {
         if (situacionesCompletadas >= totalSituaciones)
         {
+            uIManager.ShowFeedbackAssistant();
             StartCoroutine(PostEndGame());
         }
     }
 
+    //end game
     private IEnumerator PostEndGame()
     {
         string url = "https://financeapp-backend-production.up.railway.app/api/v1/end-game";
@@ -209,6 +214,55 @@ public class gameManager : MonoBehaviour
         }
     }
 
+    //Quizz
+    public void StartQuizz(int gameId, int userId, int escenaDestino)
+    {
+        StartCoroutine(PostQuizzYTransicion(gameId, userId, escenaDestino));
+    }
+
+    private IEnumerator PostQuizzYTransicion(int gameId, int userId, int escenaDestino)
+    {
+        string endpoint = "https://financeapp-backend-production.up.railway.app/api/v1/quizz";
+
+        var jsonData = JsonConvert.SerializeObject(new 
+        {
+            id_juego = gameId,
+            id_usuario = userId
+        });
+
+        using (UnityWebRequest request = new UnityWebRequest(endpoint, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("accept", "application/json");
+
+            Debug.Log("Enviando POST de Quizz: " + jsonData);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("POST enviado con éxito: " + request.downloadHandler.text);
+                var responseData = JsonConvert.DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
+                if (responseData.ContainsKey("quizz_id"))
+                {
+                    int quizz_id = int.Parse(responseData["quizz_id"].ToString());
+                    PlayerPrefs.SetInt("quizz_id", quizz_id);
+                    PlayerPrefs.Save();
+                    Debug.Log("Quizz ID almacenado: " + quizz_id);
+                }
+                PlayerPrefs.SetString("pantallaEvaluacion", "quizz");
+                SceneManager.LoadScene(escenaDestino);
+            }
+            else
+            {
+                Debug.LogError("Error al enviar Quizz: " + request.responseCode + " - " + request.error);
+            }
+        }
+    }
+
     public void ShowWelcomeScreen()
     {
         Debug.Log("Mostrando pantalla de bienvenida...");
@@ -222,7 +276,6 @@ public class gameManager : MonoBehaviour
     
     public int GetAreaIndicador(string areaName)
     {
-        // Mostrar las opciones específicas según el área seleccionada
         return popManager.GetAreaIndicador(areaName);
     }
 
