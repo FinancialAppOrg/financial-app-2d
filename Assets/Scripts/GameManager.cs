@@ -1,8 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
+using Newtonsoft.Json;
+using System;
+using TMPro;
+using System.Text;
 
 public class GameManager : MonoBehaviour
 {
@@ -16,8 +21,10 @@ public class GameManager : MonoBehaviour
     OptionsScreen optionsScreen;
     EvaluationScreen evaluationScreen;
     ResultsScreen resultsScreen;
+    public List<Question> questions = new List<Question>();
 
     string selectedTopic;
+    private bool isQuizEnding = false;
 
     [SerializeField] private GameObject settingsPanel;
 
@@ -60,7 +67,7 @@ public class GameManager : MonoBehaviour
     }
 
     void Start()
-    {
+    {        
         if (quiz != null) quiz.gameObject.SetActive(false);
         if (scoreScreen != null) scoreScreen.gameObject.SetActive(false);
         if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
@@ -226,21 +233,137 @@ public class GameManager : MonoBehaviour
         if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(false);
     }
 
-    public void StartQuizWithLevel(string level)
+    public void QuizzPanels()
     {
-        if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(false);
-        if (quiz != null)
+        selfAssessmentScreen.gameObject.SetActive(false);
+        quiz.gameObject.SetActive(false);
+        scoreScreen.gameObject.SetActive(false);
+    }
+
+    public void OnReplayLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+
+    //quizz
+    public static class JsonHelper
+    {
+        public static T[] FromJson<T>(string json)
         {
-            quiz.SetTopicAndLevel(selectedTopic, level);
-            quiz.gameObject.SetActive(true);
-            scoreScreen.gameObject.SetActive(false);
-            quiz.OnQuizCompleted += HandleQuizCompleted;
+            string newJson = "{\"array\":" + json + "}";
+            Wrapper<T> wrapper = JsonUtility.FromJson<Wrapper<T>>(newJson);
+            return wrapper.array;
+        }
+
+        [Serializable]
+        private class Wrapper<T>
+        {
+            public T[] array;
+        }
+    }
+
+    public void LoadQuestionsFromAPI(int quizzId)
+    {
+        StartCoroutine(GetQuestionsFromAPI(quizzId));
+    }
+
+    public IEnumerator GetQuestionsFromAPI(int quizzId)
+    {
+        string url = $"https://financeapp-backend-production.up.railway.app/api/v1/quizz/questions/{quizzId}";
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        yield return request.SendWebRequest();
+
+        if (request.result != UnityWebRequest.Result.Success)
+        {
+            Debug.LogError("Error al obtener preguntas: " + request.error);
+            questions = new List<Question>(); // para evitar null
+        }
+        else
+        {
+            string json = request.downloadHandler.text;
+            questions = new List<Question>(JsonHelper.FromJson<Question>(json));
+
+            Debug.Log("Preguntas cargadas: " + questions.Count);
+            quiz.SetQuestions(questions);
+            //quiz.GetNextQuestion();
+        }
+    }
+
+    public void SetQuestions(List<Question> loadedQuestions)
+    {
+        questions = new List<Question>(loadedQuestions);
+    }
+
+    public void PostAnswerQuizz(int quizId, int questionId, int selectedOption)
+    {
+        StartCoroutine(PostAnswer(quizId, questionId, selectedOption));
+    }
+
+    private IEnumerator PostAnswer(int quizId, int questionId, int selectedOption)
+    {
+        string url = "https://financeapp-backend-production.up.railway.app/api/v1/quizz/answer";
+        Debug.Log("Enviando POST a: " + url);
+
+        AnswerRequest answer = new AnswerRequest
+        {
+            id_quizz = quizId,
+            id_pregunta = questionId,
+            opcion_elegida = selectedOption
+        };
+        string jsonData = JsonUtility.ToJson(answer);
+        Debug.Log("Payload enviado: " + jsonData);
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            byte[] bodyRaw = Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+            request.SetRequestHeader("accept", "application/json");
+
+            Debug.Log("Enviando answer: " + jsonData);
+
+            yield return request.SendWebRequest();
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                Debug.Log("Answer enviada con éxito. Respuesta: " + request.downloadHandler.text);
+            }
+            else
+            {
+                Debug.LogError("Error al enviar Answer: " + request.responseCode + " - " + request.error);
+            }
+
         }
     }
 
     public void HandleQuizCompleted()
     {
+        // Evitar múltiples ejecuciones
+        if (isQuizEnding)
+        {
+            Debug.Log("HandleQuizCompleted ya está en proceso, ignorando llamada adicional");
+            return;
+        }
+
+        isQuizEnding = true;
+        Debug.Log("Iniciando finalización del quiz");
+
+        int quizId = PlayerPrefs.GetInt("quizz_id", 0);
+
         if (quiz != null) quiz.gameObject.SetActive(false);
+
+        if (quizId > 0)
+        {
+            Debug.Log($"Finalizando quiz con ID: {quizId}");
+            EndQuizz(quizId);
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró ID de quiz válido para finalizar");
+        }
+
         if (scoreScreen != null)
         {
             scoreScreen.gameObject.SetActive(true);
@@ -248,9 +371,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void OnReplayLevel()
+    public void ResetQuizState()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        isQuizEnding = false;
+        Debug.Log("Estado del quiz reseteado");
     }
 
     private void DeactivateAllScreens()
@@ -369,6 +493,74 @@ public class GameManager : MonoBehaviour
     }
 
 
-}
+    public void InitializeNewQuiz(List<Question> questions)
+    {
+        ResetQuizState(); // Resetear estado antes de inicializar
 
+        if (quiz != null)
+        {
+            quiz.Init(questions);
+        }
+    }
+
+    private IEnumerator HandleQuizCompletedAsync(int quizId)
+    {
+        if (quizId > 0)
+        {
+            Debug.Log($"Finalizando quiz con ID: {quizId}");
+            yield return StartCoroutine(PostEndQuizz(quizId));
+        }
+        else
+        {
+            Debug.LogWarning("No se encontró ID de quiz válido para finalizar");
+        }
+
+        // Mostrar pantalla de resultados después de finalizar el quiz
+        if (scoreScreen != null)
+        {
+            scoreScreen.gameObject.SetActive(true);
+            scoreScreen.ShowFinalScore();
+        }
+    }
+
+    // Modificar el método EndQuizz para que no inicie una nueva corrutina
+    public IEnumerator EndQuizzCoroutine(int quizId)
+    {
+        return PostEndQuizz(quizId);
+    }
+    public void EndQuizz(int quizId)
+    {
+        StartCoroutine(PostEndQuizz(quizId));
+    }
+    private IEnumerator PostEndQuizz(int quizId)
+    {
+        string url = "https://financeapp-backend-production.up.railway.app/api/v1/quizz/end";
+
+        var jsonData = JsonConvert.SerializeObject(new { id_quizz = quizId });
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            Debug.Log("Enviando solicitud de End Quizz: " + jsonData);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                var responseData = JsonConvert.DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
+                Debug.Log("Quizz finalizado exitosamente.");
+            }
+            else
+            {
+                Debug.LogError("Error al finalizar el quizz: " + request.responseCode + " - " + request.error);
+                Debug.LogError("Respuesta del servidor: " + request.downloadHandler.text); 
+            }
+        }
+    }
+
+}
 
