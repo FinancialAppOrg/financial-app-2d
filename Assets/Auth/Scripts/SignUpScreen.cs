@@ -28,9 +28,10 @@ public class SignUpScreen : MonoBehaviour
     [SerializeField] GameObject signInScreenCanvas;
 
     [Header("Sign Up Screen Canvas")]
-    [SerializeField] GameObject signUpScreenCanvas; 
+    [SerializeField] GameObject signUpScreenCanvas;
 
-    private string signUpUrl = "http://127.0.0.1:8000/api/v1/auth/sign-up";
+    private string signUpUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/sign-up";
+    //private string signUpUrl = "http://127.0.0.1:8000/api/v1/auth/sign-up";
     
     private GameManagerAuth gameManager;
 

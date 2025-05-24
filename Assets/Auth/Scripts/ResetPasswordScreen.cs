@@ -23,8 +23,8 @@ public class ResetPasswordScreen : MonoBehaviour
     [Header("Game Manager")]
     [SerializeField] GameManagerAuth gameManagerAuth; 
 
-
-    private string resetPasswordUrl = "http://127.0.0.1:8000/api/v1/auth/change-password/"; 
+    //private string resetPasswordUrl = "http://127.0.0.1:8000/api/v1/auth/change-password/";
+    private string resetPasswordUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/change-password/";
 
     private void Start()
     {

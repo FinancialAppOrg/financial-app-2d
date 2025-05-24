@@ -45,7 +45,9 @@ public class InterestSelectionScreen : MonoBehaviour
 
         string jsonPayload = $"{{\"id_usuario\": {PlayerData.GetUserId()}, \"tema\": \"{temaSeleccionado}\"}}";
 
-        using (UnityWebRequest request = new UnityWebRequest("http://127.0.0.1:8000/api/v1/select-topic", "POST"))
+        //private string url = "https://financeapp-backend-production.up.railway.app/api/v1/select-topic";
+
+        using (UnityWebRequest request = new UnityWebRequest("https://financeapp-backend-production.up.railway.app/api/v1/select-topic", "POST"))
         {
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonPayload);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
@@ -81,7 +83,7 @@ public class InterestSelectionScreen : MonoBehaviour
         string jsonPayload = JsonConvert.SerializeObject(payload); //JsonUtility.ToJson(payload); 
         Debug.Log($"Payload enviado: {jsonPayload}");
 
-        using (UnityWebRequest request = new UnityWebRequest("http://127.0.0.1:8000/api/v1/initial-evaluation", "POST"))
+        using (UnityWebRequest request = new UnityWebRequest("https://financeapp-backend-production.up.railway.app/api/v1/initial-evaluation", "POST"))
         {
             byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonPayload);
             request.uploadHandler = new UploadHandlerRaw(bodyRaw);
