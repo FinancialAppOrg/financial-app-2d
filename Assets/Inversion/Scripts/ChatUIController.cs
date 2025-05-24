@@ -66,20 +66,7 @@ public class ChatUIController : MonoBehaviour
         {
             Debug.LogError("Prefab del botón o el contenedor no están asignados en el Inspector.");
         }
-        /*
-        if (chatDisplay != null)
-        {
-            chatDisplay.text += "\n\n" + message;
-            // Opcional: Auto-scroll
-            Canvas.ForceUpdateCanvases();
-            // Asegurar que el Content Size Fitter actualice el tamaño del Content
-            LayoutRebuilder.ForceRebuildLayoutImmediate(chatDisplay.rectTransform);
-            ScrollToBottom();//scroll
-        }
-        else
-        {
-            Debug.LogError("chatDisplay no está asignado en el Inspector.");
-        }*/
+
     }
     private void ScrollToBottom()
     {

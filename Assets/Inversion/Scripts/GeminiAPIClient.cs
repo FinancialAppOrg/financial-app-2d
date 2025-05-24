@@ -50,7 +50,7 @@ public class GeminiAPIClient : MonoBehaviour
         "para usuarios sin conocimientos avanzados. " +
         "Responde en español y usa ejemplos prácticos. " +
         "Temas principales: ahorro, inversión, créditos, deudas, presupuesto. " +
-        "Mantén respuestas breves (máximo 1 párrafo). " +
+        "Mantén respuestas breves (máximo 1 párrafo) y no uses emojis o símbolo Unicode. " +
         "Si la pregunta no es financiera, indica amablemente tu especialización. " +
         "Usuario: ";
 
@@ -58,8 +58,21 @@ public class GeminiAPIClient : MonoBehaviour
     {
         string question = $"Contexto: {situacionDescripcion}\n" +
                           $"El usuario ha seleccionado la opción: '{opcionDescripcion}'. " +
-                          $"Esta opción es {(opcion.correcta == 1 ? "correcta" : "incorrecta")}. " +
-                          "Explícale brevemente por qué es una buena o mala decisión.";
+                          $"Esta opción es {(opcion.es_correcta == true ? "correcta" : "incorrecta")}. " +
+                          "Explícale brevemente por qué es una buena o mala decisión (máximo 560 caracteres.";
+        StartCoroutine(PostRequest(question, callback));
+    }
+
+    public void AssistantGuide(System.Action<string> callback)
+    {
+        string question = "Dale la bienvendia al usuario, preséntate y tu propósito en el juego para que inicie el juego." +
+                          "Mantén respuestas breves (máximo 280 caracteres). ";
+        StartCoroutine(PostRequest(question, callback));
+    }
+
+    public void AssistantFeedback(System.Action<string> callback)
+    {
+        string question = "Contexto: Se acabó el juego, dale una corta despedida al usuario (máximo 200 caracteres)";
         StartCoroutine(PostRequest(question, callback));
     }
 

@@ -6,16 +6,9 @@ using UnityEngine.UI;
 
 public class Quiz : MonoBehaviour
 {
-    [Header("Questions")]
-    [SerializeField] TextMeshProUGUI questionText;
-    [SerializeField] List<QuestionSO> ahorroQuestionsBasic = new List<QuestionSO>();
-    [SerializeField] List<QuestionSO> ahorroQuestionsIntermediate = new List<QuestionSO>();
-    [SerializeField] List<QuestionSO> ahorroQuestionsAdvanced = new List<QuestionSO>();
-    [SerializeField] List<QuestionSO> inversionQuestionsBasic = new List<QuestionSO>();
-    [SerializeField] List<QuestionSO> inversionQuestionsIntermediate = new List<QuestionSO>();
-    [SerializeField] List<QuestionSO> inversionQuestionsAdvanced = new List<QuestionSO>();
-    List<QuestionSO> questions= new List<QuestionSO>();
-    QuestionSO currentQuestion;
+    public GameManager gameManager;
+    List<Question> questions = new List<Question>();
+    Question currentQuestion;
 
 
     [Header("Answers")]
@@ -23,10 +16,14 @@ public class Quiz : MonoBehaviour
 
     int correctAnswerIndex;
     bool hasAnsweredEarly ;
+    int selectedAnswerIndex = -1;
+    bool hasProcessedAnswer = false;
+    bool quizCompleted = false;
 
     [Header("Button Colors")]
     [SerializeField] Sprite defaultAnswerSprite;
     [SerializeField] Sprite correctAnswerSprite;
+    [SerializeField] Sprite selectedAnswerSprite;
 
     [Header("Timer")]
     [SerializeField] Image timerImage;
@@ -36,6 +33,8 @@ public class Quiz : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreText;
     ScoreKeeper scoreKeeper;
 
+    [SerializeField] TextMeshProUGUI questionText;
+
     public delegate void QuizCompleted();
     public event QuizCompleted OnQuizCompleted;
 
@@ -44,31 +43,40 @@ public class Quiz : MonoBehaviour
         timer = FindObjectOfType<Timer>();
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
 
-        //GetNextQuestion();
-        //DisplayQuestion();
     }
-
-    void Start()
+    public void Init(List<Question> loadedQuestions)
     {
-        // Inicializar el quiz con preguntas
-        if (questions.Count == 0)
+        questions = loadedQuestions;
+        quizCompleted = false;
+
+        if (questions == null || questions.Count == 0)
         {
             Debug.LogError("No hay preguntas disponibles para el quiz.");
+            return;
         }
+
+        Debug.Log($"Preguntas cargadas: {questions.Count}");
+
+        GetNextQuestion();
     }
+
 
     void Update()
     {
+        if (quizCompleted) return;
+
         timerImage.fillAmount = timer.fillFraction;
 
         if (timer.loadNextQuestion)
         {
             hasAnsweredEarly = false;
+            hasProcessedAnswer = false;
             GetNextQuestion();
             timer.loadNextQuestion = false;
         }
-        else if(!hasAnsweredEarly && !timer.isAnsweringQuestion)
+        else if(!hasAnsweredEarly && !timer.isAnsweringQuestion && !hasProcessedAnswer)
         {
+            hasProcessedAnswer = true;
             DisplayAnswer(-1);
             SetButtonState(false);
             //OnAnswerSelected(-1);
@@ -78,11 +86,43 @@ public class Quiz : MonoBehaviour
 
     public void OnAnswerSelected(int index)
     {
+        if (hasAnsweredEarly || hasProcessedAnswer) return;
+        Debug.Log($"Respuesta seleccionada: {index}");
+
         hasAnsweredEarly = true;
+        hasProcessedAnswer = true;
+        selectedAnswerIndex = index;
+        //
+        SetSelectedButtonSprite(index);
         DisplayAnswer(index);
         SetButtonState(false);
         timer.CancelTimer();
         scoreText.text = scoreKeeper.CalculateScore() + " PC";
+    }
+    void SetSelectedButtonSprite(int selectedIndex)
+    {
+        Debug.Log($"Cambiando sprite del botón {selectedIndex}");
+        for (int i = 0; i < answerButtons.Length; i++)
+        {
+            Image buttonImage = answerButtons[i].GetComponent<Image>();
+            if (buttonImage != null)
+            {
+                if (i == selectedIndex)
+                {
+                    buttonImage.sprite = selectedAnswerSprite;
+                    Debug.Log($"Sprite cambiado a selectedAnswerSprite para botón {i}");
+                }
+                else
+                {
+                    buttonImage.sprite = defaultAnswerSprite;
+                }
+                //buttonImage.sprite = (i == selectedIndex) ? selectedAnswerSprite : defaultAnswerSprite;
+            }
+            else
+            {
+                Debug.LogError($"No se encontró Image component en answerButtons[{i}]");
+            }
+        }
     }
 
     void DisplayAnswer(int index)
@@ -94,8 +134,11 @@ public class Quiz : MonoBehaviour
         }
 
         Image buttonImage;
+        int correctIndex = currentQuestion.opcion_correcta - 1; // del 1-4 al 0-3
+        string[] answers = currentQuestion.GetAnswers();
 
-        if (index == currentQuestion.GetCorrectAnswerIndex())
+        // Muestra resultado visual
+        if (index == correctIndex && index != -1)// Verificar que no sea timeout
         {
             questionText.text = "¡Correcto!";
             buttonImage = answerButtons[index].GetComponent<Image>();
@@ -107,32 +150,56 @@ public class Quiz : MonoBehaviour
         }
         else
         {
-            correctAnswerIndex = currentQuestion.GetCorrectAnswerIndex();
-            string correctAnswer = currentQuestion.GetAnswer(correctAnswerIndex);
-            questionText.text = "La respuesta correcta es:\n" + correctAnswer;
-            buttonImage = answerButtons[correctAnswerIndex].GetComponent<Image>();
+            if (index == -1)
+            {
+                questionText.text = "¡Tiempo agotado!\nLa respuesta correcta es:\n" + answers[correctIndex];
+
+            } else {
+                questionText.text = "La respuesta correcta es:\n" + answers[correctIndex];
+            }
+            buttonImage = answerButtons[correctIndex].GetComponent<Image>();
             if (buttonImage != null)
             {
                 buttonImage.sprite = correctAnswerSprite;
             }
         }
+
+        // enviar respuesta al servidor SOLO UNA VEZ
+        int quizId = currentQuestion.id_quizz;
+        int questionId = currentQuestion.id_pregunta;
+       // int selectedOption = index + 1;
+        int selectedOption = index == -1 ? 0 : index + 1; // 0 para timeout, 1-4 para respuestas
+        Debug.Log($"Enviando respuesta: quizId={quizId}, questionId={questionId}, selectedOption={selectedOption}");
+        gameManager.PostAnswerQuizz(quizId, questionId, selectedOption);
+        
     }
 
-    void GetNextQuestion()
+    public void GetNextQuestion()
     {
+        if (quizCompleted) return;
+
+        selectedAnswerIndex = -1;
+        hasProcessedAnswer = false; // Reset para nueva pregunta
+
         if (questions.Count > 0)
         {
             SetButtonState(true);
             SetDefaultButtonSprites();
-            GetRandomQuestion();
+            GetRandomQuestion();//----
             DisplayQuestion();
             scoreKeeper.IncrementQuestionsSeen();
 
         }
         else
         {
+            if (!quizCompleted)
+            {
+                quizCompleted = true;
+                Debug.Log("Quiz completado - invocando evento");
+                OnQuizCompleted?.Invoke();
+            }
             //FindObjectOfType<GameManager>().HandleQuizCompleted();
-           OnQuizCompleted?.Invoke();
+            //OnQuizCompleted?.Invoke();
         }
         
     }
@@ -158,16 +225,20 @@ public class Quiz : MonoBehaviour
             return;
         }
 
-        questionText.text = currentQuestion.GetQuestion();
+        questionText.text = currentQuestion.texto_pregunta;
+        Debug.Log($"Pregunta: {currentQuestion.texto_pregunta}");
+        string[] answers = currentQuestion.GetAnswers();
 
         for (int i = 0; i < answerButtons.Length; i++)
         {
             TextMeshProUGUI buttonText = answerButtons[i].GetComponentInChildren<TextMeshProUGUI>();
             if (buttonText != null)
             {
-                buttonText.text = currentQuestion.GetAnswer(i);
+                buttonText.text = answers[i];
+                Debug.Log($"Opción {i + 1}: {answers[i]}");
             }
         }
+        
     }
 
     void SetButtonState(bool state)
@@ -194,49 +265,11 @@ public class Quiz : MonoBehaviour
             }
         }
     }
-
-    public void SetTopicAndLevel(string topic, string level)
+    public void SetQuestions(List<Question> loadedQuestions)
     {
-        switch (topic)
-        {
-            case "Ahorro":
-                switch (level)
-                {
-                    case "Basic":
-                        questions = new List<QuestionSO>(ahorroQuestionsBasic);
-                        break;
-                    case "Intermediate":
-                        questions = new List<QuestionSO>(ahorroQuestionsIntermediate);
-                        break;
-                    case "Advanced":
-                        questions = new List<QuestionSO>(ahorroQuestionsAdvanced);
-                        break;
-                }
-                break;
-            case "Inversion":
-                switch (level)
-                {
-                    case "Basic":
-                        questions = new List<QuestionSO>(inversionQuestionsBasic);
-                        break;
-                    case "Intermediate":
-                        questions = new List<QuestionSO>(inversionQuestionsIntermediate);
-                        break;
-                    case "Advanced":
-                        questions = new List<QuestionSO>(inversionQuestionsAdvanced);
-                        break;
-                }
-                break;
-            default:
-                questions = new List<QuestionSO>(ahorroQuestionsBasic);
-                break;
-        }
-
-        Debug.Log("Preguntas disponibles: " + questions.Count);
-
-        if (questions.Count == 0)
-        {
-            Debug.LogError("No hay preguntas disponibles para el tema y nivel seleccionados: " + topic + " - " + level);
-        }
+        questions = new List<Question>(loadedQuestions);
     }
+
+
 }
+

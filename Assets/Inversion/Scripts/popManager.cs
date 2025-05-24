@@ -6,11 +6,7 @@ using UnityEngine.UI;
 public class popManager : MonoBehaviour
 {
     public GameObject welcomeScreen;
-    public GameObject cryptoOptionsScreen;
-    public GameObject realEstateOptionsScreen;  // Pantalla de opciones para Bienes raíces
-    public GameObject businessOptionsScreen;//business
-    public GameObject riskOptionsScreen;
-    public GameObject interestOptionsScreen;
+    public GameObject optionsScreen;
     public GameObject initialScreen;
     public GameObject instructionsScreen;
     public GameObject playScreen;
@@ -20,79 +16,65 @@ public class popManager : MonoBehaviour
     public Button assistantIcon;
     public GameObject[] investmentAreas;
     public GameObject player;
-
+    public UIManager uIManager;
+    private int areaIndicador;
     void Start()
     {
         // Desactiva los colliders inicialmente
         ActivateInvestmentAreas(false);
         playScreen.SetActive(false);
+        welcomeScreen.SetActive(false);
     }
-    
 
+    public void ShowWelcomeScreen()
+    {
+        OpenWelcomePanel();//welcomeScreen.SetActive(true);
+    }
     // close
     public void CloseWelcomePanel()
     {
         welcomeScreen.SetActive(false);
         ActivateInvestmentAreas(true);
+        assistantIcon.gameObject.SetActive(true);
     }
-    public void CloseCrytoPanel()
+   
+    public void CloseOptionsPanel()
     {
-        cryptoOptionsScreen.SetActive(false);
+        optionsScreen.SetActive(false);
         ActivateInvestmentAreas(true);
     }
-    public void CloseBusinessPanel()
+
+    public void CloseOptionsPanelToResult()
     {
-        businessOptionsScreen.SetActive(false);
-        ActivateInvestmentAreas(true);
-    }
-    public void CloseStatePanel()
-    {
-        realEstateOptionsScreen.SetActive(false);
-        ActivateInvestmentAreas(true);
-    }
-    public void CloseInterestPanel()
-    {
-        interestOptionsScreen.SetActive(false);
-        ActivateInvestmentAreas(true);
-    }
-    public void CloseRiskPanel()
-    {
-        riskOptionsScreen.SetActive(false);
-        ActivateInvestmentAreas(true);
-    }
-    public void CloseCrytoPanelToResult()
-    {
-        cryptoOptionsScreen.SetActive(false);
+        optionsScreen.SetActive(false);
         //resultsScreen.SetActive(true);
         Invoke(nameof(ActivateResultsScreen), 2f);
     }
-    public void CloseBusinessPanelToResult()
+    public void OpenAssistantPanel()
     {
-        businessOptionsScreen.SetActive(false);
-        //resultsScreen.SetActive(true);
-        Invoke(nameof(ActivateResultsScreen), 2f);
-    }
-    public void CloseStatePanelToResult()
-    {
-        realEstateOptionsScreen.SetActive(false);
-        //resultsScreen.SetActive(true);
-        Invoke(nameof(ActivateResultsScreen), 2f);
-    }
-    public void CloseRiskPanelToResult()
-    {
-        riskOptionsScreen.SetActive(false);
-        //resultsScreen.SetActive(true);
-        Invoke(nameof(ActivateResultsScreen), 2f);
-    }
-    public void CloseInterestPanelToResult()
-    {
-        interestOptionsScreen.SetActive(false);
+        optionsScreen.SetActive(false);
         //resultsScreen.SetActive(true);
         Invoke(nameof(ActivateResultsScreen), 2f);
     }
     public void ActivateResultsScreen()
     {
         resultsScreen.SetActive(true);
+        assistantIcon.gameObject.SetActive(false);
+    }
+    public void OpenWelcomePanel()
+    {
+        playScreen.SetActive(false);
+        resultsScreen.SetActive(false);
+        optionsScreen.SetActive(false);
+        summaryScreen.SetActive(false);
+        chatScreen.SetActive(false);
+        assistantIcon.gameObject.SetActive(false);
+        uIManager.ShowWelcomeAssistant();
+        Invoke(nameof(ActivateWelcomeScreen), 2.2f);
+    }
+    public void ActivateWelcomeScreen()
+    {
+        welcomeScreen.SetActive(true);
     }
     public void OpenResult()
     {
@@ -103,6 +85,7 @@ public class popManager : MonoBehaviour
     public void CloseResultPanel()
     {
         resultsScreen.SetActive(false);
+        assistantIcon.gameObject.SetActive(true);
         ActivateInvestmentAreas(true);
     }
     public void CloseInitialPanel()
@@ -129,11 +112,7 @@ public class popManager : MonoBehaviour
         assistantIcon.gameObject.SetActive(false);
         chatScreen.SetActive(true);
         resultsScreen.SetActive(false);
-        cryptoOptionsScreen.SetActive(false);
-        realEstateOptionsScreen.SetActive(false);
-        businessOptionsScreen.SetActive(false);
-        riskOptionsScreen.SetActive(false);
-        interestOptionsScreen.SetActive(false);
+        optionsScreen.SetActive(false);
         welcomeScreen.SetActive(false);
     }
 
@@ -149,58 +128,87 @@ public class popManager : MonoBehaviour
 
     public void ShowAreaPanel(string areaName)
     {
+        Debug.Log("ShowAreaPanel llamado con: " + areaName);
+        OptionsManager optionsManager = FindObjectOfType<OptionsManager>();
         switch (areaName)
         {
             case "Crypto":
-                cryptoOptionsScreen.SetActive(true);
-                realEstateOptionsScreen.SetActive(false);
-                businessOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(false);
+                optionsScreen.SetActive(true);
                 resultsScreen.SetActive(false);
                 ActivateInvestmentAreas(false);
+                // Cargar datos para el área seleccionada
+                if (optionsManager != null)
+                {
+                    optionsManager.LoadSituacionDataForSelectedArea();
+                }
                 break;
             case "State":
-                realEstateOptionsScreen.SetActive(true);
-                cryptoOptionsScreen.SetActive(false);
-                businessOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(false);
+                optionsScreen.SetActive(true);
                 resultsScreen.SetActive(false);
                 ActivateInvestmentAreas(false);
+                if (optionsManager != null)
+                {
+                    optionsManager.LoadSituacionDataForSelectedArea();
+                }
                 break;
             case "Business":
-                businessOptionsScreen.SetActive(true);
-                cryptoOptionsScreen.SetActive(false);
-                realEstateOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(false);
+                optionsScreen.SetActive(true);
                 resultsScreen.SetActive(false);
                 ActivateInvestmentAreas(false);
+                if (optionsManager != null)
+                {
+                    optionsManager.LoadSituacionDataForSelectedArea();
+                }
                 break;
             case "Risk":
-                businessOptionsScreen.SetActive(false);
-                cryptoOptionsScreen.SetActive(false);
-                realEstateOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(true);
-                interestOptionsScreen.SetActive(false);
+                optionsScreen.SetActive(true);
                 resultsScreen.SetActive(false);
                 ActivateInvestmentAreas(false);
+                if (optionsManager != null)
+                {
+                    optionsManager.LoadSituacionDataForSelectedArea();
+                }
                 break;
             case "Interest":
-                businessOptionsScreen.SetActive(false);
-                cryptoOptionsScreen.SetActive(false);
-                realEstateOptionsScreen.SetActive(false);
-                riskOptionsScreen.SetActive(false);
-                interestOptionsScreen.SetActive(true);
+                optionsScreen.SetActive(true);
                 resultsScreen.SetActive(false);
                 ActivateInvestmentAreas(false);
+                if (optionsManager != null)
+                {
+                    optionsManager.LoadSituacionDataForSelectedArea();
+                }
                 break;
             default:
                 Debug.LogWarning("Área no reconocida: " + areaName);
                 break;
         }
     }
-
+    public int GetAreaIndicador(string areaName)
+    {
+        Debug.Log("GetAreaIndicador - areaName recibido: " + areaName);
+        switch (areaName)
+        {
+            case "Crypto":
+                areaIndicador = 1;
+                break;
+            case "State":
+                areaIndicador = 2;
+                break;
+            case "Business":
+                areaIndicador = 3;
+                break;
+            case "Risk":
+                areaIndicador = 4;
+                break;
+            case "Interest":
+                areaIndicador = 5;
+                break;
+            default:
+                Debug.LogWarning("Área Indicador no reconocida: " + areaName);
+                break;
+        }
+        Debug.Log("Indicador retornado: " + areaIndicador);
+        return areaIndicador;
+    }
 
 }
