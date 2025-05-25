@@ -27,7 +27,7 @@ public class gameController : MonoBehaviour
     }
     void Start()
     {
-        //CargarAuthScene();
+        CargarAuthScene();
     }
     public void CargarJuegoInversion()
     {

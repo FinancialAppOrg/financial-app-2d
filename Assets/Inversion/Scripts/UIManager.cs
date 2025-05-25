@@ -16,14 +16,16 @@ public class UIManager : MonoBehaviour
 
     public void CreateGameButtonClick()
     {
-        int userId = 1;//PlayerPrefs.GetInt("userId", 0);
+        int userId = PlayerData.GetUserId();
+        //int userId = 1;//PlayerPrefs.GetInt("userId", 0);
         gameManager.StartGame(userId, "inversion", "basico", 1200);
     }
 
     public void CreateQuizzButtonClick()
     {
         int gameId = PlayerPrefs.GetInt("gameId", 0);
-        int userId = 1;//PlayerPrefs.GetInt("userId", 0);
+        int userId = PlayerData.GetUserId();
+        //int userId = 1;//PlayerPrefs.GetInt("user_id", 0);
         Debug.Log("gameId: " + gameId + ", userId: " + userId);
         gameManager.StartQuizz(gameId, userId, 2);
     }

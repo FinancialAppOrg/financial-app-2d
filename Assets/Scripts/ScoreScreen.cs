@@ -10,15 +10,11 @@ public class ScoreScreen : MonoBehaviour
 
     void Awake()
     {
-
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
-
     }
 
     public void ShowFinalScore()
     {
-        finalScoreText.text = "Felicidades!\nTienes " + scoreKeeper.CalculateScore() + " Puntos de conocimiento";
+        finalScoreText.text = "Felicidades!\nTienes " + scoreKeeper.CalculateScoreQuizz() + " Puntos de conocimiento";
     }
-
-
 }

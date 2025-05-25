@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class ScoreKeeper : MonoBehaviour
 {
+    // quizz
     int correctAnswers= 0;
     int questionsSeen = 0;
+    // evaluacion
     private float backendScore = 0f;
     private int correctAnswersB = 0;
 
@@ -44,6 +46,11 @@ public class ScoreKeeper : MonoBehaviour
         return (int)backendScore;
         //int incorrectAnswers = questionsSeen - correctAnswers;
         //return (correctAnswers * 10) - (incorrectAnswers * 5);
+    }
+    public int CalculateScoreQuizz()
+    {
+        int incorrectAnswers = questionsSeen - correctAnswers;
+        return (correctAnswers * 10) - (incorrectAnswers * 5);
     }
     public void Reset()
     {

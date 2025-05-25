@@ -3225,12 +3225,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdd337faa4101dc4b87c5cb5de4ff6fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questions: []
   settingsPanel: {fileID: 1497711394}
-  updateProfileScreen: {fileID: 0}
+  updateProfileScreen: {fileID: 923517590}
   progressPanel: {fileID: 2865679356661178113}
   notificationsPanel: {fileID: 716812167981790799}
   logoutConfirmationPanel: {fileID: 849536969702996762}
-  questions: []
 --- !u!4 &284811659
 Transform:
   m_ObjectHideFlags: 0
@@ -5790,9 +5790,9 @@ MonoBehaviour:
   gameManager: {fileID: 284811658}
   answerButtons:
   - {fileID: 6889899029054937454}
-  - {fileID: 1403165065}
-  - {fileID: 1631755045}
-  - {fileID: 2041657957}
+  - {fileID: 1272166290}
+  - {fileID: 1407879233}
+  - {fileID: 764853755}
   defaultAnswerSprite: {fileID: 21300000, guid: 3552dda9faf7e4f4c94f951f688f304b, type: 3}
   correctAnswerSprite: {fileID: 21300000, guid: 9769b9384c15cc44fba1ff9e5692eb22, type: 3}
   selectedAnswerSprite: {fileID: 21300000, guid: df46d4a12d5b81a4993e6bc9aa636650, type: 3}
@@ -13901,6 +13901,11 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &1272166290 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 829387116899965087, guid: f978cc865f5f95e48b353042e35b38c5, type: 3}
+  m_PrefabInstance: {fileID: 1403165063}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1279630658
 GameObject:
   m_ObjectHideFlags: 0
@@ -16554,6 +16559,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1406288504}
   m_CullTransparentMesh: 1
+--- !u!1 &1407879233 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 829387116899965087, guid: f978cc865f5f95e48b353042e35b38c5, type: 3}
+  m_PrefabInstance: {fileID: 1631755043}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1423401538
 GameObject:
   m_ObjectHideFlags: 0
@@ -19286,7 +19296,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1656541226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24311,11 +24321,6 @@ PrefabInstance:
 --- !u!224 &2041657956 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8467372216991509070, guid: f978cc865f5f95e48b353042e35b38c5, type: 3}
-  m_PrefabInstance: {fileID: 2041657955}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &2041657957 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 829387116899965087, guid: f978cc865f5f95e48b353042e35b38c5, type: 3}
   m_PrefabInstance: {fileID: 2041657955}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2043514999

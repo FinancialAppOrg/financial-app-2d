@@ -15,7 +15,7 @@ public class Quiz : MonoBehaviour
     [SerializeField] GameObject[] answerButtons;
 
     int correctAnswerIndex;
-    bool hasAnsweredEarly ;
+    bool hasAnsweredEarly;
     int selectedAnswerIndex = -1;
     bool hasProcessedAnswer = false;
     bool quizCompleted = false;
@@ -74,7 +74,7 @@ public class Quiz : MonoBehaviour
             GetNextQuestion();
             timer.loadNextQuestion = false;
         }
-        else if(!hasAnsweredEarly && !timer.isAnsweringQuestion && !hasProcessedAnswer)
+        else if (!hasAnsweredEarly && !timer.isAnsweringQuestion && !hasProcessedAnswer)
         {
             hasProcessedAnswer = true;
             DisplayAnswer(-1);
@@ -97,7 +97,7 @@ public class Quiz : MonoBehaviour
         DisplayAnswer(index);
         SetButtonState(false);
         timer.CancelTimer();
-        scoreText.text = scoreKeeper.CalculateScore() + " PC";
+        scoreText.text = scoreKeeper.CalculateScoreQuizz() + " PC";
     }
     void SetSelectedButtonSprite(int selectedIndex)
     {
@@ -154,7 +154,9 @@ public class Quiz : MonoBehaviour
             {
                 questionText.text = "¡Tiempo agotado!\nLa respuesta correcta es:\n" + answers[correctIndex];
 
-            } else {
+            }
+            else
+            {
                 questionText.text = "La respuesta correcta es:\n" + answers[correctIndex];
             }
             buttonImage = answerButtons[correctIndex].GetComponent<Image>();
@@ -167,11 +169,11 @@ public class Quiz : MonoBehaviour
         // enviar respuesta al servidor SOLO UNA VEZ
         int quizId = currentQuestion.id_quizz;
         int questionId = currentQuestion.id_pregunta;
-       // int selectedOption = index + 1;
+        // int selectedOption = index + 1;
         int selectedOption = index == -1 ? 0 : index + 1; // 0 para timeout, 1-4 para respuestas
         Debug.Log($"Enviando respuesta: quizId={quizId}, questionId={questionId}, selectedOption={selectedOption}");
         gameManager.PostAnswerQuizz(quizId, questionId, selectedOption);
-        
+
     }
 
     public void GetNextQuestion()
@@ -201,7 +203,7 @@ public class Quiz : MonoBehaviour
             //FindObjectOfType<GameManager>().HandleQuizCompleted();
             //OnQuizCompleted?.Invoke();
         }
-        
+
     }
 
     void GetRandomQuestion()
@@ -211,10 +213,10 @@ public class Quiz : MonoBehaviour
 
         //if (questions.Contains(currentQuestion))
         //{
-            questions.Remove(currentQuestion);
+        questions.Remove(currentQuestion);
 
         //}
-        
+
     }
 
     void DisplayQuestion()
@@ -238,7 +240,7 @@ public class Quiz : MonoBehaviour
                 Debug.Log($"Opción {i + 1}: {answers[i]}");
             }
         }
-        
+
     }
 
     void SetButtonState(bool state)
@@ -269,7 +271,6 @@ public class Quiz : MonoBehaviour
     {
         questions = new List<Question>(loadedQuestions);
     }
-
 
 }
 

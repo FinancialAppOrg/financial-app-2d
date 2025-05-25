@@ -39,6 +39,8 @@ public class GameManagerAuth : MonoBehaviour
         Debug.Log("SignIn completo. Transición a la siguiente pantalla.");
         if (gameController.Instancia != null)
         {
+            PlayerPrefs.SetString("pantallaEvaluacion", "selfAssessmentScreen");
+            PlayerPrefs.Save();
             gameController.Instancia.CargarEvaluacion();
         }
         else
