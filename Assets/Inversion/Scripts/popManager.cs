@@ -18,13 +18,28 @@ public class popManager : MonoBehaviour
     public GameObject player;
     public UIManager uIManager;
     private int areaIndicador;
+    public GameObject glossaryScreen;
+
     void Start()
     {
-        // Desactiva los colliders inicialmente
         ActivateInvestmentAreas(false);
         playScreen.SetActive(false);
         welcomeScreen.SetActive(false);
+        glossaryScreen.SetActive(false);
     }
+
+    public void OpenGlossaryScreen()
+    {
+        glossaryScreen.SetActive(true);
+        player.SetActive(false);
+    }
+
+    public void CloseGlossaryScreen()
+    {
+        glossaryScreen.SetActive(false);
+        player.SetActive(true);
+    }
+
 
     public void ShowWelcomeScreen()
     {
@@ -97,6 +112,7 @@ public class popManager : MonoBehaviour
     {
         assistantIcon.gameObject.SetActive(true);
         chatScreen.SetActive(false);
+        player.SetActive(true);
     }
     public void CloseInstructionsPanel()
     {
@@ -114,6 +130,7 @@ public class popManager : MonoBehaviour
         resultsScreen.SetActive(false);
         optionsScreen.SetActive(false);
         welcomeScreen.SetActive(false);
+        player.SetActive(false);
     }
 
     // Método para activar o desactivar los colliders de las áreas de inversión

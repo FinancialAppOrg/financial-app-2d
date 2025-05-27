@@ -81,7 +81,7 @@ public class InterestSelectionScreen : MonoBehaviour
         };
 
         string jsonPayload = JsonConvert.SerializeObject(payload); //JsonUtility.ToJson(payload); 
-        Debug.Log($"Payload enviado: {jsonPayload}");
+        //Debug.Log($"Payload enviado: {jsonPayload}");
 
         using (UnityWebRequest request = new UnityWebRequest("https://financeapp-backend-production.up.railway.app/api/v1/initial-evaluation", "POST"))
         {
@@ -94,7 +94,7 @@ public class InterestSelectionScreen : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                Debug.Log("Nivel autoevaluado guardado correctamente: " + request.downloadHandler.text);
+                //Debug.Log("Nivel autoevaluado guardado correctamente: " + request.downloadHandler.text);
 
                 InitialEvaluationResponse response = JsonUtility.FromJson<InitialEvaluationResponse>(request.downloadHandler.text);
                 if (response != null)
@@ -117,7 +117,6 @@ public class InterestSelectionScreen : MonoBehaviour
             {
                 Debug.LogError("Error al guardar el nivel autoevaluado: " + request.error);
                 Debug.LogError("Respuesta del servidor: " + request.downloadHandler.text); 
-
             }
         }
     }

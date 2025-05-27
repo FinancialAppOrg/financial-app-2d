@@ -22,8 +22,8 @@ public class OptionsManager : MonoBehaviour
     //public int areaIndicador;
     private Situacion currentSituacion;
     private string baseUrl = "https://financeapp-backend-production.up.railway.app/api/v1/situaciones";
-    private string temaActual = "inversion";//PlayerData.GetTema();
-    private string nivelActual = "basico";//PlayerData.GetNivel();
+    private string temaActual = PlayerData.GetSelectedTopic();
+    private string nivelActual = PlayerData.GetSelectedLevel();
     private int areaId;
 
     void Start()
@@ -103,9 +103,12 @@ public class OptionsManager : MonoBehaviour
 
             Situacion[] situacionesData = JsonHelper.FromJson<Situacion>(jsonResponse);
 
+            Debug.Log($"Tema actual: {temaActual}, Nivel actual: {nivelActual}, Area ID: {areaId}");
+
+
             // Buscar la situación basada en tema, nivel y situacion_id
             currentSituacion = Array.Find(situacionesData,
-                s => s.tema == temaActual && s.nivel == nivelActual && s.id_situacion == areaId // situacionid
+                s => s.tema == temaActual && s.nivel == nivelActual //&& s.id_situacion == areaId // situacionid
             );
 
             if (currentSituacion != null)
@@ -132,6 +135,7 @@ public class OptionsManager : MonoBehaviour
             }
             else
             {
+                Debug.LogError("URL: " + apiUrl + " no contiene una situación válida para el tema: " + temaActual + " y nivel: " + nivelActual + ". Asegúrate de que el tema y nivel sean correctos.");
                 Debug.LogError("No se encontró una situación para el tema: " + temaActual + " y nivel: " + nivelActual);
                 Debug.Log("Error selectedArea: " + areaName);
             }

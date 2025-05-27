@@ -320,6 +320,14 @@ public class EvaluationScreen : MonoBehaviour
                     Debug.LogError("Pregunta actual no válida o ID de pregunta no definido.");
                     yield break;
                 }
+
+                if (scoreKeeperr.GetQuestionsSeen() >= 5)
+                {
+                    Debug.Log($"Nivel actualizado a: {results.nivel_determinado}");
+                    PlayerData.SetSelectedLevel(results.nivel_determinado); // Asegúrate de que PlayerData tenga un método SetSelectedLevel
+                    //PlayerData.SetLevel(results.nivel_determinado); // Asegúrate de que PlayerData tenga un método SetLevel
+                }
+
                 Debug.Log($"Enviando respuesta - EvaluationID: {evaluationId}, PreguntaID: {currentQuestion.id_pregunta}, Respuesta: {userAnswer}");
                 // Debug.Log($"URL completa: {url}");
             }

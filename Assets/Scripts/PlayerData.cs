@@ -6,6 +6,7 @@ public static class PlayerData
 {
     private const string UserIdKey = "user_id";
     private static string selectedTopic;
+    private static string level;
 
     private static string interest;
     private static Dictionary<string, int> knowledgeLevels = new Dictionary<string, int>();
@@ -62,4 +63,12 @@ public static class PlayerData
         evaluationId = id;
     }
 
+    public static void SetSelectedLevel(string nivel)
+    {
+        level = nivel;
+    }
+    public static string GetSelectedLevel()
+    {
+        return string.IsNullOrEmpty(level) ? "basico" : level;
+    }
 }

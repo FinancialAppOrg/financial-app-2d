@@ -11,6 +11,8 @@ using System.Text;
 
 public class gameManager : MonoBehaviour
 {
+    //private GameManager sharedGameManager;
+
     public TextMeshProUGUI balanceText;
     public TextMeshProUGUI aciertosText;
     public TextMeshProUGUI clasificacionText;
@@ -289,10 +291,7 @@ public class gameManager : MonoBehaviour
     {
         return selectedArea;
     }
-
-
 }
-
 
 [System.Serializable]
 public class Decision
