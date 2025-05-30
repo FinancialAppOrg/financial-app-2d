@@ -12,7 +12,7 @@ public class NotificationManager : MonoBehaviour
     public bool inactivityNotificationsEnabled = true;
 
     private DateTime lastActivityTime;
-    private TimeSpan inactivityThreshold = TimeSpan.FromSeconds(5); //TimeSpan.FromDays(1); 
+    private TimeSpan inactivityThreshold = TimeSpan.FromDays(1); //TimeSpan.FromSeconds(5);
 
     private void Awake()
     {
@@ -68,8 +68,8 @@ public class NotificationManager : MonoBehaviour
             {
                 Title = "Esta es tu señal",
                 Text = "¡No olvides ingresar hoy! Continua aprendiendo con Gamifi",
-                SmallIcon = "icono_llamita",
-                LargeIcon = "llamita_icon_large",
+                //SmallIcon = "icon_small",
+                //LargeIcon = "icon_large",
                 FireTime = DateTime.Now.AddSeconds(10) 
             };
 
@@ -99,8 +99,8 @@ public class NotificationManager : MonoBehaviour
             {
                 Title = "¡Te extrañamos!",
                 Text = "Parece que no has usado Gamifi en un tiempo. ¡Vuelve pronto!",
-                SmallIcon = "icono_llamita",
-                LargeIcon = "llamita_icon_large",
+                //SmallIcon = "icon_small",
+                //LargeIcon = "icon_large",
                 FireTime = DateTime.Now 
             };
 
