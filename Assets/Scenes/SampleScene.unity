@@ -2196,6 +2196,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   finalScoreText: {fileID: 244634316}
+  gameManager: {fileID: 284811658}
 --- !u!1 &244634314
 GameObject:
   m_ObjectHideFlags: 0
@@ -2496,6 +2497,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questions: []
+  aciertos_totales: 
+  monedas_ganadas: 
 --- !u!4 &284811659
 Transform:
   m_ObjectHideFlags: 0
@@ -4778,7 +4781,6 @@ MonoBehaviour:
   correctAnswerSprite: {fileID: 21300000, guid: 9769b9384c15cc44fba1ff9e5692eb22, type: 3}
   selectedAnswerSprite: {fileID: 21300000, guid: df46d4a12d5b81a4993e6bc9aa636650, type: 3}
   timerImage: {fileID: 391109616}
-  scoreText: {fileID: 961444952}
   questionText: {fileID: 635044148}
 --- !u!1 &547457982
 GameObject:
@@ -8711,7 +8713,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Score: 10'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

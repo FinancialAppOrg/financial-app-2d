@@ -18,7 +18,13 @@ public class Timer : MonoBehaviour
         UpdateTimer();
 
     }
-
+    public void StartNewQuestion()
+    {
+        isAnsweringQuestion = true;
+        timerValue = timeToCompleteQuestion;
+        loadNextQuestion = false;
+        Debug.Log("Timer iniciado para nueva pregunta");
+    }
     public void CancelTimer()
     {
         timerValue = 0;

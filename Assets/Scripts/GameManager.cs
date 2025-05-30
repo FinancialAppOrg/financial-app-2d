@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
 
     string selectedTopic;
     private bool isQuizEnding = false;
+    private int aciertos_totales;
+    private int monedas_ganadas;
 
     void Awake()
     {
@@ -179,7 +181,7 @@ public class GameManager : MonoBehaviour
             questions = new List<Question>(JsonHelper.FromJson<Question>(json));
 
             Debug.Log("Preguntas cargadas: " + questions.Count);
-            quiz.SetQuestions(questions);
+            //quiz.SetQuestions(questions);
             //quiz.GetNextQuestion();
         }
     }
@@ -329,7 +331,13 @@ public class GameManager : MonoBehaviour
             if (request.result == UnityWebRequest.Result.Success)
             {
                 var responseData = JsonConvert.DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
-                Debug.Log("Quizz finalizado exitosamente.");
+                aciertos_totales = int.Parse(responseData["preguntas_correctas"].ToString());
+                PlayerPrefs.SetInt("quizz_aciertos", aciertos_totales);
+                PlayerPrefs.Save();
+                monedas_ganadas = int.Parse(responseData["monedas_ganadas"].ToString());
+                PlayerPrefs.SetInt("quizz_monedas", monedas_ganadas);
+                PlayerPrefs.Save();
+                Debug.Log("Quizz finalizado exitosamente." + " " + aciertos_totales + " " + monedas_ganadas);
             }
             else
             {

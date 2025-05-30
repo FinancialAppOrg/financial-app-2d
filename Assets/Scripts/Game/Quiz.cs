@@ -19,6 +19,7 @@ public class Quiz : MonoBehaviour
     int selectedAnswerIndex = -1;
     bool hasProcessedAnswer = false;
     bool quizCompleted = false;
+    bool isInitialized = false;
 
     [Header("Button Colors")]
     [SerializeField] Sprite defaultAnswerSprite;
@@ -29,9 +30,6 @@ public class Quiz : MonoBehaviour
     [SerializeField] Image timerImage;
     Timer timer;
 
-    [Header("Scoring")]
-    [SerializeField] TextMeshProUGUI scoreText;
-    ScoreKeeper scoreKeeper;
 
     [SerializeField] TextMeshProUGUI questionText;
 
@@ -41,13 +39,14 @@ public class Quiz : MonoBehaviour
     void Awake()
     {
         timer = FindObjectOfType<Timer>();
-        scoreKeeper = FindObjectOfType<ScoreKeeper>();
 
     }
     public void Init(List<Question> loadedQuestions)
     {
+        Debug.Log($"Preguntas recibidas: {loadedQuestions?.Count ?? 0}");
         questions = loadedQuestions;
         quizCompleted = false;
+        isInitialized = false;
 
         if (questions == null || questions.Count == 0)
         {
@@ -56,14 +55,14 @@ public class Quiz : MonoBehaviour
         }
 
         Debug.Log($"Preguntas cargadas: {questions.Count}");
-
+        isInitialized = true;
+        Debug.Log("Llamando GetNextQuestion desde Init");
         GetNextQuestion();
     }
 
-
     void Update()
     {
-        if (quizCompleted) return;
+        if (quizCompleted || !isInitialized) return;
 
         timerImage.fillAmount = timer.fillFraction;
 
@@ -79,8 +78,6 @@ public class Quiz : MonoBehaviour
             hasProcessedAnswer = true;
             DisplayAnswer(-1);
             SetButtonState(false);
-            //OnAnswerSelected(-1);
-            //hasAnsweredEarly = true;
         }
     }
 
@@ -97,7 +94,6 @@ public class Quiz : MonoBehaviour
         DisplayAnswer(index);
         SetButtonState(false);
         timer.CancelTimer();
-        scoreText.text = scoreKeeper.CalculateScore() + " PC";
     }
     void SetSelectedButtonSprite(int selectedIndex)
     {
@@ -116,7 +112,6 @@ public class Quiz : MonoBehaviour
                 {
                     buttonImage.sprite = defaultAnswerSprite;
                 }
-                //buttonImage.sprite = (i == selectedIndex) ? selectedAnswerSprite : defaultAnswerSprite;
             }
             else
             {
@@ -137,7 +132,6 @@ public class Quiz : MonoBehaviour
         int correctIndex = currentQuestion.opcion_correcta - 1; // del 1-4 al 0-3
         string[] answers = currentQuestion.GetAnswers();
 
-        // Muestra resultado visual
         if (index == correctIndex && index != -1)// Verificar que no sea timeout
         {
             questionText.text = "¡Correcto!";
@@ -146,7 +140,6 @@ public class Quiz : MonoBehaviour
             {
                 buttonImage.sprite = correctAnswerSprite;
             }
-            scoreKeeper.IncrementCorrectAnswers();
         }
         else
         {
@@ -167,7 +160,6 @@ public class Quiz : MonoBehaviour
         // enviar respuesta al servidor SOLO UNA VEZ
         int quizId = currentQuestion.id_quizz;
         int questionId = currentQuestion.id_pregunta;
-       // int selectedOption = index + 1;
         int selectedOption = index == -1 ? 0 : index + 1; // 0 para timeout, 1-4 para respuestas
         Debug.Log($"Enviando respuesta: quizId={quizId}, questionId={questionId}, selectedOption={selectedOption}");
         gameManager.PostAnswerQuizz(quizId, questionId, selectedOption);
@@ -176,6 +168,7 @@ public class Quiz : MonoBehaviour
 
     public void GetNextQuestion()
     {
+        Debug.Log($"GetNextQuestion llamado - Preguntas restantes: {questions.Count}");
         if (quizCompleted) return;
 
         selectedAnswerIndex = -1;
@@ -185,10 +178,9 @@ public class Quiz : MonoBehaviour
         {
             SetButtonState(true);
             SetDefaultButtonSprites();
-            GetRandomQuestion();//----
+            GetRandomQuestion();
             DisplayQuestion();
-            scoreKeeper.IncrementQuestionsSeen();
-
+            Debug.Log($"Pregunta mostrada - Preguntas restantes: {questions.Count}");
         }
         else
         {
@@ -198,8 +190,6 @@ public class Quiz : MonoBehaviour
                 Debug.Log("Quiz completado - invocando evento");
                 OnQuizCompleted?.Invoke();
             }
-            //FindObjectOfType<GameManager>().HandleQuizCompleted();
-            //OnQuizCompleted?.Invoke();
         }
         
     }
@@ -208,13 +198,7 @@ public class Quiz : MonoBehaviour
     {
         int index = Random.Range(0, questions.Count);
         currentQuestion = questions[index];
-
-        //if (questions.Contains(currentQuestion))
-        //{
-            questions.Remove(currentQuestion);
-
-        //}
-        
+        questions.Remove(currentQuestion);
     }
 
     void DisplayQuestion()
@@ -238,7 +222,13 @@ public class Quiz : MonoBehaviour
                 Debug.Log($"Opción {i + 1}: {answers[i]}");
             }
         }
-        
+
+        // Iniciar el timer para esta pregunta
+        if (timer != null)
+        {
+            timer.StartNewQuestion();
+        }
+
     }
 
     void SetButtonState(bool state)
