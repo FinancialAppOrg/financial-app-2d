@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Moneda
+  - GameManagerDefecto
   layers:
   - Default
   - TransparentFX

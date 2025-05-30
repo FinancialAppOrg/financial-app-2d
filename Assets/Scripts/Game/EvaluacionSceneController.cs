@@ -11,9 +11,11 @@ public class EvaluacionSceneController : MonoBehaviour
 
     IEnumerator Start()
     {
-        yield return null; 
+        yield return null;
 
-        string destino = PlayerPrefs.GetString("pantallaEvaluacion", "");
+        string destino = PlayerPrefs.GetString("pantallaEvaluacion", "selfAssessmentScreen");
+        Debug.Log("Valor de pantallaEvaluacion: " + destino);// Valor predeterminado
+        //string destino = PlayerPrefs.GetString("pantallaEvaluacion", "");
         int quizzId = PlayerPrefs.GetInt("quizz_id", 0);
         if (destino == "quizz")
         {
@@ -45,6 +47,7 @@ public class EvaluacionSceneController : MonoBehaviour
         }
         else
         {
+            Debug.Log("Activando pantalla de autoevaluación");
             selfAssessmentScreen.SetActive(true);
             quizPanel.SetActive(false);
             scoreScreen.SetActive(false);

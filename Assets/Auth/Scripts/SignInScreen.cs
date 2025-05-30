@@ -32,7 +32,9 @@ public class SignInScreen : MonoBehaviour
     [SerializeField] GameObject signInScreenCanvas; 
 
 
-    private string signInUrl = "http://127.0.0.1:8000/api/v1/auth/sign-in"; 
+    // private string signInUrl = "http://127.0.0.1:8000/api/v1/auth/sign-in";
+    private string signInUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/sign-in";
+
 
     private GameManagerAuth gameManager;
 
@@ -122,6 +124,7 @@ public class SignInScreen : MonoBehaviour
                 ShowMessage("Sign-in successful!", Color.green);
 
                 PlayerPrefs.SetString("access_token", response.access_token);
+                PlayerPrefs.Save();
 
                 PlayerData.SetUserId(response.user_id);
 

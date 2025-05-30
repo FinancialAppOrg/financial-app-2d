@@ -22,8 +22,8 @@ public class OptionsManager : MonoBehaviour
     //public int areaIndicador;
     private Situacion currentSituacion;
     private string baseUrl = "https://financeapp-backend-production.up.railway.app/api/v1/situaciones";
-    private string temaActual = "inversion";//PlayerData.GetTema();
-    private string nivelActual = "basico";//PlayerData.GetNivel();
+    private string temaActual = PlayerData.GetSelectedTopic();
+    private string nivelActual = PlayerData.GetSelectedLevel();
     private int areaId;
 
     void Start()
@@ -103,10 +103,23 @@ public class OptionsManager : MonoBehaviour
 
             Situacion[] situacionesData = JsonHelper.FromJson<Situacion>(jsonResponse);
 
+            Debug.Log($"Tema actual: {temaActual}, Nivel actual: {nivelActual}, Area ID: {areaId}");
+
+            int expectedSituacionId = CalculateExpectedSituacionId(areaId, temaActual, nivelActual);
+
+            if (expectedSituacionId == -1)
+            {
+                Debug.LogError("No se pudo calcular el ID de situación");
+                yield break;
+            }
+
+            currentSituacion = Array.Find(situacionesData, s => s.id_situacion == expectedSituacionId);
+
             // Buscar la situación basada en tema, nivel y situacion_id
-            currentSituacion = Array.Find(situacionesData,
-                s => s.tema == temaActual && s.nivel == nivelActual && s.id_situacion == areaId // situacionid
-            );
+            //currentSituacion = Array.Find(situacionesData,
+            //    s => s.tema == temaActual && 
+            //         s.nivel == nivelActual //&& s.id_situacion == areaId // situacionid
+            //);
 
             if (currentSituacion != null)
             {
@@ -116,10 +129,10 @@ public class OptionsManager : MonoBehaviour
                 {
                     optionButton1.GetComponentInChildren<TextMeshProUGUI>().text = currentSituacion.opciones[0].descripcion_opcion;
                     optionButton2.GetComponentInChildren<TextMeshProUGUI>().text = currentSituacion.opciones[1].descripcion_opcion;
-                    // Remover listeners previos para evitar duplicados
+                   
                     optionButton1.onClick.RemoveAllListeners();
                     optionButton2.onClick.RemoveAllListeners();
-                    // Asignar los id_opcion dinámicamente al hacer clic
+                  
                     int opcion1Id = currentSituacion.opciones[0].id_opcion;
                     int opcion2Id = currentSituacion.opciones[1].id_opcion;
                     optionButton1.onClick.AddListener(() => Invest(opcion1Id));
@@ -132,11 +145,56 @@ public class OptionsManager : MonoBehaviour
             }
             else
             {
+                Debug.LogError("URL: " + apiUrl + " no contiene una situación válida para el tema: " + temaActual + " y nivel: " + nivelActual + ". Asegúrate de que el tema y nivel sean correctos.");
                 Debug.LogError("No se encontró una situación para el tema: " + temaActual + " y nivel: " + nivelActual);
                 Debug.Log("Error selectedArea: " + areaName);
             }
         }
     }
+
+    private int CalculateExpectedSituacionId(int areaId, string tema, string nivel)
+    {
+        if (areaId < 1 || areaId > 5)
+        {
+            Debug.LogError($"Área ID {areaId} fuera de rango. Debe ser entre 1 y 5.");
+            return -1;
+        }
+
+        int baseId = 0;
+
+        if (tema == "inversion")
+        {
+            if (nivel == "basico") baseId = 1;      
+            else if (nivel == "intermedio") baseId = 6;  
+            else if (nivel == "avanzado") baseId = 11;  
+        }
+        else if (tema == "ahorro")
+        {
+            if (nivel == "basico") baseId = 16;      
+            else if (nivel == "intermedio") baseId = 21;
+            else if (nivel == "avanzado") baseId = 26;   
+        }
+        else if (tema == "credito-deudas")
+        {
+            if (nivel == "basico") baseId = 31;      
+            else if (nivel == "intermedio") baseId = 36; 
+            else if (nivel == "avanzado") baseId = 41; 
+        }
+        else
+        {
+            Debug.LogError($"Tema '{tema}' no reconocido.");
+            return -1;
+        }
+
+        int situacionId = baseId + (areaId - 1);
+
+        Debug.Log($"Mapeo: Área {areaId}, Tema {tema}, Nivel {nivel} ? ID Situación {situacionId}");
+        return situacionId;
+        //return baseId + areaId;
+    }
+
+
+
     public void Invest(int optionId)
     {
         if (gameManager == null || currentSituacion == null)

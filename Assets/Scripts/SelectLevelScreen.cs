@@ -20,6 +20,8 @@ public class SelectLevelScreen : MonoBehaviour
     void OnLevelSelected(string level)
     {
         Debug.Log("Level selected: " + level);
+        // PlayerData.SetSelectedTopic(temaSeleccionado);
+        PlayerData.SetSelectedLevel(level);
         CargarJuegoInversion();//FindObjectOfType<GameManager>().CargarJuegoInversion(level);
     }
     public void CargarJuegoInversion()

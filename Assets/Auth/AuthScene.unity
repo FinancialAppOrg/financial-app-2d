@@ -4813,9 +4813,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f950b1d38e5fed448b36f0dfbf6e4f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  evaluacionSceneIndex: 1
-  inversionSceneIndex: 2
-  authSceneIndex: 3
+  evaluacionSceneIndex: 2
+  inversionSceneIndex: 3
+  authSceneIndex: 1
 --- !u!4 &579053955
 Transform:
   m_ObjectHideFlags: 0

@@ -16,14 +16,21 @@ public class UIManager : MonoBehaviour
 
     public void CreateGameButtonClick()
     {
-        int userId = 1;//PlayerPrefs.GetInt("userId", 0);
-        gameManager.StartGame(userId, "inversion", "basico", 1200);
+        int userId = PlayerData.GetUserId();
+        string temaSeleccionado = PlayerData.GetSelectedTopic();
+        string nivelSeleccionado = PlayerData.GetSelectedLevel();
+        //int userId = 1;//PlayerPrefs.GetInt("userId", 0);
+        gameManager.StartGame(userId, temaSeleccionado, nivelSeleccionado, 1200);
+        Debug.Log("Creando juego para el usuario con ID: " + userId);
+        Debug.Log("Tema seleccionado: " + temaSeleccionado);
+
     }
 
     public void CreateQuizzButtonClick()
     {
         int gameId = PlayerPrefs.GetInt("gameId", 0);
-        int userId = 1;//PlayerPrefs.GetInt("userId", 0);
+        int userId = PlayerData.GetUserId();
+        //int userId = 1;//PlayerPrefs.GetInt("user_id", 0);
         Debug.Log("gameId: " + gameId + ", userId: " + userId);
         gameManager.StartQuizz(gameId, userId, 2);
     }
