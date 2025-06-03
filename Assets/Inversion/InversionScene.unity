@@ -6549,8 +6549,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 7, y: -942.67}
-  m_SizeDelta: {x: 825.17, y: -1211.499}
+  m_AnchoredPosition: {x: 0.000014305115, y: -893}
+  m_SizeDelta: {x: 825.17, y: 246.572}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &241930549
 MonoBehaviour:
@@ -6635,7 +6635,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -436.336, y: -822.0554, z: -441.05164, w: 738.1346}
+  m_margin: {x: -436.336, y: -822.0554, z: -441.05164, w: 660.988}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -9671,10 +9671,10 @@ RectTransform:
   - {fileID: 36484178}
   m_Father: {fileID: 1583646011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
-  m_SizeDelta: {x: 1080, y: 1924}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &820883395
 MonoBehaviour:
@@ -14806,7 +14806,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dd6c9a13ec6bb0489e98d7df5bcdcab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
 --- !u!4 &1456842078
 Transform:
   m_ObjectHideFlags: 0
@@ -15209,10 +15208,10 @@ RectTransform:
   - {fileID: 727209831}
   m_Father: {fileID: 1583646011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
-  m_SizeDelta: {x: 1080, y: 1924}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1504164861
 MonoBehaviour:
@@ -15600,7 +15599,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

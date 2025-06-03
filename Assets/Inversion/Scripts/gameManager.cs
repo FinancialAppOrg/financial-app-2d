@@ -35,6 +35,18 @@ public class gameManager : MonoBehaviour
 
     void Start()
     {
+        //camera
+        float targetAspect = 9f / 16f; // referencia: 1080x1920
+        float windowAspect = (float)Screen.width / (float)Screen.height;
+        float scaleHeight = windowAspect / targetAspect;
+
+        Camera camera = Camera.main;
+
+        if (scaleHeight < 1.0f)
+        {
+            camera.orthographicSize /= scaleHeight;
+        }
+        //
         animator = GetComponent<Animator>();
         if (popManager == null)
             popManager = FindObjectOfType<popManager>();
