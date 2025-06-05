@@ -272,7 +272,6 @@ public class gameManager : MonoBehaviour
     }
     public void ShowInvestmentOptions(string areaName)
     {
-        // Mostrar las opciones específicas según el área seleccionada
         popManager.ShowAreaPanel(areaName);
     }
     

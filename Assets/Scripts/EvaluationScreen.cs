@@ -326,8 +326,7 @@ public class EvaluationScreen : MonoBehaviour
                 if (scoreKeeperr.GetQuestionsSeen() >= 5)
                 {
                     Debug.Log($"Nivel actualizado a: {results.nivel_determinado}");
-                    PlayerData.SetSelectedLevel(results.nivel_determinado); // Asegúrate de que PlayerData tenga un método SetSelectedLevel
-                    //PlayerData.SetLevel(results.nivel_determinado); // Asegúrate de que PlayerData tenga un método SetLevel
+                    PlayerData.SetSelectedLevel(results.nivel_determinado);         
                 }
 
                 Debug.Log($"Enviando respuesta - EvaluationID: {evaluationId}, PreguntaID: {currentQuestion.id_pregunta}, Respuesta: {userAnswer}");
@@ -341,8 +340,6 @@ public class EvaluationScreen : MonoBehaviour
             }
         }
     }
-
-    //End
 
     private IEnumerator FinishEvaluation()
     {
@@ -376,6 +373,7 @@ public class EvaluationScreen : MonoBehaviour
                 bool verificacion = PlayerData.GetEvaluationCompleted(response["tema"].ToString());
                 string nivelVerificacion = PlayerData.GetUserLevel(response["tema"].ToString());
                 Debug.Log($"Evaluación completada para tema: {response["tema"].ToString()},VERIFICACIÓN: Tema '{response["tema"].ToString()}' - Completado: {verificacion}, Nivel: '{nivelVerificacion}'");
+                Debug.Log($"Respuesta de finalización de evaluación: {request.downloadHandler.text}");
 
                 ShowEvaluationResultsScreen();
             }

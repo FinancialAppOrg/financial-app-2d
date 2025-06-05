@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class SelectLevelScreen : MonoBehaviour
 {
     [SerializeField] Button[] levelButtons;
-    [SerializeField] GameControllerBridge gameControllerBridge;//Transicion de escenas
+    [SerializeField] GameControllerBridge gameControllerBridge; //Transicion de escenas
 
     void Start()
     {

@@ -37,8 +37,6 @@ public class GameManager : MonoBehaviour
     private GameObject currentPopup;
     private GameObject previousScreen;
     
-    //[SerializeField] private GameObject closeSettingsButton;
-
     private const string LogoutUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/logout";
 
     private int aciertos_totales;
@@ -260,12 +258,10 @@ public class GameManager : MonoBehaviour
             if (!string.IsNullOrEmpty(userLevel))
             {
                 Debug.Log($"Nivel recomendado para el usuario: {userLevel}");
-                // logica de nivel recomendado
                 // selectLevelScreen.RecommendedLevel(userLevel);
             }
         }
     }
-    // resetear
     public void ResetEvaluationForTopic(string tema)
     {
         PlayerData.SetEvaluationCompleted(tema, false);
@@ -298,8 +294,6 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-
-
     //quizz
     public static class JsonHelper
     {
@@ -331,7 +325,7 @@ public class GameManager : MonoBehaviour
         if (request.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("Error al obtener preguntas: " + request.error);
-            questions = new List<Question>(); // para evitar null
+            questions = new List<Question>(); 
         }
         else
         {
@@ -393,7 +387,6 @@ public class GameManager : MonoBehaviour
 
     public void HandleQuizCompleted()
     {
-        // Evitar múltiples ejecuciones
         if (isQuizEnding)
         {
             Debug.Log("HandleQuizCompleted ya está en proceso, ignorando llamada adicional");
@@ -568,7 +561,6 @@ public class GameManager : MonoBehaviour
             Debug.LogWarning("No se encontró ID de quiz válido para finalizar");
         }
 
-        // Mostrar pantalla de resultados después de finalizar el quiz
         if (scoreScreen != null)
         {
             scoreScreen.gameObject.SetActive(true);

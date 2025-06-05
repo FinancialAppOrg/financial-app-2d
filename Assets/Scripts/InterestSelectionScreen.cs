@@ -25,7 +25,6 @@ public class InterestSelectionScreen : MonoBehaviour
     {
         PlayerData.SetSelectedTopic(temaSeleccionado);
         //int nivelAutoevaluado = PlayerData.GetKnowledge(temaSeleccionado);
-        // estado de evaluación
         if (gameManager != null)
         {
             gameManager.CheckEvaluationStatusAndShowScreen(temaSeleccionado);

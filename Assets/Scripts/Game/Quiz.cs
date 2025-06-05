@@ -141,8 +141,7 @@ public class Quiz : MonoBehaviour
         int correctIndex = currentQuestion.opcion_correcta - 1; // del 1-4 al 0-3
         string[] answers = currentQuestion.GetAnswers();
 
-        // Muestra resultado visual
-        if (index == correctIndex && index != -1)// Verificar que no sea timeout
+        if (index == correctIndex && index != -1)
         {
             questionText.text = "¡Correcto!";
             buttonImage = answerButtons[index].GetComponent<Image>();
@@ -170,11 +169,10 @@ public class Quiz : MonoBehaviour
             }
         }
 
-        // enviar respuesta al servidor SOLO UNA VEZ
         int quizId = currentQuestion.id_quizz;
         int questionId = currentQuestion.id_pregunta;
         // int selectedOption = index + 1;
-        int selectedOption = index == -1 ? 0 : index + 1; // 0 para timeout, 1-4 para respuestas
+        int selectedOption = index == -1 ? 0 : index + 1; 
         Debug.Log($"Enviando respuesta: quizId={quizId}, questionId={questionId}, selectedOption={selectedOption}");
         gameManager.PostAnswerQuizz(quizId, questionId, selectedOption);
 
@@ -185,7 +183,7 @@ public class Quiz : MonoBehaviour
         if (quizCompleted) return;
 
         selectedAnswerIndex = -1;
-        hasProcessedAnswer = false; // Reset para nueva pregunta
+        hasProcessedAnswer = false; 
 
         if (questions.Count > 0)
         {
