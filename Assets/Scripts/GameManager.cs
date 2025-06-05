@@ -206,7 +206,6 @@ public class GameManager : MonoBehaviour
         }
 
         if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
-        //if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(true);
         if (evaluationData != null)
         {
             evaluationScreen.ConfigureEvaluation(evaluationData);
@@ -218,17 +217,68 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void CheckEvaluationStatusAndShowScreen(string tema)
+    {
+        if (PlayerData.GetEvaluationCompleted(tema))
+        {
+            interestSelectionScreen.gameObject.SetActive(false);
+
+            Debug.Log($"Evaluación ya completada para {tema}. Nivel: {PlayerData.GetUserLevel(tema)}");
+
+            // Nivel recomendado
+            PlayerData.SetSelectedLevel(PlayerData.GetUserLevel(tema));
+
+            ShowSelectLevelScreen();
+        }
+        else
+        {
+            Debug.Log($"Iniciando proceso de evaluación para {tema}");
+            if (interestSelectionScreen != null)
+            {
+                StartCoroutine(interestSelectionScreen.SendSelectedTopic(tema));
+            }
+            else
+            {
+                Debug.LogError("InterestSelectionScreen no encontrado");
+                ShowOptionsScreen();
+            }
+        }
+    }
+
+    public void ShowSelectLevelScreen()
+    {
+        if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
+        if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
+        if (selectLevelScreen != null)
+        {
+            selectLevelScreen.gameObject.SetActive(true);
+
+            // Si hay un nivel guardado (recomendado)
+            string currentTopic = PlayerData.GetSelectedTopic(); 
+            string userLevel = PlayerData.GetUserLevel(currentTopic);
+
+            if (!string.IsNullOrEmpty(userLevel))
+            {
+                Debug.Log($"Nivel recomendado para el usuario: {userLevel}");
+                // logica de nivel recomendado
+                // selectLevelScreen.RecommendedLevel(userLevel);
+            }
+        }
+    }
+    // resetear
+    public void ResetEvaluationForTopic(string tema)
+    {
+        PlayerData.SetEvaluationCompleted(tema, false);
+        PlayerData.SetUserLevel(tema, "");
+        Debug.Log($"Evaluación reseteada para el tema: {tema}");
+    }
+
     public void ShowResultsScreen()
     {
         if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(true);
     }
-    public void ShowSelectLevelScreen()
-    {
-        if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
-        if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(true);
-
-    }
+    
     public void StartQuiz(string topic)
     {
         selectedTopic = topic;

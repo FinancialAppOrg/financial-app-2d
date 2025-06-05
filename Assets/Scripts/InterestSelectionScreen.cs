@@ -25,11 +25,23 @@ public class InterestSelectionScreen : MonoBehaviour
     {
         PlayerData.SetSelectedTopic(temaSeleccionado);
         //int nivelAutoevaluado = PlayerData.GetKnowledge(temaSeleccionado);
-
+        // estado de evaluación
+        if (gameManager != null)
+        {
+            gameManager.CheckEvaluationStatusAndShowScreen(temaSeleccionado);
+        }
+        else
+        {
+            Debug.LogError("GameManager no encontrado.");
+            StartCoroutine(SendSelectedTopic(temaSeleccionado));
+        }
+        /*
         StartCoroutine(SendSelectedTopic(temaSeleccionado));
+        Debug.Log("funcion SendSelectedTopic: ");*/
+
     }
 
-    IEnumerator SendSelectedTopic(string temaSeleccionado)
+    public IEnumerator SendSelectedTopic(string temaSeleccionado)
     {
         if (PlayerData.GetUserId() <= 0)
         {
@@ -62,6 +74,7 @@ public class InterestSelectionScreen : MonoBehaviour
 
                 int nivelAutoevaluado = PlayerData.GetKnowledge(temaSeleccionado);
                 StartCoroutine(SendSelfAssessmentData(temaSeleccionado, nivelAutoevaluado));
+                Debug.Log("Evaluacion Id: " + PlayerData.GetEvaluationId());
             }
             else
             {
@@ -99,7 +112,8 @@ public class InterestSelectionScreen : MonoBehaviour
                 InitialEvaluationResponse response = JsonUtility.FromJson<InitialEvaluationResponse>(request.downloadHandler.text);
                 if (response != null)
                 {
-                    PlayerData.SetEvaluationId(response.id_evaluacion); 
+                    PlayerData.SetEvaluationId(response.id_evaluacion);
+                    Debug.Log("Evaluacion Id: " + response.id_evaluacion);
                 }
 
                 //JsonConvert.DeserializeObject<InitialEvaluationResponse>(request.downloadHandler.text);
