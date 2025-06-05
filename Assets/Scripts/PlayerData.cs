@@ -71,4 +71,27 @@ public static class PlayerData
     {
         return string.IsNullOrEmpty(level) ? "basico" : level;
     }
+
+    //
+    public static void SetEvaluationCompleted(string tema, bool completed)
+    {
+        PlayerPrefs.SetInt($"evaluation_completed_{tema}", completed ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public static bool GetEvaluationCompleted(string tema)
+    {
+        return PlayerPrefs.GetInt($"evaluation_completed_{tema}", 0) == 1;
+    }
+
+    public static void SetUserLevel(string tema, string nivel)
+    {
+        PlayerPrefs.SetString($"user_level_{tema}", nivel);
+        PlayerPrefs.Save();
+    }
+
+    public static string GetUserLevel(string tema)
+    {
+        return PlayerPrefs.GetString($"user_level_{tema}", "");
+    }
 }

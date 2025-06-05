@@ -45,7 +45,9 @@ public class OptionsScreen : MonoBehaviour
     IEnumerator IniciarEvaluacionInicial()
     {
         string temaSeleccionado = PlayerData.GetSelectedTopic();
-        int evaluationId = PlayerData.GetEvaluationId(); 
+        int evaluationId = PlayerData.GetEvaluationId();
+        Debug.Log("temaSeleccionado"+ temaSeleccionado);
+        Debug.Log("evaluationId" + evaluationId);
         if (evaluationId <= 0)
         {
             Debug.LogError("ID de evaluación no válido.");

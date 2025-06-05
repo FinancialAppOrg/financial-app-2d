@@ -169,7 +169,9 @@ public class EvaluationScreen : MonoBehaviour
         else
         {
             Debug.Log("Evaluación completada. Preguntas contestadas: " + scoreKeeperr.GetQuestionsSeen());
-            ShowEvaluationResultsScreen();
+            //ShowEvaluationResultsScreen();
+            StartCoroutine(FinishEvaluation());
+            Debug.Log("FinishEvaluation");
         }
     }
 
@@ -275,7 +277,7 @@ public class EvaluationScreen : MonoBehaviour
 
     IEnumerator SendAnswerToBackend(int userAnswer)
     {
-        int evaluationId = PlayerData.GetEvaluationId(); 
+        int evaluationId = PlayerData.GetEvaluationId();
         if (evaluationId <= 0)
         {
             Debug.LogError("ID de evaluación no válido.");
@@ -340,12 +342,98 @@ public class EvaluationScreen : MonoBehaviour
         }
     }
 
+    //End
+
+    private IEnumerator FinishEvaluation()
+    {
+        int evaluationId = PlayerData.GetEvaluationId();
+        if (evaluationId <= 0)
+        {
+            Debug.LogError("ID de evaluación no válido para finalizar.");
+            yield break;
+        }
+        string url = $"https://financeapp-backend-production.up.railway.app/api/v1/initial-evaluation/{evaluationId}/finish";
+
+        var jsonData = JsonConvert.SerializeObject(new { evaluation_id = evaluationId });
+
+        using (UnityWebRequest request = new UnityWebRequest(url, "POST"))
+        {
+            byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
+            request.uploadHandler = new UploadHandlerRaw(bodyRaw);
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            Debug.Log("Enviando solicitud de End Evaluacion: " + jsonData);
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                var response = JsonConvert.DeserializeObject<Dictionary<string, object>>(request.downloadHandler.text);
+                PlayerData.SetEvaluationCompleted(response["tema"].ToString(), true);
+                PlayerData.SetUserLevel(response["tema"].ToString(), response["nivel_determinado"].ToString());
+
+                bool verificacion = PlayerData.GetEvaluationCompleted(response["tema"].ToString());
+                string nivelVerificacion = PlayerData.GetUserLevel(response["tema"].ToString());
+                Debug.Log($"Evaluación completada para tema: {response["tema"].ToString()},VERIFICACIÓN: Tema '{response["tema"].ToString()}' - Completado: {verificacion}, Nivel: '{nivelVerificacion}'");
+
+                ShowEvaluationResultsScreen();
+            }
+            else
+            {
+                Debug.LogError("Error al finalizar el juego: " + request.error);
+            }
+        }
+    }
+
+
+
     [System.Serializable]
     public class QuestionList
     {
         public List<QuestionData> preguntas;
     }
 
+    [System.Serializable]
+    public class EvaluationFinishResponse
+    {
+        public int id_evaluacion;
+        public int id_usuario;
+        public string tema;
+        public float calificacion_final;
+        public string nivel_determinado;
+    }
+    /*
+    void ShowEvaluationResultsScreen()
+    {
+        // Cambiar el orden: primero finalizar, luego mostrar resultados
+        StartCoroutine(FinishEvaluationAndShowResults());
+    }
+
+    IEnumerator FinishEvaluationAndShowResults()
+    {
+        // Finalizar la evaluación en el backend PRIMERO
+        yield return StartCoroutine(FinishEvaluation());
+
+        // DESPUÉS mostrar los resultados
+        resultsScreen.gameObject.SetActive(true);
+        resultsScreen.DisplayResults(scoreKeeperr.CalculateScore());
+        resultsScreen.DisplayCorrectAnswers(scoreKeeperr.GetCorrectAnswers());
+        FindObjectOfType<GameManager>().ShowResultsScreen();
+    }*/
+    /*
+    void ShowEvaluationResultsScreen()
+    {
+        // Finalizar la evaluación en el backend
+        StartCoroutine(FinishEvaluation());
+
+        resultsScreen.gameObject.SetActive(true);
+        resultsScreen.DisplayResults(scoreKeeperr.CalculateScore());
+        resultsScreen.DisplayCorrectAnswers(scoreKeeperr.GetCorrectAnswers());
+        FindObjectOfType<GameManager>().ShowResultsScreen();
+    }*/
+
+    
     void ShowEvaluationResultsScreen()
     {
         resultsScreen.gameObject.SetActive(true);

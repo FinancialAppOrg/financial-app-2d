@@ -22,5 +22,4 @@ public class SelectTopicScreen : MonoBehaviour
         FindObjectOfType<GameManager>().StartQuiz(topic);
     }
 
-    
 }
