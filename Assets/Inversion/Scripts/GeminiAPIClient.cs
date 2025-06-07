@@ -76,6 +76,29 @@ public class GeminiAPIClient : MonoBehaviour
         StartCoroutine(PostRequest(question, callback));
     }
 
+    public void AssistantFeedback2(string gameData, System.Action<string> callback)
+    {
+        string question = $"Contexto: Se acabó el juego. Datos del juego: {gameData}. " +
+                          "Dale una corta despedida al usuario basada en su desempeño (máximo 200 caracteres).";
+        StartCoroutine(PostRequest(question, callback));
+    }
+
+    public void AssistantFeedback3(string gameData, System.Action<string> callback)
+    {
+        string question = $"Contexto: Se acabó el juego. Aquí están los datos del juego:\n" +
+                          $"{gameData}\n" +
+                          "Analiza el desempeño del usuario considerando los siguientes puntos:\n" +
+                          "- ¿Cómo afectaron sus decisiones al saldo final?\n" +
+                          "- ¿Qué podría mejorar en sus estrategias?\n" +
+                          "- ¿Qué hizo bien y qué debería repetir en el futuro?\n" +
+                          "Proporciona una retroalimentación breve y clara basada en estos datos." +
+                          "Incluye un consejo financiero breve relacionado con el tema del juego. " +
+                          "Considera un máximo 300 caracteres y no dejes saltos de línea.";
+        ;
+        StartCoroutine(PostRequest(question, callback));
+    }
+
+
     public void AskFinancialQuestionChat(string question, System.Action<string> callback)//chat
     {
         StartCoroutine(PostRequest(question, callback));
