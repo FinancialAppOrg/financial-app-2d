@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject notificationsPanel;
     [SerializeField] private GameObject logoutConfirmationPanel;
 
+    [SerializeField] private GameObject coinScreen;
+
     private GameObject currentPopup;
     private GameObject previousScreen;
     
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
         evaluationScreen = FindObjectOfType<EvaluationScreen>();
         resultsScreen = FindObjectOfType<ResultsScreen>();
         updateProfileScreen = FindObjectOfType<UpdateProfileScreen>()?.gameObject; 
+        coinScreen = FindObjectOfType<CoinCollectionController>()?.gameObject;
 
         if (quiz == null) Debug.LogError("Quiz no encontrado en la escena.");
         if (scoreScreen == null) Debug.LogError("ScoreScreen no encontrado en la escena.");
@@ -65,6 +68,7 @@ public class GameManager : MonoBehaviour
         if (evaluationScreen == null) Debug.LogError("EvaluationScreen no encontrado en la escena.");
         if (resultsScreen == null) Debug.LogError("ResultsScreen no encontrado en la escena.");
         if (updateProfileScreen == null) Debug.LogError("UpdateProfileScreen no encontrado en la escena.");
+        if (coinScreen == null) Debug.LogError("CoinCollectionController no encontrado en la escena.");
     }
 
     void Start()
@@ -79,7 +83,22 @@ public class GameManager : MonoBehaviour
         if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
         if (updateProfileScreen != null) updateProfileScreen.gameObject.SetActive(false); 
+        if (coinScreen != null) coinScreen.gameObject.SetActive(false);
     }
+
+    public void ShowCoinScreen()
+    {
+        previousScreen = GetActiveScreen(); // Guarda la pantalla activa actual
+        DeactivateAllScreens(); // Desactiva todas las pantallas
+        if (coinScreen != null) coinScreen.SetActive(true); // Activa CoinScreen
+    }
+
+    public void BackToPreviousScreenFromCoinScreen()
+    {
+        if (coinScreen != null) coinScreen.SetActive(false); // Desactiva CoinScreen
+        if (previousScreen != null) previousScreen.SetActive(true); // Regresa a la pantalla anterior
+    }
+
 
     public void ShowSettingsPanel()
     {
@@ -439,6 +458,7 @@ public class GameManager : MonoBehaviour
         if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
         if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
+        if (coinScreen != null) coinScreen.SetActive(false); // Desactiva CoinScreen si está activo
     }
 
     private GameObject GetActiveScreen()
