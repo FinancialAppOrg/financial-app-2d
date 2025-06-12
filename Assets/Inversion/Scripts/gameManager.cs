@@ -176,7 +176,7 @@ public class gameManager : MonoBehaviour
     {
         if (situacionesCompletadas >= totalSituaciones)
         {
-            uIManager.ShowFeedbackAssistant();
+            uIManager.ShowFeedbackAssistant2(GetGameId());
             StartCoroutine(PostEndGame());
         }
     }

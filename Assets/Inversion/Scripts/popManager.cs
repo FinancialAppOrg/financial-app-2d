@@ -116,7 +116,7 @@ public class popManager : MonoBehaviour
     }
     public void CloseInstructionsPanel()
     {
-        Debug.Log("Cerrando panel de instrucciones...");
+        //Debug.Log("Cerrando panel de instrucciones...");
         instructionsScreen.SetActive(false);
         playScreen.SetActive(true);
         ActivateInvestmentAreas(false);

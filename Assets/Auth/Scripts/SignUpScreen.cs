@@ -101,6 +101,18 @@ public class SignUpScreen : MonoBehaviour
             return;
         }
 
+        if (!IsValidEmail(emailField.text))
+        {
+            ShowMessage("Invalid email format.", Color.red);
+            return;
+        }
+
+        if (passwordField.text.Length < 6)
+        {
+            ShowMessage("Password must be at least 6 characters long.", Color.red);
+            return;
+        }
+
         SignUpData signUpData = new SignUpData
         {
             name = usernameField.text,
@@ -157,6 +169,19 @@ public class SignUpScreen : MonoBehaviour
     {
         messageText.text = message;
         messageText.color = color;
+    }
+
+    private bool IsValidEmail(string email)
+    {
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }
 
