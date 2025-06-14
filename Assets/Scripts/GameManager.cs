@@ -85,7 +85,9 @@ public class GameManager : MonoBehaviour
         if (shouldShowMenu)
         {
             Debug.Log("Mostrando MenuScreen - Usuario con evaluación previa");
+            selfAssessmentScreen.gameObject.SetActive(false);
             ShowMenuScreen();
+            
         }
         else
         {
@@ -106,7 +108,7 @@ public class GameManager : MonoBehaviour
         //if (coinScreen != null) coinScreen.gameObject.SetActive(false);
     }
 
-    private bool CheckIfAnyEvaluationCompleted()
+    public bool CheckIfAnyEvaluationCompleted()
     {
         if (PlayerPrefs.HasKey("has_completed_initial_flow"))
             return true;
@@ -140,15 +142,15 @@ public class GameManager : MonoBehaviour
 
     public void ShowCoinScreen()
     {
-        previousScreen = GetActiveScreen(); // Guarda la pantalla activa actual
-        DeactivateAllScreens(); // Desactiva todas las pantallas
-        if (coinScreen != null) coinScreen.SetActive(true); // Activa CoinScreen
+        previousScreen = GetActiveScreen(); 
+        DeactivateAllScreens(); 
+        if (coinScreen != null) coinScreen.SetActive(true); 
     }
 
     public void BackToPreviousScreenFromCoinScreen()
     {
-        if (coinScreen != null) coinScreen.SetActive(false); // Desactiva CoinScreen
-        if (previousScreen != null) previousScreen.SetActive(true); // Regresa a la pantalla anterior
+        if (coinScreen != null) coinScreen.SetActive(false); 
+        if (previousScreen != null) previousScreen.SetActive(true); 
     }
 
 
