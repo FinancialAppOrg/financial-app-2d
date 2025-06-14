@@ -20,20 +20,20 @@ public class EvaluacionSceneController : MonoBehaviour
         Debug.Log($"Valor de pantallaEvaluacion: {destino}, Evaluación completada: {hasCompletedEvaluation}");
         //string destino = PlayerPrefs.GetString("pantallaEvaluacion", "");
 
-        int quizzId = PlayerPrefs.GetInt("quizzId", 0);
-
-        if (hasCompletedEvaluation && destino != "quizz")
-        {
-            Debug.Log("Mostrando MenuScreen - Usuario con evaluación previa");
-            ShowMenuScreen();
-            yield break;
-        }
+        int quizzId = PlayerPrefs.GetInt("quizz_id", 0);
 
         if (destino == "quizz")
         {
             Debug.Log("Activando pantalla de quiz");
             Debug.Log("Quizz ID almacenado: " + quizzId);
+            menuScreen.SetActive(false);
             yield return StartCoroutine(HandleQuizFlow(quizzId));
+        }
+        else if (hasCompletedEvaluation && destino != "quizz")
+        {
+            Debug.Log("Mostrando MenuScreen - Usuario con evaluación previa");
+            ShowMenuScreen();
+            //yield break;
         }
         else
         {
