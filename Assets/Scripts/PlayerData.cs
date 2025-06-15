@@ -13,6 +13,13 @@ public static class PlayerData
 
     private static int evaluationId = 0;
 
+    private static readonly List<string> temasDisponibles = new List<string>
+    {
+        "ahorro",
+        "inversión",
+        "credito-deudas"
+    };
+
     public static void SetUserId(int userId)
     {
         PlayerPrefs.SetInt(UserIdKey, userId);
@@ -94,4 +101,17 @@ public static class PlayerData
     {
         return PlayerPrefs.GetString($"user_level_{tema}", "");
     }
+
+    public static bool HasCompletedAnyInitialEvaluation()
+    {
+        foreach (var tema in temasDisponibles)
+        {
+            if (GetEvaluationCompleted(tema))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

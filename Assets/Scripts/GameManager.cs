@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     OptionsScreen optionsScreen;
     EvaluationScreen evaluationScreen;
     ResultsScreen resultsScreen;
+
+    MenuScreen menuScreen;
+
     public List<Question> questions = new List<Question>();
 
     string selectedTopic;
@@ -57,6 +60,7 @@ public class GameManager : MonoBehaviour
         resultsScreen = FindObjectOfType<ResultsScreen>();
         updateProfileScreen = FindObjectOfType<UpdateProfileScreen>()?.gameObject; 
         coinScreen = FindObjectOfType<CoinCollectionController>()?.gameObject;
+        menuScreen = FindObjectOfType<MenuScreen>();
 
         if (quiz == null) Debug.LogError("Quiz no encontrado en la escena.");
         if (scoreScreen == null) Debug.LogError("ScoreScreen no encontrado en la escena.");
@@ -69,34 +73,84 @@ public class GameManager : MonoBehaviour
         if (resultsScreen == null) Debug.LogError("ResultsScreen no encontrado en la escena.");
         if (updateProfileScreen == null) Debug.LogError("UpdateProfileScreen no encontrado en la escena.");
         if (coinScreen == null) Debug.LogError("CoinCollectionController no encontrado en la escena.");
+        if (menuScreen == null) Debug.LogError("MenuScreen no encontrado en la escena.");
     }
 
     void Start()
-    {        
-        if (quiz != null) quiz.gameObject.SetActive(false);
-        if (scoreScreen != null) scoreScreen.gameObject.SetActive(false);
-        if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
-        if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(false);
-        if (interestSelectionScreen != null) interestSelectionScreen.gameObject.SetActive(false);
+    {
+        DeactivateAllScreens();
+
+        bool shouldShowMenu = PlayerPrefs.HasKey("has_completed_initial_flow");
+
+        if (shouldShowMenu)
+        {
+            Debug.Log("Mostrando MenuScreen - Usuario con evaluación previa");
+            selfAssessmentScreen.gameObject.SetActive(false);
+            ShowMenuScreen();
+            
+        }
+        else
+        {
+            Debug.Log("Mostrando SelfAssessmentScreen - Primera vez");
+            ShowSelfAssessmentScreen();
+        }
+
+        //if (quiz != null) quiz.gameObject.SetActive(false);
+        //if (scoreScreen != null) scoreScreen.gameObject.SetActive(false);
+        //if (selectTopicScreen != null) selectTopicScreen.gameObject.SetActive(false);
+        //if (selectLevelScreen != null) selectLevelScreen.gameObject.SetActive(false);
+        //if (interestSelectionScreen != null) interestSelectionScreen.gameObject.SetActive(false);
+        //if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(true);
+        //if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
+        //if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
+        //if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
+        //if (updateProfileScreen != null) updateProfileScreen.gameObject.SetActive(false); 
+        //if (coinScreen != null) coinScreen.gameObject.SetActive(false);
+    }
+
+    public bool CheckIfAnyEvaluationCompleted()
+    {
+        if (PlayerPrefs.HasKey("has_completed_initial_flow"))
+            return true;
+
+        return PlayerData.GetEvaluationCompleted("ahorro") ||
+               PlayerData.GetEvaluationCompleted("inversion") ||
+               PlayerData.GetEvaluationCompleted("credito-deudas");
+    }
+
+    public void ShowMenuScreen()
+    {
+        DeactivateAllScreens();
+        if (menuScreen != null) menuScreen.gameObject.SetActive(true);
+    }
+
+    public void OnPlayButtonClicked()
+    {
+        DeactivateAllScreens();
         if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(true);
-        if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
-        if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
-        if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
-        if (updateProfileScreen != null) updateProfileScreen.gameObject.SetActive(false); 
-        if (coinScreen != null) coinScreen.gameObject.SetActive(false);
+    }
+
+    public void OnProgressButtonClicked()
+    {
+        ShowProgressPanel();
+    }
+
+    public void OnCoinsButtonClicked()
+    {
+        ShowCoinScreen();
     }
 
     public void ShowCoinScreen()
     {
-        previousScreen = GetActiveScreen(); // Guarda la pantalla activa actual
-        DeactivateAllScreens(); // Desactiva todas las pantallas
-        if (coinScreen != null) coinScreen.SetActive(true); // Activa CoinScreen
+        previousScreen = GetActiveScreen(); 
+        DeactivateAllScreens(); 
+        if (coinScreen != null) coinScreen.SetActive(true); 
     }
 
     public void BackToPreviousScreenFromCoinScreen()
     {
-        if (coinScreen != null) coinScreen.SetActive(false); // Desactiva CoinScreen
-        if (previousScreen != null) previousScreen.SetActive(true); // Regresa a la pantalla anterior
+        if (coinScreen != null) coinScreen.SetActive(false); 
+        if (previousScreen != null) previousScreen.SetActive(true); 
     }
 
 
@@ -458,7 +512,8 @@ public class GameManager : MonoBehaviour
         if (optionsScreen != null) optionsScreen.gameObject.SetActive(false);
         if (evaluationScreen != null) evaluationScreen.gameObject.SetActive(false);
         if (resultsScreen != null) resultsScreen.gameObject.SetActive(false);
-        if (coinScreen != null) coinScreen.SetActive(false); // Desactiva CoinScreen si está activo
+        if (coinScreen != null) coinScreen.SetActive(false);
+        if (menuScreen != null) menuScreen.gameObject.SetActive(false);
     }
 
     private GameObject GetActiveScreen()
