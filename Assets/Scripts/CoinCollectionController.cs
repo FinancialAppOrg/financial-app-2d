@@ -91,6 +91,14 @@ public class CoinCollectionController : MonoBehaviour
             StartCoroutine(LoadImage(coin.imagen_url, coinImage));
             coinName.text = $"{coin.nombre}";
         }
+
+        GridLayoutGroup grid = coinContainer.GetComponent<GridLayoutGroup>();
+        float cellHeight = grid.cellSize.y + grid.spacing.y;
+        int rowCount = Mathf.CeilToInt(coins.Count / 3f); 
+        float totalHeight = rowCount * cellHeight;
+
+        RectTransform rt = coinContainer.GetComponent<RectTransform>();
+        rt.sizeDelta = new Vector2(rt.sizeDelta.x, totalHeight);
     }
 
     private IEnumerator LoadImage(string url, Image image)

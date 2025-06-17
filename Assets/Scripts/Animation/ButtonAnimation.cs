@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ButtonAnimation : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
 {
     [Header("Configuración")]
-    public float escalaPresionado = 1.1f;
+    public float escalaPresionado = 0.9f;
     public float velocidadAnimacion = 10f;
 
     private Vector3 escalaObjetivo;
