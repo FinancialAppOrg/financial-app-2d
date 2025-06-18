@@ -8,7 +8,7 @@ public class ChatUIController : MonoBehaviour
 {
     public TMP_InputField inputField;
     public Button sendButton;
-    public GameObject buttonPrefab; // Prefab del botón a instanciar
+    public GameObject buttonPrefab; 
     public Transform contentParent;
     //public TMP_Text chatDisplay;
 
@@ -40,7 +40,6 @@ public class ChatUIController : MonoBehaviour
     {
         if (buttonPrefab != null && contentParent != null)
         {
-            // Instanciar el nuevo botón
             GameObject newButton = Instantiate(buttonPrefab, contentParent);
             TMP_Text buttonText = newButton.GetComponentInChildren<TMP_Text>();
 
@@ -53,12 +52,10 @@ public class ChatUIController : MonoBehaviour
                 Debug.LogError("El prefab no contiene un TMP_Text como hijo.");
             }
 
-            // Opcional: Agregar un listener al botón para alguna acción específica
             newButton.GetComponent<Button>().onClick.AddListener(() => {
                 Debug.Log("Mensaje seleccionado: " + message);
             });
 
-            // Auto-scroll al fondo
             Canvas.ForceUpdateCanvases();
             ScrollToBottom();
         }
@@ -67,15 +64,25 @@ public class ChatUIController : MonoBehaviour
             Debug.LogError("Prefab del botón o el contenedor no están asignados en el Inspector.");
         }
 
+        LayoutRebuilder.ForceRebuildLayoutImmediate(contentParent as RectTransform);
+        StartCoroutine(ScrollNextFrame());
+
     }
     private void ScrollToBottom()
     {
         ScrollRect scrollRect = contentParent.GetComponentInParent<ScrollRect>(); //chatDisplay.GetComponentInParent<ScrollRect>();
         if (scrollRect != null)
         {
-            // Forzar actualización antes de ajustar la posición del scroll
             Canvas.ForceUpdateCanvases();
             scrollRect.verticalNormalizedPosition = 0f;
         }
+    }
+    private IEnumerator ScrollNextFrame()
+    {
+        ScrollRect scrollRect = contentParent.GetComponentInParent<ScrollRect>();
+
+        yield return null;
+        Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 0f;
     }
 }

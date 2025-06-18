@@ -486,7 +486,7 @@ public class GameManager : MonoBehaviour
         if (scoreScreen != null)
         {
             scoreScreen.gameObject.SetActive(true);
-            scoreScreen.ShowFinalScore();
+            scoreScreen.ShowFinalScore(quizId);
         }
     }
 
@@ -639,7 +639,7 @@ public class GameManager : MonoBehaviour
         if (scoreScreen != null)
         {
             scoreScreen.gameObject.SetActive(true);
-            scoreScreen.ShowFinalScore();
+            scoreScreen.ShowFinalScore(quizId);
         }
     }
 
