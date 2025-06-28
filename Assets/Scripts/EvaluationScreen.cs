@@ -375,7 +375,9 @@ public class EvaluationScreen : MonoBehaviour
                 Debug.Log($"Evaluación completada para tema: {response["tema"].ToString()},VERIFICACIÓN: Tema '{response["tema"].ToString()}' - Completado: {verificacion}, Nivel: '{nivelVerificacion}'");
                 Debug.Log($"Respuesta de finalización de evaluación: {request.downloadHandler.text}");
 
-                PlayerPrefs.SetInt("has_completed_initial_flow", 1);
+                //PlayerPrefs.SetInt("has_completed_initial_flow", 1);
+                int userId = PlayerData.GetUserId();
+                PlayerPrefs.SetInt($"has_completed_initial_flow_{userId}", 1);
                 PlayerPrefs.Save();
 
                 ShowEvaluationResultsScreen();

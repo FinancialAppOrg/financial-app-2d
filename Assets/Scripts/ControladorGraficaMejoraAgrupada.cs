@@ -27,7 +27,7 @@ public class ControladorGraficaMejoraAgrupada : MonoBehaviour
     private List<string> temasDefault = new List<string>
     {
         "ahorro",
-        "inversión",
+        "inversion",
         "credito-deudas",
     };
 
@@ -47,6 +47,11 @@ public class ControladorGraficaMejoraAgrupada : MonoBehaviour
         {
             StartCoroutine(CargarDatosDesdeBackend());
         }
+    }
+
+    void OnEnable()
+    {
+        RecargarDatos();
     }
 
     IEnumerator CargarDatosDesdeBackend()

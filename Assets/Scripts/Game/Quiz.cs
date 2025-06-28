@@ -109,7 +109,7 @@ public class Quiz : MonoBehaviour
         for (int i = 0; i < answerButtons.Length; i++)
         {
             Image buttonImage = answerButtons[i].GetComponent<Image>();
-            if (buttonImage != null)
+            if (buttonImage != null)    
             {
                 if (i == selectedIndex)
                 {
