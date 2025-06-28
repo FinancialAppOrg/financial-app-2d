@@ -214,10 +214,11 @@ public class SignUpScreen : MonoBehaviour
         else
         {
             string errorMessage = request.responseCode == 400
-            ? "Error: Datos inválidos. Por favor, verifica la información ingresada."
+            ? "Datos inválidos. Por favor, verifica la información ingresada."
             : "Error: " + request.error;
 
-            ShowMessage("Error: " + request.error, Color.red);
+            //ShowMessage("Error: " + request.error, Color.red);
+            ShowMessage("Ingrese correctamente sus datos", Color.red);
             Debug.LogError("Error en el registro: " + request.error + " (Código: " + request.responseCode + ")");
         }
     }

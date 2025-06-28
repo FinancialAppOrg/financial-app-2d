@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using TMPro;
 
 public class OptionsScreen : MonoBehaviour
 {
@@ -13,8 +14,13 @@ public class OptionsScreen : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] EvaluationScreen evaluationScreen;
 
+    [Header("Topic Text")]
+    [SerializeField] TMP_Text topicText;
+
+
     void Start()
     {
+        ShowMessage(PlayerData.GetSelectedTopic());
         playButton.onClick.AddListener(CargarJuegoInversion);
         evaluationButton.onClick.AddListener(OnEvaluationClicked);
     }
@@ -29,6 +35,12 @@ public class OptionsScreen : MonoBehaviour
         StartCoroutine(IniciarEvaluacionInicial());
         //FindObjectOfType<GameManager>().ShowEvaluationScreen();
     }
+
+    private void ShowMessage(string message)
+    {
+        topicText.text = message;
+    }
+
 
     public void CargarJuegoInversion()
     {

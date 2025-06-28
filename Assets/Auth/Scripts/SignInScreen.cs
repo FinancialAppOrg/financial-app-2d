@@ -151,7 +151,8 @@ public class SignInScreen : MonoBehaviour
         }
         else
         {
-            ShowMessage("Error de conexión: " + request.error, Color.red);
+            ShowMessage("Ingrese correctamente sus datos", Color.red);
+            //ShowMessage("Error de conexión: " + request.error, Color.red);
         }
     }
 
