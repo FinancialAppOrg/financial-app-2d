@@ -20,6 +20,8 @@ public class popManager : MonoBehaviour
     private int areaIndicador;
     public GameObject glossaryScreen;
 
+    private bool wasOptionsScreenActive = false;
+
     void Start()
     {
         ActivateInvestmentAreas(false);
@@ -110,8 +112,21 @@ public class popManager : MonoBehaviour
     }
     public void CloseChatPanel()
     {
-        assistantIcon.gameObject.SetActive(true);
         chatScreen.SetActive(false);
+
+        //assistantIcon.gameObject.SetActive(true);
+        if (wasOptionsScreenActive)
+        {
+            optionsScreen.SetActive(true);
+            ActivateInvestmentAreas(false);
+            assistantIcon.gameObject.SetActive(false);
+        }
+        else
+        {
+            assistantIcon.gameObject.SetActive(true);
+            ActivateInvestmentAreas(true);
+        }
+
         player.SetActive(true);
     }
     public void CloseInstructionsPanel()
@@ -125,6 +140,8 @@ public class popManager : MonoBehaviour
 
     public void OpenChatPanel()
     {
+        wasOptionsScreenActive = optionsScreen.activeInHierarchy;
+
         assistantIcon.gameObject.SetActive(false);
         chatScreen.SetActive(true);
         resultsScreen.SetActive(false);
@@ -133,12 +150,12 @@ public class popManager : MonoBehaviour
         player.SetActive(false);
     }
 
-    // Método para activar o desactivar los colliders de las áreas de inversión
+  
     public void ActivateInvestmentAreas(bool activate)
     {
         foreach (GameObject area in investmentAreas)
         {
-            // Desactivar o activar el collider de cada área
+        
             area.GetComponent<Collider2D>().enabled = activate;
         }
     }
@@ -153,7 +170,7 @@ public class popManager : MonoBehaviour
                 optionsScreen.SetActive(true);
                 resultsScreen.SetActive(false);
                 ActivateInvestmentAreas(false);
-                // Cargar datos para el área seleccionada
+             
                 if (optionsManager != null)
                 {
                     optionsManager.LoadSituacionDataForSelectedArea();

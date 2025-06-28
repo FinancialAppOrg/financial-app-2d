@@ -74,6 +74,7 @@ public class InterestSelectionScreen : MonoBehaviour
                 int nivelAutoevaluado = PlayerData.GetKnowledge(temaSeleccionado);
                 StartCoroutine(SendSelfAssessmentData(temaSeleccionado, nivelAutoevaluado));
                 Debug.Log("Evaluacion Id: " + PlayerData.GetEvaluationId());
+                PlayerData.SetSelectedTopic(temaSeleccionado);
             }
             else
             {

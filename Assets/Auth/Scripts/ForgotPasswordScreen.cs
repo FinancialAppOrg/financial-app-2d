@@ -22,7 +22,8 @@ public class ForgotPasswordScreen : MonoBehaviour
     [Header("Enter Code Screen")]
     [SerializeField] GameObject enterCodeScreen;
 
-    private string forgotPasswordUrl = "http://127.0.0.1:8000/api/v1/auth/forgot-password";
+    //private string forgotPasswordUrl = "http://127.0.0.1:8000/api/v1/auth/forgot-password";
+    private string forgotPasswordUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/forgot-password";
 
     private void Start()
     {

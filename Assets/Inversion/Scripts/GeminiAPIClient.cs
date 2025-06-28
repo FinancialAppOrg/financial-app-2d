@@ -160,7 +160,8 @@ public class GeminiAPIClient : MonoBehaviour
         string question = $"Contexto: Aquí está el registro histórico del progreso del usuario:\n" +
                           $"{progressData}\n" +
                           "Analiza el desempeño general del usuario considerando los temas evaluados (inversión, ahorro, crédito-deudas) y sus puntuaciones en evaluación, juego y quizz.\n" +
-                          "Proporciona al usuario una recomendación breve sobre cómo mejorar en los temas con menor puntuación y destaca los puntos fuertes del usuario. Máximo 300 caracteres.";
+                          "Proporciona al usuario una recomendación breve sobre cómo mejorar en los temas con menor puntuación y destaca los puntos fuertes del usuario. Máximo 300 caracteres." +
+                          "En caso de que no se reciba información enviar un mensaje al usuario de que no se cuentan con los suficientes datos para las recomendaciones, máximo de 200 caracteres este mensaje.";
         StartCoroutine(PostRequest(question, callback));
     }
 }

@@ -12,7 +12,7 @@ public class NotificationManager : MonoBehaviour
     public bool inactivityNotificationsEnabled = true;
 
     private DateTime lastActivityTime;
-    private TimeSpan inactivityThreshold = TimeSpan.FromDays(1); //TimeSpan.FromSeconds(5);
+    private TimeSpan inactivityThreshold = TimeSpan.FromSeconds(5); //TimeSpan.FromDays(1); 
 
     private void Awake()
     {

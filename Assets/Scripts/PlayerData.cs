@@ -82,13 +82,15 @@ public static class PlayerData
     //
     public static void SetEvaluationCompleted(string tema, bool completed)
     {
-        PlayerPrefs.SetInt($"evaluation_completed_{tema}", completed ? 1 : 0);
+        int userId = GetUserId();
+        PlayerPrefs.SetInt($"evaluation_completed_{tema}_{userId}", completed ? 1 : 0);
         PlayerPrefs.Save();
     }
 
     public static bool GetEvaluationCompleted(string tema)
     {
-        return PlayerPrefs.GetInt($"evaluation_completed_{tema}", 0) == 1;
+        int userId = GetUserId();
+        return PlayerPrefs.GetInt($"evaluation_completed_{tema}_{userId}", 0) == 1;
     }
 
     public static void SetUserLevel(string tema, string nivel)

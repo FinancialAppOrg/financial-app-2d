@@ -24,6 +24,13 @@ public class ControladorGraficaMejoraAgrupada : MonoBehaviour
     private List<string> nombresDeTemasUnicos = new List<string>();
     private List<ProgressHistoryResponse> datosBackend = new List<ProgressHistoryResponse>();
 
+    private List<string> temasDefault = new List<string>
+    {
+        "ahorro",
+        "inversion",
+        "credito-deudas",
+    };
+
     void Start()
     {
         if (chart == null)
@@ -40,6 +47,11 @@ public class ControladorGraficaMejoraAgrupada : MonoBehaviour
         {
             StartCoroutine(CargarDatosDesdeBackend());
         }
+    }
+
+    void OnEnable()
+    {
+        RecargarDatos();
     }
 
     IEnumerator CargarDatosDesdeBackend()
@@ -65,6 +77,8 @@ public class ControladorGraficaMejoraAgrupada : MonoBehaviour
             {
                 Debug.LogError($"Error al cargar datos: {webRequest.error}");
                 Debug.LogError($"Respuesta del servidor: {webRequest.downloadHandler.text}");
+
+                ConfigurarDatosPorDefecto();
                 yield break;
             }
 
@@ -73,30 +87,93 @@ public class ControladorGraficaMejoraAgrupada : MonoBehaviour
                 string jsonResponse = webRequest.downloadHandler.text;
                 Debug.Log($"JSON recibido: {jsonResponse}");
 
+                if (string.IsNullOrEmpty(jsonResponse) || jsonResponse.Trim() == "[]" || jsonResponse.Trim() == "null")
+                {
+                    Debug.Log("Respuesta vacía del backend. Configurando datos por defecto.");
+                    ConfigurarDatosPorDefecto();
+                    yield break;
+                }
+
                 //string wrappedJson = "{\"items\":" + jsonResponse + "}";
                 //ProgressHistoryListWrapper wrapper = JsonUtility.FromJson<ProgressHistoryListWrapper>(wrappedJson);
                 datosBackend = JsonConvert.DeserializeObject<List<ProgressHistoryResponse>>(jsonResponse);
                 //datosBackend = wrapper.items;
 
-                HashSet<string> temasSet = new HashSet<string>();
-                foreach (var item in datosBackend)
+                if (datosBackend == null || datosBackend.Count == 0)
                 {
-                    if (!string.IsNullOrEmpty(item.tema))
-                    {
-                        temasSet.Add(item.tema);
-                    }
+                    Debug.Log("No hay datos en la respuesta del backend. Configurando datos por defecto.");
+                    ConfigurarDatosPorDefecto();
+                    yield break;
                 }
-                nombresDeTemasUnicos = new List<string>(temasSet);
-                nombresDeTemasUnicos.Sort();
 
-                ConfigurarGrafica();
+                //HashSet<string> temasSet = new HashSet<string>();
+                //foreach (var item in datosBackend)
+                //{
+                //    if (!string.IsNullOrEmpty(item.tema))
+                //    {
+                //        temasSet.Add(item.tema);
+                //    }
+                //}
+                //nombresDeTemasUnicos = new List<string>(temasSet);
+                //nombresDeTemasUnicos.Sort();
+                //
+                //ConfigurarGrafica();
+                ProcesarDatosBackend();
             }
             catch (Exception e)
             {
                 Debug.LogError($"Error al procesar los datos: {e.Message}");
                 Debug.LogError($"Stack trace: {e.StackTrace}");
+
+                ConfigurarDatosPorDefecto();
             }
         }
+    }
+
+    void ConfigurarDatosPorDefecto()
+    {
+        Debug.Log("Configurando gráfica con datos por defecto (todos en 0).");
+
+        datosBackend.Clear();
+        nombresDeTemasUnicos.Clear();
+
+        nombresDeTemasUnicos = new List<string>(temasDefault);
+
+        foreach (string tema in temasDefault)
+        {
+            datosBackend.Add(new ProgressHistoryResponse
+            {
+                tema = tema,
+                evaluacion = 0f,
+                juego = 0f,
+                quizz = 0f
+            });
+        }
+
+        ConfigurarGrafica();
+    }
+
+    void ProcesarDatosBackend()
+    {
+        HashSet<string> temasSet = new HashSet<string>();
+
+        foreach (string tema in temasDefault)
+        {
+            temasSet.Add(tema);
+        }
+
+        foreach (var item in datosBackend)
+        {
+            if (!string.IsNullOrEmpty(item.tema))
+            {
+                temasSet.Add(item.tema);
+            }
+        }
+
+        nombresDeTemasUnicos = new List<string>(temasSet);
+        nombresDeTemasUnicos.Sort();
+
+        ConfigurarGrafica();
     }
 
     [System.Serializable]

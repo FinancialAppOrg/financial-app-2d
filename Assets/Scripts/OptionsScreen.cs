@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
+using TMPro;
 
 public class OptionsScreen : MonoBehaviour
 {
@@ -13,10 +14,25 @@ public class OptionsScreen : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] EvaluationScreen evaluationScreen;
 
+    [Header("Topic Text")]
+    [SerializeField] TMP_Text topicText;
+
+
     void Start()
     {
+        //topicText.text = PlayerData.GetSelectedTopic();
+
+        //ShowMessage(PlayerData.GetSelectedTopic());
         playButton.onClick.AddListener(CargarJuegoInversion);
         evaluationButton.onClick.AddListener(OnEvaluationClicked);
+    }
+
+    void OnEnable()
+    {
+        // Esto sí se ejecuta cada vez que se activa la pantalla
+        string selectedTopic = PlayerData.GetSelectedTopic();
+        topicText.text = selectedTopic;
+        Debug.Log("Tema actualizado al activar la pantalla: " + selectedTopic);
     }
 
     void OnPlayClicked()
@@ -29,6 +45,12 @@ public class OptionsScreen : MonoBehaviour
         StartCoroutine(IniciarEvaluacionInicial());
         //FindObjectOfType<GameManager>().ShowEvaluationScreen();
     }
+
+    private void ShowMessage(string message)
+    {
+        topicText.text = message;
+    }
+
 
     public void CargarJuegoInversion()
     {

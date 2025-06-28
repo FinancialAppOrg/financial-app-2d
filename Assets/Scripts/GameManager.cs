@@ -79,13 +79,15 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         DeactivateAllScreens();
+        int userId = PlayerData.GetUserId();
 
-        bool shouldShowMenu = PlayerPrefs.HasKey("has_completed_initial_flow");
+        //bool shouldShowMenu = PlayerPrefs.GetInt($"has_completed_initial_flow_{userId}", 0);
+        //Debug.Log($"shouldShowMenu: {shouldShowMenu} - Evaluación previa completada: {CheckIfAnyEvaluationCompleted()}");
 
-        if (shouldShowMenu)
+        if (PlayerPrefs.GetInt($"has_completed_initial_flow_{userId}", 0) == 1)
         {
             Debug.Log("Mostrando MenuScreen - Usuario con evaluación previa");
-            selfAssessmentScreen.gameObject.SetActive(false);
+            //selfAssessmentScreen.gameObject.SetActive(false);
             ShowMenuScreen();
             
         }
@@ -110,7 +112,8 @@ public class GameManager : MonoBehaviour
 
     public bool CheckIfAnyEvaluationCompleted()
     {
-        if (PlayerPrefs.HasKey("has_completed_initial_flow"))
+        int userId = PlayerData.GetUserId();
+        if (PlayerPrefs.GetInt($"has_completed_initial_flow_{userId}", 0) == 1)
             return true;
 
         return PlayerData.GetEvaluationCompleted("ahorro") ||
@@ -486,7 +489,7 @@ public class GameManager : MonoBehaviour
         if (scoreScreen != null)
         {
             scoreScreen.gameObject.SetActive(true);
-            scoreScreen.ShowFinalScore();
+            scoreScreen.ShowFinalScore(quizId);
         }
     }
 
@@ -530,6 +533,8 @@ public class GameManager : MonoBehaviour
         if (progressPanel != null && progressPanel.activeSelf) return progressPanel;
         if (notificationsPanel != null && notificationsPanel.activeSelf) return notificationsPanel;
         if (logoutConfirmationPanel != null && logoutConfirmationPanel.activeSelf) return logoutConfirmationPanel;
+        if (coinScreen != null && coinScreen.activeSelf) return coinScreen;
+        if (menuScreen != null && menuScreen.gameObject.activeSelf) return menuScreen.gameObject;
         return null; 
     }
 
@@ -639,7 +644,7 @@ public class GameManager : MonoBehaviour
         if (scoreScreen != null)
         {
             scoreScreen.gameObject.SetActive(true);
-            scoreScreen.ShowFinalScore();
+            scoreScreen.ShowFinalScore(quizId);
         }
     }
 

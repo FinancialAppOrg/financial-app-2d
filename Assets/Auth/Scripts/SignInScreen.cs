@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
+using System.Linq;
 
 public class SignInScreen : MonoBehaviour
 {
@@ -88,9 +89,14 @@ public class SignInScreen : MonoBehaviour
             return;
         }
 
-        if (passwordField.text.Length < 6)
+        //if (passwordField.text.Length < 6)
+        //{
+        //    ShowMessage("Password must be at least 6 characters long.", Color.red);
+        //    return;
+        //}
+
+        if (!IsValidPassword(passwordField.text))
         {
-            ShowMessage("Password must be at least 6 characters long.", Color.red);
             return;
         }
 
@@ -145,7 +151,8 @@ public class SignInScreen : MonoBehaviour
         }
         else
         {
-            ShowMessage("Error de conexión: " + request.error, Color.red);
+            ShowMessage("Ingrese correctamente sus datos", Color.red);
+            //ShowMessage("Error de conexión: " + request.error, Color.red);
         }
     }
 
@@ -166,6 +173,53 @@ public class SignInScreen : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            ShowMessage("La contraseña no puede estar vacía.", Color.red);
+            return false;
+        }
+
+        if (password.Length < 8)
+        {
+            ShowMessage("La contraseña debe tener al menos 8 caracteres.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsUpper))
+        {
+            ShowMessage("La contraseña debe contener al menos una letra mayúscula.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsLower))
+        {
+            ShowMessage("La contraseña debe contener al menos una letra minúscula.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsDigit))
+        {
+            ShowMessage("La contraseña debe contener al menos un número.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(ch => !char.IsLetterOrDigit(ch)))
+        {
+            ShowMessage("La contraseña debe contener al menos un carácter especial (ej. !@#$%).", Color.red);
+            return false;
+        }
+
+        if (password.Contains(" "))
+        {
+            ShowMessage("La contraseña no puede contener espacios.", Color.red);
+            return false;
+        }
+
+        return true;
     }
 }
 

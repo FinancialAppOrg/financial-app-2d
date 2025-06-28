@@ -22,7 +22,8 @@ public class EnterCodeScreen : MonoBehaviour
     [Header("Enter Code Screen")]
     [SerializeField] GameObject resetPasswordScreen;
 
-    private string verifyCodeUrl = "http://127.0.0.1:8000/api/v1/auth/verify_code"; 
+    //private string verifyCodeUrl = "http://127.0.0.1:8000/api/v1/auth/verify_code";
+    private string verifyCodeUrl = "https://financeapp-backend-production.up.railway.app/api/v1/auth/verify_code";
 
     private void Start()
     {
@@ -76,9 +77,18 @@ public class EnterCodeScreen : MonoBehaviour
 
     private IEnumerator SendVerifyCodeRequest(VerifyCodeData verifyCodeData)
     {
-        string jsonData = JsonUtility.ToJson(verifyCodeData);
+        string fullUrl = verifyCodeUrl + "?user_id=" + verifyCodeData.user_id;
+        Debug.Log("User ID: " + verifyCodeData.user_id);
+        Debug.Log("Full URL: " + fullUrl);
 
-        UnityWebRequest request = new UnityWebRequest(verifyCodeUrl, "POST");
+        //string jsonData = JsonUtility.ToJson(new { code = verifyCodeData.code });
+
+        CodeOnly codeData = new CodeOnly { code = verifyCodeData.code };
+        string jsonData = JsonUtility.ToJson(codeData);
+
+        //string jsonData = JsonUtility.ToJson(verifyCodeData);
+
+        UnityWebRequest request = new UnityWebRequest(fullUrl, "POST");
         byte[] bodyRaw = System.Text.Encoding.UTF8.GetBytes(jsonData);
         request.uploadHandler = new UploadHandlerRaw(bodyRaw);
         request.downloadHandler = new DownloadHandlerBuffer();
@@ -91,6 +101,8 @@ public class EnterCodeScreen : MonoBehaviour
             ShowMessage("Code verified successfully!", Color.green);
             Debug.Log("Código verificado: " + request.downloadHandler.text);
 
+            PlayerPrefs.SetString("user_id", verifyCodeData.user_id);
+
             if (resetPasswordScreen != null)
             {
                 gameObject.SetActive(false);
@@ -99,7 +111,8 @@ public class EnterCodeScreen : MonoBehaviour
         }
         else
         {
-            ShowMessage("Error: " + request.error, Color.red);
+            ShowMessage("Código incorrecto", Color.red);
+            //ShowMessage("Error: " + request.error, Color.red);
             Debug.LogError("Error al verificar el código: " + request.error);
         }
     }
@@ -117,3 +130,10 @@ public class VerifyCodeData
     public string user_id;
     public string code;
 }
+
+[System.Serializable]
+public class CodeOnly
+{
+    public string code;
+}
+
