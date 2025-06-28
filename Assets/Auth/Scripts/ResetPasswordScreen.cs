@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
+using System.Linq;
 
 public class ResetPasswordScreen : MonoBehaviour
 {
@@ -55,6 +56,11 @@ public class ResetPasswordScreen : MonoBehaviour
 
     private void OnSubmitResetPassword()
     {
+        if (!IsValidPassword(newPasswordField.text))
+        {
+            return;
+        }
+
         if (string.IsNullOrEmpty(newPasswordField.text) || string.IsNullOrEmpty(confirmPasswordField.text))
         {
             ShowMessage("Both password fields are required.", Color.red);
@@ -77,7 +83,7 @@ public class ResetPasswordScreen : MonoBehaviour
 
         ResetPasswordData resetPasswordData = new ResetPasswordData
         {
-            newPassword = newPasswordField.text
+            password = newPasswordField.text
         };
 
         StartCoroutine(SendResetPasswordRequest(userId, resetPasswordData));
@@ -107,7 +113,7 @@ public class ResetPasswordScreen : MonoBehaviour
         }
         else
         {
-            ShowMessage("Error: " + request.error, Color.red);
+            ShowMessage("Error al restablecer la contraseña", Color.red);
             Debug.LogError("Error al restablecer la contraseña: " + request.error);
         }
     }
@@ -117,10 +123,58 @@ public class ResetPasswordScreen : MonoBehaviour
         messageText.text = message;
         messageText.color = color;
     }
+
+    private bool IsValidPassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            ShowMessage("La contraseña no puede estar vacía.", Color.red);
+            return false;
+        }
+
+        if (password.Length < 8)
+        {
+            ShowMessage("La contraseña debe tener al menos 8 caracteres.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsUpper))
+        {
+            ShowMessage("La contraseña debe contener al menos una letra mayúscula.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsLower))
+        {
+            ShowMessage("La contraseña debe contener al menos una letra minúscula.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsDigit))
+        {
+            ShowMessage("La contraseña debe contener al menos un número.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(ch => !char.IsLetterOrDigit(ch)))
+        {
+            ShowMessage("La contraseña debe contener al menos un carácter especial (ej. !@#$%).", Color.red);
+            return false;
+        }
+
+        if (password.Contains(" "))
+        {
+            ShowMessage("La contraseña no puede contener espacios.", Color.red);
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
 [System.Serializable]
 public class ResetPasswordData
 {
-    public string newPassword;
+    public string password;
 }

@@ -6961,7 +6961,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "C\xF3digo (4 d\xEDgitos)"
+  m_text: "C\xF3digo (5 d\xEDgitos)"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7402,7 +7402,7 @@ MonoBehaviour:
   verifyButton: {fileID: 592673510}
   messageText: {fileID: 1869716663}
   backButton: {fileID: 719104741}
-  resetPasswordScreen: {fileID: 0}
+  resetPasswordScreen: {fileID: 325424696}
 --- !u!222 &880301450
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12993,14 +12993,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 8
-  m_InputType: 2
+  m_ContentType: 0
+  m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 4
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 1
+  m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 50
   m_CharacterLimit: 50
@@ -14277,8 +14277,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Enviamos un enlace de restablecimiento al correo proporcionado. Ingrese
-    el c\xF3digo de 4 d\xEDgitos que se menciona en el correo electr\xF3nico. "
+  m_text: "Enviamos un mensaje al correo proporcionado. Ingrese el c\xF3digo de 5
+    d\xEDgitos que se menciona en el correo electr\xF3nico. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -14341,7 +14341,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: -17.167358}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

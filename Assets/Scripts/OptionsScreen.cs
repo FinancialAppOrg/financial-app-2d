@@ -20,9 +20,19 @@ public class OptionsScreen : MonoBehaviour
 
     void Start()
     {
-        ShowMessage(PlayerData.GetSelectedTopic());
+        //topicText.text = PlayerData.GetSelectedTopic();
+
+        //ShowMessage(PlayerData.GetSelectedTopic());
         playButton.onClick.AddListener(CargarJuegoInversion);
         evaluationButton.onClick.AddListener(OnEvaluationClicked);
+    }
+
+    void OnEnable()
+    {
+        // Esto sí se ejecuta cada vez que se activa la pantalla
+        string selectedTopic = PlayerData.GetSelectedTopic();
+        topicText.text = selectedTopic;
+        Debug.Log("Tema actualizado al activar la pantalla: " + selectedTopic);
     }
 
     void OnPlayClicked()
