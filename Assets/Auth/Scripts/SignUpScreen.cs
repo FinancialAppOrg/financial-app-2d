@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Networking;
+using System;
+using System.Linq; 
 
 public class SignUpScreen : MonoBehaviour
 {
@@ -101,17 +103,72 @@ public class SignUpScreen : MonoBehaviour
             return;
         }
 
+        //if (!IsValidEmail(emailField.text))
+        //{
+        //    ShowMessage("Invalid email format.", Color.red);
+        //    return;
+        //}
+
         if (!IsValidEmail(emailField.text))
         {
-            ShowMessage("Invalid email format.", Color.red);
+            if (string.IsNullOrWhiteSpace(emailField.text))
+                ShowMessage("El email no puede estar vacío.", Color.red);
+            else if (!emailField.text.Contains("@"))
+                ShowMessage("El email debe contener un @.", Color.red);
+            else if (!emailField.text.Contains("."))
+                ShowMessage("El email debe contener un dominio válido (ejemplo.com).", Color.red);
+            else if (emailField.text.Contains(" "))
+                ShowMessage("El email no puede contener espacios.", Color.red);
+            else
+                ShowMessage("Formato de email inválido. Por favor ingresa un email válido.", Color.red);
             return;
         }
 
-        if (passwordField.text.Length < 6)
+        //if (!IsValidBirthdate(birthdateField.text))
+        //{
+        //    ShowMessage("Fecha de nacimiento inválida. Debe estar en formato YYYY-MM-DD y tener al menos 13 años.", Color.red);
+        //    return;
+        //}
+
+        if (!IsValidBirthdate(birthdateField.text))
         {
-            ShowMessage("Password must be at least 6 characters long.", Color.red);
+            if (string.IsNullOrWhiteSpace(birthdateField.text))
+                ShowMessage("La fecha de nacimiento no puede estar vacía.", Color.red);
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(birthdateField.text, @"^\d{4}-\d{2}-\d{2}$"))
+                ShowMessage("Formato de fecha inválido. Usa YYYY-MM-DD.", Color.red);
+            else
+            {
+                try
+                {
+                    DateTime parsedDate = DateTime.ParseExact(birthdateField.text, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+                    if (parsedDate > DateTime.Today)
+                        ShowMessage("La fecha de nacimiento no puede ser en el futuro.", Color.red);
+                    else if (DateTime.Today.Year - parsedDate.Year < 13 ||
+                            (DateTime.Today.Year - parsedDate.Year == 13 &&
+                             DateTime.Today.DayOfYear < parsedDate.DayOfYear))
+                        ShowMessage("Debes tener al menos 13 años para registrarte.", Color.red);
+                    else if (DateTime.Today.Year - parsedDate.Year > 100)
+                        ShowMessage("Por favor ingresa una fecha de nacimiento válida.", Color.red);
+                }
+                catch
+                {
+                    ShowMessage("Fecha de nacimiento inválida.", Color.red);
+                }
+            }
             return;
         }
+
+        //if (passwordField.text.Length < 6)
+        //{
+        //    ShowMessage("Password must be at least 6 characters long.", Color.red);
+        //    return;
+        //}
+
+        if (!IsValidPassword(passwordField.text))
+        {
+            return;
+        }
+
 
         SignUpData signUpData = new SignUpData
         {
@@ -171,18 +228,135 @@ public class SignUpScreen : MonoBehaviour
         messageText.color = color;
     }
 
+    //private bool IsValidEmail(string email)
+    //{
+    //    try
+    //    {
+    //        var addr = new System.Net.Mail.MailAddress(email);
+    //        return addr.Address == email;
+    //    }
+    //    catch
+    //    {
+    //        return false;
+    //    }
+    //}
+
+
     private bool IsValidEmail(string email)
     {
+        if (string.IsNullOrWhiteSpace(email))
+            return false;
+
         try
         {
-            var addr = new System.Net.Mail.MailAddress(email);
-            return addr.Address == email;
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            if (!System.Text.RegularExpressions.Regex.IsMatch(email, pattern))
+                return false;
+
+            var atCount = email.Count(c => c == '@');
+            if (atCount != 1) return false;
+
+            var parts = email.Split('@');
+            if (parts.Length != 2) return false;
+
+            var domainParts = parts[1].Split('.');
+            if (domainParts.Length < 2) return false;
+
+            if (email.Contains(" ")) return false;
+
+            if (email.StartsWith(".") || email.EndsWith(".") ||
+                email.StartsWith("-") || email.EndsWith("-"))
+                return false;
+
+            return true;
         }
         catch
         {
             return false;
         }
     }
+
+    private bool IsValidBirthdate(string birthdate)
+    {
+        if (string.IsNullOrWhiteSpace(birthdate))
+            return false;
+
+        if (!System.Text.RegularExpressions.Regex.IsMatch(birthdate, @"^\d{4}-\d{2}-\d{2}$"))
+            return false;
+
+        try
+        {
+            DateTime parsedDate = DateTime.ParseExact(birthdate, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+
+            if (parsedDate > DateTime.Today)
+                return false;
+
+            if (DateTime.Today.Year - parsedDate.Year < 13 ||
+                (DateTime.Today.Year - parsedDate.Year == 13 &&
+                 DateTime.Today.DayOfYear < parsedDate.DayOfYear))
+            {
+                return false;
+            }
+
+            if (DateTime.Today.Year - parsedDate.Year > 100)
+                return false;
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private bool IsValidPassword(string password)
+    {
+        if (string.IsNullOrWhiteSpace(password))
+        {
+            ShowMessage("La contraseña no puede estar vacía.", Color.red);
+            return false;
+        }
+
+        if (password.Length < 8)
+        {
+            ShowMessage("La contraseña debe tener al menos 8 caracteres.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsUpper))
+        {
+            ShowMessage("La contraseña debe contener al menos una letra mayúscula.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsLower))
+        {
+            ShowMessage("La contraseña debe contener al menos una letra minúscula.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(char.IsDigit))
+        {
+            ShowMessage("La contraseña debe contener al menos un número.", Color.red);
+            return false;
+        }
+
+        if (!password.Any(ch => !char.IsLetterOrDigit(ch)))
+        {
+            ShowMessage("La contraseña debe contener al menos un carácter especial (ej. !@#$%).", Color.red);
+            return false;
+        }
+
+        if (password.Contains(" "))
+        {
+            ShowMessage("La contraseña no puede contener espacios.", Color.red);
+            return false;
+        }
+
+        return true;
+    }
+
+
 }
 
 [System.Serializable]
