@@ -21,10 +21,32 @@ public class InterestSelectionScreen : MonoBehaviour
         creditoDeudasButton.onClick.AddListener(() => OnTopicSelected("credito-deudas"));
     }
 
+    //void OnTopicSelected(string temaSeleccionado)
+    //{
+    //    PlayerData.SetSelectedTopic(temaSeleccionado);
+    //    //int nivelAutoevaluado = PlayerData.GetKnowledge(temaSeleccionado);
+    //    if (gameManager != null)
+    //    {
+    //        gameManager.CheckEvaluationStatusAndShowScreen(temaSeleccionado);
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("GameManager no encontrado.");
+    //        StartCoroutine(SendSelectedTopic(temaSeleccionado));
+    //    }
+    //    /*
+    //    StartCoroutine(SendSelectedTopic(temaSeleccionado));
+    //    Debug.Log("funcion SendSelectedTopic: ");*/
+    //
+    //}
+
     void OnTopicSelected(string temaSeleccionado)
     {
         PlayerData.SetSelectedTopic(temaSeleccionado);
-        //int nivelAutoevaluado = PlayerData.GetKnowledge(temaSeleccionado);
+        int nivelAutoevaluado = PlayerData.GetTopicSelfAssessmentLevel(temaSeleccionado);
+
+        PlayerData.SetKnowledge(temaSeleccionado, nivelAutoevaluado);
+
         if (gameManager != null)
         {
             gameManager.CheckEvaluationStatusAndShowScreen(temaSeleccionado);
@@ -34,10 +56,6 @@ public class InterestSelectionScreen : MonoBehaviour
             Debug.LogError("GameManager no encontrado.");
             StartCoroutine(SendSelectedTopic(temaSeleccionado));
         }
-        /*
-        StartCoroutine(SendSelectedTopic(temaSeleccionado));
-        Debug.Log("funcion SendSelectedTopic: ");*/
-
     }
 
     public IEnumerator SendSelectedTopic(string temaSeleccionado)

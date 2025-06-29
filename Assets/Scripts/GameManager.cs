@@ -84,17 +84,27 @@ public class GameManager : MonoBehaviour
         //bool shouldShowMenu = PlayerPrefs.GetInt($"has_completed_initial_flow_{userId}", 0);
         //Debug.Log($"shouldShowMenu: {shouldShowMenu} - Evaluación previa completada: {CheckIfAnyEvaluationCompleted()}");
 
-        if (PlayerPrefs.GetInt($"has_completed_initial_flow_{userId}", 0) == 1)
+        if (!PlayerData.GetSelfAssessmentCompleted())
+        {
+            Debug.Log("Mostrando SelfAssessmentScreen - Primera y única vez");
+            ShowSelfAssessmentScreen();
+        }
+        else if (PlayerPrefs.GetInt($"has_completed_initial_flow_{userId}", 0) == 1)
         {
             Debug.Log("Mostrando MenuScreen - Usuario con evaluación previa");
             //selfAssessmentScreen.gameObject.SetActive(false);
-            ShowMenuScreen();
-            
+            ShowMenuScreen();   
         }
+        //else if (PlayerData.GetSelfAssessmentCompleted())
+        //{
+        //    Debug.Log("Mostrando InterestSelectionScreen - Autoevaluación previa completada");
+        //    ShowInterestSelectionScreen();
+        //}
         else
         {
             Debug.Log("Mostrando SelfAssessmentScreen - Primera vez");
-            ShowSelfAssessmentScreen();
+            //ShowSelfAssessmentScreen();
+            ShowInterestSelectionScreen();
         }
 
         //if (quiz != null) quiz.gameObject.SetActive(false);
@@ -130,7 +140,21 @@ public class GameManager : MonoBehaviour
     public void OnPlayButtonClicked()
     {
         DeactivateAllScreens();
-        if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(true);
+        //if (selfAssessmentScreen != null) selfAssessmentScreen.gameObject.SetActive(true);
+        if (PlayerData.GetSelfAssessmentCompleted())
+        {
+            if (interestSelectionScreen != null)
+            {
+                interestSelectionScreen.gameObject.SetActive(true);
+            }
+        }
+        else // (Por si acaso, aunque no debería ocurrir)
+        {
+            if (selfAssessmentScreen != null)
+            {
+                selfAssessmentScreen.gameObject.SetActive(true);
+            }
+        }
     }
 
     public void OnProgressButtonClicked()

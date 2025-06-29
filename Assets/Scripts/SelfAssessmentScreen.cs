@@ -14,6 +14,10 @@ public class SelfAssessmentScreen : MonoBehaviour
     void Start()
     {
         continueButton.onClick.AddListener(OnContinueClicked);
+
+        ahorroSlider.value = PlayerData.GetTopicSelfAssessmentLevel("ahorro");
+        inversionSlider.value = PlayerData.GetTopicSelfAssessmentLevel("inversion");
+        creditoDeudasSlider.value = PlayerData.GetTopicSelfAssessmentLevel("credito-deudas");
     }
 
     void OnContinueClicked()
@@ -28,9 +32,11 @@ public class SelfAssessmentScreen : MonoBehaviour
         int nivelInversion = Mathf.RoundToInt(inversionSlider.value);
         int nivelCreditoDeudas = Mathf.RoundToInt(creditoDeudasSlider.value);
 
-        PlayerData.SetKnowledge("ahorro", nivelAhorro);
-        PlayerData.SetKnowledge("inversion", nivelInversion);
-        PlayerData.SetKnowledge("credito-deudas", nivelCreditoDeudas);
+        PlayerData.SetTopicSelfAssessmentLevel("ahorro", nivelAhorro);
+        PlayerData.SetTopicSelfAssessmentLevel("inversion", nivelInversion);
+        PlayerData.SetTopicSelfAssessmentLevel("credito-deudas", nivelCreditoDeudas);
+
+        PlayerData.SetSelfAssessmentCompleted(true);
 
         GameManager gameManager = FindObjectOfType<GameManager>();
         if (gameManager != null)
