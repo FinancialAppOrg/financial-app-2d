@@ -116,4 +116,30 @@ public static class PlayerData
         return false;
     }
 
+    public static void SetSelfAssessmentCompleted(bool completed)
+    {
+        int userId = GetUserId();
+        PlayerPrefs.SetInt($"self_assessment_completed_{userId}", completed ? 1 : 0);
+        PlayerPrefs.Save();
+    }
+
+    public static bool GetSelfAssessmentCompleted()
+    {
+        int userId = GetUserId();
+        return PlayerPrefs.GetInt($"self_assessment_completed_{userId}", 0) == 1;
+    }
+
+    public static void SetTopicSelfAssessmentLevel(string topic, int level)
+    {
+        int userId = GetUserId();
+        PlayerPrefs.SetInt($"self_assessment_{topic}_{userId}", level);
+        PlayerPrefs.Save();
+    }
+
+    public static int GetTopicSelfAssessmentLevel(string topic)
+    {
+        int userId = GetUserId();
+        return PlayerPrefs.GetInt($"self_assessment_{topic}_{userId}", 0);
+    }
+
 }
