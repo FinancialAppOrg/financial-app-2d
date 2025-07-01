@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Moneda
+  - GameManagerDefecto
   layers:
   - Default
   - TransparentFX
@@ -40,4 +42,37 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Escenario
+    uniqueID: 2372697055
+    locked: 0
+  - name: SuperiorCajas
+    uniqueID: 1576011585
+    locked: 0
+  - name: SuperiorIconos
+    uniqueID: 209284963
+    locked: 0
+  - name: Asistente
+    uniqueID: 442054237
+    locked: 0
+  - name: TextBox
+    uniqueID: 144331071
+    locked: 0
+  - name: TextBoxElements
+    uniqueID: 3964416013
+    locked: 0
+  - name: ' Background'
+    uniqueID: 1272091937
+    locked: 0
+  - name: back
+    uniqueID: 992594813
+    locked: 0
+  - name: upper
+    uniqueID: 912002303
+    locked: 0
+  - name: interactive
+    uniqueID: 2553585941
+    locked: 0
+  - name: player
+    uniqueID: 3709976431
     locked: 0

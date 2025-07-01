@@ -6,8 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Core/CoreScene.unity
+    guid: 99fc08e4553166345ac47740058fc8ad
+  - enabled: 1
+    path: Assets/Auth/AuthScene.unity
+    guid: 2085a7f976168484180eb8dcc52ffca7
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
+    guid: 3fc8acdd13e6c734bafef6554d6fdbcd
+  - enabled: 1
+    path: Assets/Inversion/InversionScene.unity
+    guid: e48b6b0ee8364bc4389bb5411fe2df12
   m_configObjects:
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: 83cc2ef9f4a2a4948bf45fd99fcbe637, type: 2}
     com.unity.adaptiveperformance.simulator.provider_settings: {fileID: 11400000, guid: 4d472e2d0490313439e43feefee2dd1d, type: 2}
